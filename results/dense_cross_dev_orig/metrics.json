@@ -1,0 +1,85 @@
+{
+  "run_name": "dense_cross_dev_orig",
+  "model": "mE5-large",
+  "model_id": "intfloat/multilingual-e5-large",
+  "text_variant": "orig",
+  "pool": "all",
+  "pool_size": 153743,
+  "split": "dev",
+  "track": "crosslingual",
+  "embedding": {
+    "fact_checks": {
+      "n": 153743,
+      "n_embedded": 0,
+      "n_cached": 153743,
+      "embed_s": 0.0,
+      "tokens": {
+        "n": 153743,
+        "mean_tokens": 45.55891325133502,
+        "p99_tokens": 110.0,
+        "max_tokens": 2317,
+        "n_truncated": 25,
+        "frac_truncated": 0.00016260902935418198
+      }
+    },
+    "posts": {
+      "n": 552,
+      "n_embedded": 552,
+      "n_cached": 0,
+      "embed_s": 14.342884302139282,
+      "tokens": {
+        "n": 552,
+        "mean_tokens": 138.82427536231884,
+        "p99_tokens": 1082.8600000000001,
+        "max_tokens": 2110,
+        "n_truncated": 23,
+        "frac_truncated": 0.041666666666666664
+      }
+    },
+    "device": "cuda"
+  },
+  "seed": 42,
+  "headline_s_at_10": 0.5344202898550725,
+  "headline_mrr_at_10": 0.33022846215780993,
+  "headline_note": "monolingual: mean over languages; crosslingual: micro over posts",
+  "metrics": {
+    "k": 10,
+    "s_at_k": 0.5344202898550725,
+    "mrr": 0.33022846215780993,
+    "n_posts": 552,
+    "per_language": {
+      "cross": {
+        "s_at_k": 0.5344202898550725,
+        "mrr": 0.33022846215780993,
+        "n": 552
+      }
+    },
+    "macro_avg_s_at_k": 0.5344202898550725,
+    "macro_mrr": 0.33022846215780993
+  },
+  "timing": {
+    "embed_total_s": 14.842735052108765,
+    "units": {
+      "cross": {
+        "search_s": 0.2501561641693115,
+        "n_posts": 552,
+        "pool": 153743
+      }
+    },
+    "search_total_s": 0.2501561641693115,
+    "total_s": 17.95100426673889
+  },
+  "config": {
+    "run_name": "dense_cross_dev_orig",
+    "data_dir": "data/raw/semeval2025_task7_data/train_dev_sets",
+    "track": "crosslingual",
+    "eval_split": "dev",
+    "text_variant": "orig",
+    "model": "intfloat/multilingual-e5-large",
+    "model_label": "mE5-large",
+    "max_seq_length": 512,
+    "batch_size": 32,
+    "k": 10,
+    "top_n": 100
+  }
+}

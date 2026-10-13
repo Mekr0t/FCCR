@@ -1,0 +1,85 @@
+{
+  "run_name": "dense_cross_dev_eng",
+  "model": "mE5-large",
+  "model_id": "intfloat/multilingual-e5-large",
+  "text_variant": "eng",
+  "pool": "all",
+  "pool_size": 153743,
+  "split": "dev",
+  "track": "crosslingual",
+  "embedding": {
+    "fact_checks": {
+      "n": 153743,
+      "n_embedded": 0,
+      "n_cached": 153743,
+      "embed_s": 0.0,
+      "tokens": {
+        "n": 153743,
+        "mean_tokens": 44.946189420006114,
+        "p99_tokens": 106.0,
+        "max_tokens": 2363,
+        "n_truncated": 23,
+        "frac_truncated": 0.00014960030700584742
+      }
+    },
+    "posts": {
+      "n": 552,
+      "n_embedded": 552,
+      "n_cached": 0,
+      "embed_s": 14.02975606918335,
+      "tokens": {
+        "n": 552,
+        "mean_tokens": 133.2391304347826,
+        "p99_tokens": 1013.98,
+        "max_tokens": 1727,
+        "n_truncated": 24,
+        "frac_truncated": 0.043478260869565216
+      }
+    },
+    "device": "cuda"
+  },
+  "seed": 42,
+  "headline_s_at_10": 0.5905797101449275,
+  "headline_mrr_at_10": 0.3441453876236485,
+  "headline_note": "monolingual: mean over languages; crosslingual: micro over posts",
+  "metrics": {
+    "k": 10,
+    "s_at_k": 0.5905797101449275,
+    "mrr": 0.3441453876236485,
+    "n_posts": 552,
+    "per_language": {
+      "cross": {
+        "s_at_k": 0.5905797101449275,
+        "mrr": 0.3441453876236485,
+        "n": 552
+      }
+    },
+    "macro_avg_s_at_k": 0.5905797101449275,
+    "macro_mrr": 0.3441453876236485
+  },
+  "timing": {
+    "embed_total_s": 14.52779769897461,
+    "units": {
+      "cross": {
+        "search_s": 0.26934075355529785,
+        "n_posts": 552,
+        "pool": 153743
+      }
+    },
+    "search_total_s": 0.26934075355529785,
+    "total_s": 17.728534698486328
+  },
+  "config": {
+    "run_name": "dense_cross_dev_eng",
+    "data_dir": "data/raw/semeval2025_task7_data/train_dev_sets",
+    "track": "crosslingual",
+    "eval_split": "dev",
+    "text_variant": "eng",
+    "model": "intfloat/multilingual-e5-large",
+    "model_label": "mE5-large",
+    "max_seq_length": 512,
+    "batch_size": 32,
+    "k": 10,
+    "top_n": 100
+  }
+}

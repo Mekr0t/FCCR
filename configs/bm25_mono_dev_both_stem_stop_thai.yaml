@@ -1,0 +1,11 @@
+run_name: bm25_mono_dev_both_stem_stop_thai
+data_dir: data/raw/semeval2025_task7_data/train_dev_sets
+track: monolingual
+eval_split: dev
+text_variant: both
+analyzer:
+  stem: true
+  stopwords: true
+  thai_tokenizer: true
+k: 10
+top_n: 100

@@ -1,0 +1,53 @@
+{
+  "run_name": "bm25_cross_dev_both_stem_stop_thai",
+  "model": "bm25",
+  "text_variant": "both",
+  "pool": "all",
+  "pool_size": 153743,
+  "split": "dev",
+  "track": "crosslingual",
+  "seed": 42,
+  "headline_s_at_10": 0.4891304347826087,
+  "headline_mrr_at_10": 0.3108321831147918,
+  "headline_note": "monolingual: mean over languages; crosslingual: micro over posts",
+  "metrics": {
+    "k": 10,
+    "s_at_k": 0.4891304347826087,
+    "mrr": 0.3108321831147918,
+    "n_posts": 552,
+    "per_language": {
+      "cross": {
+        "s_at_k": 0.4891304347826087,
+        "mrr": 0.3108321831147918,
+        "n": 552
+      }
+    },
+    "macro_avg_s_at_k": 0.4891304347826087,
+    "macro_mrr": 0.3108321831147918
+  },
+  "timing": {
+    "units": {
+      "cross": {
+        "fit_s": 4.040663719177246,
+        "search_s": 1.2169585227966309,
+        "n_posts": 552,
+        "pool": 153743
+      }
+    },
+    "total_s": 8.196896314620972
+  },
+  "config": {
+    "run_name": "bm25_cross_dev_both_stem_stop_thai",
+    "data_dir": "data/raw/semeval2025_task7_data/train_dev_sets",
+    "track": "crosslingual",
+    "eval_split": "dev",
+    "text_variant": "both",
+    "analyzer": {
+      "stem": true,
+      "stopwords": true,
+      "thai_tokenizer": true
+    },
+    "k": 10,
+    "top_n": 100
+  }
+}

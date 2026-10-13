@@ -1,0 +1,139 @@
+{
+  "run_name": "bm25_mono_dev_orig_stem_stop_thai",
+  "model": "bm25",
+  "text_variant": "orig",
+  "pool": "per-language",
+  "pool_size": {
+    "ara": 14201,
+    "deu": 4996,
+    "eng": 85734,
+    "fra": 4355,
+    "msa": 8424,
+    "por": 21569,
+    "spa": 14082,
+    "tha": 382
+  },
+  "split": "dev",
+  "track": "monolingual",
+  "seed": 42,
+  "headline_s_at_10": 0.7766740095551138,
+  "headline_mrr_at_10": 0.5793698112334121,
+  "headline_note": "monolingual: mean over languages; crosslingual: micro over posts",
+  "metrics": {
+    "k": 10,
+    "s_at_k": 0.7636171337916446,
+    "mrr": 0.5546691512846986,
+    "n_posts": 1891,
+    "per_language": {
+      "ara": {
+        "s_at_k": 0.782051282051282,
+        "mrr": 0.6610042735042735,
+        "n": 78
+      },
+      "deu": {
+        "s_at_k": 0.7228915662650602,
+        "mrr": 0.49805890227576977,
+        "n": 83
+      },
+      "eng": {
+        "s_at_k": 0.6255230125523012,
+        "mrr": 0.38429218967921897,
+        "n": 478
+      },
+      "fra": {
+        "s_at_k": 0.824468085106383,
+        "mrr": 0.7207890070921985,
+        "n": 188
+      },
+      "msa": {
+        "s_at_k": 0.7333333333333333,
+        "mrr": 0.4041232048374906,
+        "n": 105
+      },
+      "por": {
+        "s_at_k": 0.7748344370860927,
+        "mrr": 0.5328129927467676,
+        "n": 302
+      },
+      "spa": {
+        "s_at_k": 0.8455284552845529,
+        "mrr": 0.6513382371918958,
+        "n": 615
+      },
+      "tha": {
+        "s_at_k": 0.9047619047619048,
+        "mrr": 0.7825396825396825,
+        "n": 42
+      }
+    },
+    "macro_avg_s_at_k": 0.7766740095551138,
+    "macro_mrr": 0.5793698112334121
+  },
+  "timing": {
+    "units": {
+      "ara": {
+        "fit_s": 0.4860203266143799,
+        "search_s": 0.017330408096313477,
+        "n_posts": 78,
+        "pool": 14201
+      },
+      "deu": {
+        "fit_s": 0.16300153732299805,
+        "search_s": 0.010575532913208008,
+        "n_posts": 83,
+        "pool": 4996
+      },
+      "eng": {
+        "fit_s": 2.706071138381958,
+        "search_s": 0.585129976272583,
+        "n_posts": 478,
+        "pool": 85734
+      },
+      "fra": {
+        "fit_s": 0.15273356437683105,
+        "search_s": 0.025149106979370117,
+        "n_posts": 188,
+        "pool": 4355
+      },
+      "msa": {
+        "fit_s": 0.20355224609375,
+        "search_s": 0.016980409622192383,
+        "n_posts": 105,
+        "pool": 8424
+      },
+      "por": {
+        "fit_s": 0.8744556903839111,
+        "search_s": 0.10466265678405762,
+        "n_posts": 302,
+        "pool": 21569
+      },
+      "spa": {
+        "fit_s": 0.3917219638824463,
+        "search_s": 0.17514324188232422,
+        "n_posts": 615,
+        "pool": 14082
+      },
+      "tha": {
+        "fit_s": 0.07016682624816895,
+        "search_s": 0.05661940574645996,
+        "n_posts": 42,
+        "pool": 382
+      }
+    },
+    "total_s": 6.50011682510376
+  },
+  "config": {
+    "run_name": "bm25_mono_dev_orig_stem_stop_thai",
+    "data_dir": "data/raw/semeval2025_task7_data/train_dev_sets",
+    "track": "monolingual",
+    "eval_split": "dev",
+    "text_variant": "orig",
+    "analyzer": {
+      "stem": true,
+      "stopwords": true,
+      "thai_tokenizer": true
+    },
+    "k": 10,
+    "top_n": 100
+  }
+}

@@ -1,0 +1,11 @@
+run_name: dense_mono_dev_both
+data_dir: data/raw/semeval2025_task7_data/train_dev_sets
+track: monolingual
+eval_split: dev
+text_variant: both
+model: intfloat/multilingual-e5-large
+model_label: mE5-large
+max_seq_length: 512
+batch_size: 32
+k: 10
+top_n: 100

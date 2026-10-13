@@ -1,0 +1,95 @@
+{
+  "run_name": "dense_sample_eng",
+  "model": "mE5-large",
+  "model_id": "intfloat/multilingual-e5-large",
+  "text_variant": "eng",
+  "pool": "all",
+  "pool_size": 50,
+  "split": "sample",
+  "track": "-",
+  "embedding": {
+    "fact_checks": {
+      "n": 50,
+      "n_embedded": 50,
+      "n_cached": 0,
+      "embed_s": 247.8713982105255,
+      "tokens": {
+        "n": 50,
+        "mean_tokens": 43.36,
+        "p99_tokens": 76.11999999999998,
+        "max_tokens": 82,
+        "n_truncated": 0,
+        "frac_truncated": 0.0
+      }
+    },
+    "posts": {
+      "n": 47,
+      "n_embedded": 47,
+      "n_cached": 0,
+      "embed_s": 0.08880758285522461,
+      "tokens": {
+        "n": 47,
+        "mean_tokens": 53.8936170212766,
+        "p99_tokens": 111.1,
+        "max_tokens": 118,
+        "n_truncated": 0,
+        "frac_truncated": 0.0
+      }
+    },
+    "device": "cuda"
+  },
+  "seed": 42,
+  "headline_s_at_10": 0.9574468085106383,
+  "headline_mrr_at_10": 0.9219858156028369,
+  "headline_note": "micro over posts",
+  "metrics": {
+    "k": 10,
+    "s_at_k": 0.9574468085106383,
+    "mrr": 0.9219858156028369,
+    "n_posts": 47,
+    "per_language": {
+      "eng": {
+        "s_at_k": 1.0,
+        "mrr": 1.0,
+        "n": 10
+      },
+      "kor": {
+        "s_at_k": 0.8947368421052632,
+        "mrr": 0.8070175438596492,
+        "n": 19
+      },
+      "spa": {
+        "s_at_k": 1.0,
+        "mrr": 1.0,
+        "n": 18
+      }
+    },
+    "macro_avg_s_at_k": 0.9649122807017544,
+    "macro_mrr": 0.935672514619883
+  },
+  "timing": {
+    "embed_total_s": 247.9624538421631,
+    "search_total_s": 0.1153564453125,
+    "units": {
+      "all": {
+        "n_posts": 47,
+        "pool": 50
+      }
+    },
+    "total_s": 248.0999472141266
+  },
+  "config": {
+    "run_name": "dense_sample_eng",
+    "data_dir": "data/raw/sample",
+    "posts_file": "trial_posts.csv",
+    "fact_checks_file": "trial_fact_checks.csv",
+    "mapping_file": "trial_data_mapping.csv",
+    "text_variant": "eng",
+    "model": "intfloat/multilingual-e5-large",
+    "model_label": "mE5-large",
+    "max_seq_length": 512,
+    "batch_size": 32,
+    "k": 10,
+    "top_n": 100
+  }
+}

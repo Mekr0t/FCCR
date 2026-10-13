@@ -104,7 +104,10 @@ def _top_lang(t):
     """Language code with the highest confidence in a translated-text tuple, or None."""
     if not t or len(t) < 3 or not t[2]:
         return None
-    return max(t[2], key=lambda lc: lc[1])[0]
+    langs = t[2]
+    if len(langs) == 2 and isinstance(langs[0], str) and isinstance(langs[1], (int, float)):
+        return langs[0]  # test_set variant: a single flat (lang, confidence) pair
+    return max(langs, key=lambda lc: lc[1])[0]
 
 
 def post_language(row):
@@ -275,3 +278,43 @@ def eval_units(split_dir, track, eval_split):
     if len(unit_posts) != len(set(unit_posts)) or {str(p) for p in unit_posts} != set(ref):
         raise ValueError("tasks.json eval posts do not match the reference file's posts")
     return units
+
+
+# ---------------------------------------------------------------------------
+# Language-tagged segments (for language-aware analyzers, e.g. BM25 stemming)
+# ---------------------------------------------------------------------------
+
+def _select_segments(t, variant, lang=None):
+    """Like `_select` but returns [(text, lang_code), ...] so each part can be analyzed in its language.
+
+    English parts are tagged 'eng'. Original parts are tagged `lang` if given (monolingual:
+    the tasks.json key), else the tuple's top detected language ('unk' if none).
+    The text pieces are identical to `_select` (same fallbacks, "both" skips an identical English part).
+    """
+    _check_variant(variant)
+    if not t:
+        return []
+    orig = (t[0] if len(t) > 0 and t[0] else "") or ""
+    eng = (t[1] if len(t) > 1 and t[1] else "") or ""
+    olang = lang or _top_lang(t) or "unk"
+    if variant == "orig":
+        return [(orig, olang)] if orig else ([(eng, "eng")] if eng else [])
+    if variant == "eng":
+        return [(eng, "eng")] if eng else ([(orig, olang)] if orig else [])
+    segs = []
+    if orig:
+        segs.append((orig, olang))
+    if eng and eng != orig:
+        segs.append((eng, "eng"))
+    return segs
+
+
+def post_segments(row, variant, lang=None):
+    segs = _select_segments(row["text"], variant, lang)
+    for t in row["ocr"] or []:
+        segs.extend(_select_segments(t, variant, lang))
+    return segs
+
+
+def fc_segments(row, variant, lang=None):
+    return _select_segments(row["claim"], variant, lang) + _select_segments(row["title"], variant, lang)

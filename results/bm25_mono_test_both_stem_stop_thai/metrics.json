@@ -1,0 +1,163 @@
+{
+  "run_name": "bm25_mono_test_both_stem_stop_thai",
+  "model": "bm25",
+  "text_variant": "both",
+  "pool": "per-language",
+  "pool_size": {
+    "ara": 21153,
+    "deu": 7485,
+    "eng": 145287,
+    "fra": 6316,
+    "msa": 686,
+    "pol": 8796,
+    "por": 32598,
+    "spa": 25440,
+    "tha": 583,
+    "tur": 12536
+  },
+  "split": "test",
+  "track": "monolingual",
+  "seed": 42,
+  "headline_s_at_10": 0.8682344438568659,
+  "headline_mrr_at_10": 0.7130267305868231,
+  "headline_note": "monolingual: mean over languages; crosslingual: micro over posts",
+  "metrics": {
+    "k": 10,
+    "s_at_k": 0.8540692235734331,
+    "mrr": 0.6845987015011804,
+    "n_posts": 4276,
+    "per_language": {
+      "ara": {
+        "s_at_k": 0.93,
+        "mrr": 0.7851650793650794,
+        "n": 500
+      },
+      "deu": {
+        "s_at_k": 0.86,
+        "mrr": 0.7062722222222222,
+        "n": 500
+      },
+      "eng": {
+        "s_at_k": 0.76,
+        "mrr": 0.5405325396825397,
+        "n": 500
+      },
+      "fra": {
+        "s_at_k": 0.898,
+        "mrr": 0.7412547619047619,
+        "n": 500
+      },
+      "msa": {
+        "s_at_k": 0.956989247311828,
+        "mrr": 0.8845110087045571,
+        "n": 93
+      },
+      "pol": {
+        "s_at_k": 0.814,
+        "mrr": 0.6994396825396825,
+        "n": 500
+      },
+      "por": {
+        "s_at_k": 0.816,
+        "mrr": 0.5745404761904762,
+        "n": 500
+      },
+      "spa": {
+        "s_at_k": 0.862,
+        "mrr": 0.6680246031746031,
+        "n": 500
+      },
+      "tha": {
+        "s_at_k": 0.9453551912568307,
+        "mrr": 0.87632058287796,
+        "n": 183
+      },
+      "tur": {
+        "s_at_k": 0.84,
+        "mrr": 0.6542063492063491,
+        "n": 500
+      }
+    },
+    "macro_avg_s_at_k": 0.8682344438568659,
+    "macro_mrr": 0.7130267305868231
+  },
+  "timing": {
+    "units": {
+      "ara": {
+        "fit_s": 1.152862548828125,
+        "search_s": 0.22870779037475586,
+        "n_posts": 500,
+        "pool": 21153
+      },
+      "deu": {
+        "fit_s": 0.39379262924194336,
+        "search_s": 0.5337891578674316,
+        "n_posts": 500,
+        "pool": 7485
+      },
+      "eng": {
+        "fit_s": 4.026503324508667,
+        "search_s": 1.1450817584991455,
+        "n_posts": 500,
+        "pool": 145287
+      },
+      "fra": {
+        "fit_s": 0.31212282180786133,
+        "search_s": 0.11221432685852051,
+        "n_posts": 500,
+        "pool": 6316
+      },
+      "msa": {
+        "fit_s": 0.03459334373474121,
+        "search_s": 0.012172698974609375,
+        "n_posts": 93,
+        "pool": 686
+      },
+      "pol": {
+        "fit_s": 0.37166762351989746,
+        "search_s": 0.1208498477935791,
+        "n_posts": 500,
+        "pool": 8796
+      },
+      "por": {
+        "fit_s": 1.417490005493164,
+        "search_s": 0.24534201622009277,
+        "n_posts": 500,
+        "pool": 32598
+      },
+      "spa": {
+        "fit_s": 1.1270027160644531,
+        "search_s": 0.29415369033813477,
+        "n_posts": 500,
+        "pool": 25440
+      },
+      "tha": {
+        "fit_s": 0.12612009048461914,
+        "search_s": 0.16515517234802246,
+        "n_posts": 183,
+        "pool": 583
+      },
+      "tur": {
+        "fit_s": 0.8893625736236572,
+        "search_s": 0.11578965187072754,
+        "n_posts": 500,
+        "pool": 12536
+      }
+    },
+    "total_s": 13.730185985565186
+  },
+  "config": {
+    "run_name": "bm25_mono_test_both_stem_stop_thai",
+    "data_dir": "data/raw/semeval2025_task7_data/test_set",
+    "track": "monolingual",
+    "eval_split": "test",
+    "text_variant": "both",
+    "analyzer": {
+      "stem": true,
+      "stopwords": true,
+      "thai_tokenizer": true
+    },
+    "k": 10,
+    "top_n": 100
+  }
+}

@@ -1,0 +1,9 @@
+run_name: bm25_mono_dev_eng_stem
+data_dir: data/raw/semeval2025_task7_data/train_dev_sets
+track: monolingual
+eval_split: dev
+text_variant: eng
+analyzer:
+  stem: true
+k: 10
+top_n: 100

@@ -1,0 +1,12 @@
+run_name: dense_sample_eng
+data_dir: data/raw/sample
+posts_file: trial_posts.csv
+fact_checks_file: trial_fact_checks.csv
+mapping_file: trial_data_mapping.csv
+text_variant: eng
+model: intfloat/multilingual-e5-large
+model_label: mE5-large
+max_seq_length: 512
+batch_size: 32
+k: 10
+top_n: 100

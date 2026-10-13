@@ -5,3 +5,15 @@ pytest==9.1.1
 PyYAML==6.0.3
 rank-bm25==0.2.2
 scipy==1.18.1
+# torch must come from the CUDA 12.8 index (RTX 50-series / Blackwell sm_120 needs cu128 wheels):
+#   pip install torch==2.11.0 --index-url https://download.pytorch.org/whl/cu128
+torch==2.11.0+cu128
+sentence-transformers==6.1.0
+transformers==5.19.0
+huggingface_hub==1.33.0
+tokenizers==0.23.3
+safetensors==0.8.0
+# BM25 analyzer (stemming / stopwords / Thai segmentation); stopwordsiso ships its lists in the wheel (offline)
+PyStemmer==3.1.0
+pythainlp==5.4.0
+stopwordsiso==0.7.1

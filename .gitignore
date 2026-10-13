@@ -3,6 +3,7 @@
 # via Zenodo 10.5281/zenodo.14989176). NEVER commit any of it.
 # ---------------------------------------------------------------
 data/
+Projektove_zadanie.pdf
 # the release folder, wherever someone unpacks it
 **/semeval2025_task7_data/
 **/train_dev_sets/

@@ -10,9 +10,15 @@ Given a social media post (SMP), retrieve and rank the most relevant previously 
 - The official competition ended in 2025. We evaluate **locally** on dev/held-out splits unless told otherwise.
 
 ## Assignment specifics (fill in)
-- Track(s): TODO (monolingual / crosslingual / both)
-- Deliverable: TODO (code / report / system paper) — deadline: TODO
-- Data source + split used for evaluation: TODO
+- Track(s): **monolingual first** (primary dev loop); run crosslingual alongside each step (same pipeline + cached embeddings), move to it fully once mono is solid.
+- Goal: **own system** (not replicating a specific team). Course: NLP project (`Projektove_zadanie.pdf`), team of 3–4, 20 pts in two stages:
+  - **Stage 1 (10 pts):** problem + motivation, literature/data/existing-solutions review, metrics + methodology, **reproducible baseline**, report quality with citations.
+  - **Stage 2 (10 pts):** own contribution (new solution or substantial justified extension of baseline), experiments, correct evaluation, comparison with baseline + interpretation, limitations, reproducibility.
+  - Bonus (≤15) candidates relevant here: systematic error analysis with a predefined taxonomy + independently verified categories + a fix confirmed on held-out data; independent reproducibility by someone outside the team.
+- Deliverable: code + written report (per stage). **Deadlines: Stage 1 — 2026-10-25; Stage 2 — 2026-12-06.**
+- Stage 1 scope (freeze by ~10-22, leave the rest for writing): BM25 + zero-shot mE5 baselines on dev + test, literature review, methodology. Stage 2 scope: fusion → reranking → fine-tuning, ablations, error analysis.
+- Data source + split: official Zenodo release; develop/tune on dev (`posts_dev`), report final numbers on test.
+- **Mandatory: every use of LLMs/AI agents goes in a separate appendix** (tool/model, purpose, prompts, relevant outputs; undocumented use costs points). Keep `docs/llm_usage.md` up to date: append an entry for every AI-assisted step in the same session, before finishing.
 
 ## Official dataset (Zenodo 10.5281/zenodo.14989176) — verified facts
 Location: `data/raw/semeval2025_task7_data/` with `train_dev_sets/`, `test_set/`, `scripts/` (official loaders + scorers), `baselines/` (organizers' test predictions, top-100 per post).

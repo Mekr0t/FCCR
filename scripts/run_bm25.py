@@ -11,6 +11,11 @@ Two config styles:
 - sample data (no `track`): `data_dir` + posts_file/fact_checks_file/mapping_file; whole
   pool, every post that has a gold fact-check.
 
+Optional `analyzer:` mapping (bool keys stem, stopwords, thai_tokenizer) switches on the
+language-aware analyzer in src/retrieval/bm25.py; without it (or all false) the default
+lowercase + \w+ tokenizer is used and results are unchanged. Monolingual runs tag original
+text with the tasks.json language key; crosslingual runs use each text's detected language.
+
 Writes results/<run_name>/metrics.json and predictions.json (official format, top 100), and
 upserts a row in results/results.md (a re-run with the same run_name replaces its row).
 In the table, S@10 and MRR@10 use the official averaging (monolingual: mean over languages;
@@ -37,12 +42,14 @@ from src.data import (  # noqa: E402
     gold_map,
     load_dataset,
     load_reference,
+    fc_segments,
     load_split,
     post_language,
+    post_segments,
     post_text,
 )
 from src.evaluate import evaluate, official_score, save_predictions  # noqa: E402
-from src.retrieval.bm25 import BM25Retriever  # noqa: E402
+from src.retrieval.bm25 import Analyzer, BM25Retriever  # noqa: E402
 
 SEED = 42
 MODEL = "bm25"
@@ -62,9 +69,9 @@ def _migrate_row(line):
     return "| " + " | ".join(cells) + " |"
 
 
-def update_results_table(path, run, variant, pool, split, track, s, mrr, macro):
+def update_results_table(path, run, variant, pool, split, track, s, mrr, macro, model=MODEL):
     macro_s = "-" if macro is None else f"{macro:.4f}"
-    row = f"| {run} | {MODEL} | {variant} | {pool} | {split} | {track} | {s:.4f} | {mrr:.4f} | {macro_s} |"
+    row = f"| {run} | {model} | {variant} | {pool} | {split} | {track} | {s:.4f} | {mrr:.4f} | {macro_s} |"
     lines = []
     if os.path.isfile(path):
         with open(path, encoding="utf-8") as f:
@@ -83,7 +90,7 @@ def update_results_table(path, run, variant, pool, split, track, s, mrr, macro):
         f.write("\n".join(lines) + "\n")
 
 
-def run_sample(cfg, variant, top_n):
+def run_sample(cfg, variant, top_n, analyzer=None):
     """Sample-data path: whole pool, all posts with gold."""
     posts, fcs, mapping = load_dataset(
         resolve(cfg["data_dir"]),
@@ -93,7 +100,8 @@ def run_sample(cfg, variant, top_n):
     )
     gold = gold_map(mapping)
     t0 = time.time()
-    retriever = BM25Retriever().fit(list(fcs.index), [fc_text(row, variant) for _, row in fcs.iterrows()])
+    fc_item = (lambda row: fc_segments(row, variant)) if analyzer else (lambda row: fc_text(row, variant))
+    retriever = BM25Retriever(analyzer=analyzer).fit(list(fcs.index), [fc_item(row) for _, row in fcs.iterrows()])
     fit_s = time.time() - t0
 
     post_ids = sorted(gold)
@@ -101,10 +109,10 @@ def run_sample(cfg, variant, top_n):
     for pid in post_ids:
         if pid in posts.index:
             row = posts.loc[pid]
-            queries.append(post_text(row, variant))
+            queries.append(post_segments(row, variant) if analyzer else post_text(row, variant))
             post_langs[pid] = post_language(row)
         else:
-            queries.append("")
+            queries.append([] if analyzer else "")
             post_langs[pid] = "unk"
     t0 = time.time()
     preds = dict(zip(post_ids, retriever.search(queries, k=top_n)))
@@ -113,7 +121,7 @@ def run_sample(cfg, variant, top_n):
     return preds, gold, post_langs, info, timing
 
 
-def run_official(cfg, variant, top_n):
+def run_official(cfg, variant, top_n, analyzer=None):
     split_dir, track, eval_split = resolve(cfg["data_dir"]), cfg["track"], cfg["eval_split"]
     posts, fcs, _, failures = load_split(split_dir)
     if failures:
@@ -124,16 +132,29 @@ def run_official(cfg, variant, top_n):
     # Only build texts for fact-checks that appear in some pool.
     needed = {f for u in units for f in u["pool_fc_ids"]}
     t0 = time.time()
-    texts = {fid: fc_text(row, variant) for fid, row in fcs.loc[sorted(needed)].iterrows()}
-    print(f"built {len(texts)} fact-check texts in {time.time() - t0:.1f}s", flush=True)
+    if analyzer is None:
+        texts = {fid: fc_text(row, variant) for fid, row in fcs.loc[sorted(needed)].iterrows()}
+    elif track == "crosslingual":  # mixed languages: tag each text with its detected language
+        texts = {fid: fc_segments(row, variant) for fid, row in fcs.loc[sorted(needed)].iterrows()}
+    else:  # monolingual: tag with the tasks.json language, so build per unit below
+        texts = None
+    print(f"built {len(needed)} fact-check texts in {time.time() - t0:.1f}s", flush=True)
 
     preds, post_langs, timing = {}, {}, {"units": {}}
     for u in units:
         lang, pool = u["lang"], u["pool_fc_ids"]
         t0 = time.time()
-        retriever = BM25Retriever().fit(pool, [texts[f] for f in pool])
+        if analyzer is not None and track == "monolingual":
+            unit_texts = {f: fc_segments(fcs.loc[f], variant, lang) for f in pool}
+            queries = [post_segments(posts.loc[p], variant, lang) for p in u["post_ids"]]
+        elif analyzer is not None:
+            unit_texts = texts
+            queries = [post_segments(posts.loc[p], variant) for p in u["post_ids"]]
+        else:
+            unit_texts = texts
+            queries = [post_text(posts.loc[p], variant) for p in u["post_ids"]]
+        retriever = BM25Retriever(analyzer=analyzer).fit(pool, [unit_texts[f] for f in pool])
         fit_s = time.time() - t0
-        queries = [post_text(posts.loc[p], variant) for p in u["post_ids"]]
         t0 = time.time()
         ranked = retriever.search(queries, k=top_n)
         search_s = time.time() - t0
@@ -169,9 +190,10 @@ def main():
     k = int(cfg.get("k", 10))
     top_n = int(cfg.get("top_n", 100))
 
+    analyzer = Analyzer.from_config(cfg.get("analyzer"))
     t_start = time.time()
     official = "track" in cfg
-    preds, gold, post_langs, info, timing = (run_official if official else run_sample)(cfg, variant, top_n)
+    preds, gold, post_langs, info, timing = (run_official if official else run_sample)(cfg, variant, top_n, analyzer)
     timing["total_s"] = time.time() - t_start
 
     metrics = evaluate(preds, gold, post_langs, k=k)

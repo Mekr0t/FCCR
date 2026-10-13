@@ -1,0 +1,11 @@
+run_name: dense_cross_dev_orig
+data_dir: data/raw/semeval2025_task7_data/train_dev_sets
+track: crosslingual
+eval_split: dev
+text_variant: orig
+model: intfloat/multilingual-e5-large
+model_label: mE5-large
+max_seq_length: 512
+batch_size: 32
+k: 10
+top_n: 100
