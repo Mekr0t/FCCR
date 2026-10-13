@@ -1,0 +1,8 @@
+run_name: bm25_sample_orig
+data_dir: data/raw/sample
+posts_file: trial_posts.csv
+fact_checks_file: trial_fact_checks.csv
+mapping_file: trial_data_mapping.csv
+text_variant: orig
+k: 10
+top_n: 100

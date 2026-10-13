@@ -1,0 +1,48 @@
+{
+  "run_name": "bm25_cross_test_eng",
+  "model": "bm25",
+  "text_variant": "eng",
+  "pool": "all",
+  "pool_size": 272447,
+  "split": "test",
+  "track": "crosslingual",
+  "seed": 42,
+  "headline_s_at_10": 0.53725,
+  "headline_mrr_at_10": 0.33912589285714284,
+  "headline_note": "monolingual: mean over languages; crosslingual: micro over posts",
+  "metrics": {
+    "k": 10,
+    "s_at_k": 0.53725,
+    "mrr": 0.33912589285714284,
+    "n_posts": 4000,
+    "per_language": {
+      "cross": {
+        "s_at_k": 0.53725,
+        "mrr": 0.33912589285714284,
+        "n": 4000
+      }
+    },
+    "macro_avg_s_at_k": 0.53725,
+    "macro_mrr": 0.33912589285714284
+  },
+  "timing": {
+    "units": {
+      "cross": {
+        "fit_s": 6.088152885437012,
+        "search_s": 37.11394500732422,
+        "n_posts": 4000,
+        "pool": 272447
+      }
+    },
+    "total_s": 52.37515592575073
+  },
+  "config": {
+    "run_name": "bm25_cross_test_eng",
+    "data_dir": "data/raw/semeval2025_task7_data/test_set",
+    "track": "crosslingual",
+    "eval_split": "test",
+    "text_variant": "eng",
+    "k": 10,
+    "top_n": 100
+  }
+}

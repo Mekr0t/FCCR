@@ -1,0 +1,48 @@
+{
+  "run_name": "bm25_cross_dev_eng",
+  "model": "bm25",
+  "text_variant": "eng",
+  "pool": "all",
+  "pool_size": 153743,
+  "split": "dev",
+  "track": "crosslingual",
+  "seed": 42,
+  "headline_s_at_10": 0.41304347826086957,
+  "headline_mrr_at_10": 0.24689944214400739,
+  "headline_note": "monolingual: mean over languages; crosslingual: micro over posts",
+  "metrics": {
+    "k": 10,
+    "s_at_k": 0.41304347826086957,
+    "mrr": 0.24689944214400739,
+    "n_posts": 552,
+    "per_language": {
+      "cross": {
+        "s_at_k": 0.41304347826086957,
+        "mrr": 0.24689944214400739,
+        "n": 552
+      }
+    },
+    "macro_avg_s_at_k": 0.41304347826086957,
+    "macro_mrr": 0.24689944214400739
+  },
+  "timing": {
+    "units": {
+      "cross": {
+        "fit_s": 3.1466879844665527,
+        "search_s": 2.984616279602051,
+        "n_posts": 552,
+        "pool": 153743
+      }
+    },
+    "total_s": 11.054075241088867
+  },
+  "config": {
+    "run_name": "bm25_cross_dev_eng",
+    "data_dir": "data/raw/semeval2025_task7_data/train_dev_sets",
+    "track": "crosslingual",
+    "eval_split": "dev",
+    "text_variant": "eng",
+    "k": 10,
+    "top_n": 100
+  }
+}

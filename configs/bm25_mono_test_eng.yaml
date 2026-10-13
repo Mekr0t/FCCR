@@ -1,0 +1,7 @@
+run_name: bm25_mono_test_eng
+data_dir: data/raw/semeval2025_task7_data/test_set
+track: monolingual
+eval_split: test
+text_variant: eng
+k: 10
+top_n: 100

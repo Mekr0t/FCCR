@@ -1,0 +1,61 @@
+# ---------------------------------------------------------------
+# DATASET — licence-restricted (research use only, access on request
+# via Zenodo 10.5281/zenodo.14989176). NEVER commit any of it.
+# ---------------------------------------------------------------
+data/
+# the release folder, wherever someone unpacks it
+**/semeval2025_task7_data/
+**/train_dev_sets/
+**/test_set/
+# safety net: no raw data files anywhere in the repo
+*.csv
+*.tsv
+*.zip
+*.tar
+*.tar.gz
+*.7z
+# derived from the dataset
+*.pkl
+*.parquet
+*.jsonl
+# official scorer output when run from the data folder
+scores.json
+
+# Predictions: large, regenerable from configs (metrics.json is kept)
+results/*/predictions.json
+
+# Caches, embeddings, indexes
+cache/
+*.npy
+*.npz
+*.faiss
+*.index
+
+# Model weights / checkpoints
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.gguf
+checkpoints/
+models/
+wandb/
+runs/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+*.egg-info/
+
+# Editors / OS / local tooling
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+.env
+.claude/settings.local.json

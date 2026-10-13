@@ -1,0 +1,59 @@
+{
+  "run_name": "bm25_sample_orig",
+  "model": "bm25",
+  "text_variant": "orig",
+  "pool": "all",
+  "pool_size": 50,
+  "split": "sample",
+  "track": "-",
+  "seed": 42,
+  "headline_s_at_10": 0.7021276595744681,
+  "headline_mrr_at_10": 0.5497298210064168,
+  "headline_note": "micro over posts",
+  "metrics": {
+    "k": 10,
+    "s_at_k": 0.7021276595744681,
+    "mrr": 0.5497298210064168,
+    "n_posts": 47,
+    "per_language": {
+      "eng": {
+        "s_at_k": 1.0,
+        "mrr": 0.7,
+        "n": 10
+      },
+      "kor": {
+        "s_at_k": 0.5263157894736842,
+        "mrr": 0.4342105263157895,
+        "n": 19
+      },
+      "spa": {
+        "s_at_k": 0.7222222222222222,
+        "mrr": 0.5881834215167548,
+        "n": 18
+      }
+    },
+    "macro_avg_s_at_k": 0.7495126705653021,
+    "macro_mrr": 0.5741313159441814
+  },
+  "timing": {
+    "units": {
+      "all": {
+        "fit_s": 0.002480030059814453,
+        "search_s": 0.0012712478637695312,
+        "n_posts": 47,
+        "pool": 50
+      }
+    },
+    "total_s": 0.025499582290649414
+  },
+  "config": {
+    "run_name": "bm25_sample_orig",
+    "data_dir": "data/raw/sample",
+    "posts_file": "trial_posts.csv",
+    "fact_checks_file": "trial_fact_checks.csv",
+    "mapping_file": "trial_data_mapping.csv",
+    "text_variant": "orig",
+    "k": 10,
+    "top_n": 100
+  }
+}
