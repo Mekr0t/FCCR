@@ -138,3 +138,17 @@ All numbers reported in the project come from running the code in this repositor
 
 ### 9. Commit of stage-1 baselines
 - The agent ran `git add` and checked the staged file list for data files before committing.
+
+## Session 2 — 2026-10-16
+
+### 10. Literature collection for the stage-1 review
+- **User prompt:** "yeah gather them" (reply to an offer to collect sources for the literature review)
+- **What the agent did:**
+  - Read the task overview paper (arXiv 2505.10740).
+  - Scanned the SemEval-2025 proceedings index for every Task 7 paper.
+  - Opened each key paper's ACL Anthology page to check its title, authors, pages and ID. The proceedings index has links that are off by one, so each ID was checked individually.
+  - Used web search to locate the foundational papers (MultiClaim, Shaar 2020/2022, Kazemi 2021, Vo & Lee 2020, GTR, mE5, BGE-M3, PyThaiNLP).
+- **Output:**
+  - `docs/literature.md`: annotated tables (task/dataset, prior work, system papers with scores and takeaways, methods), plus takeaways for the report.
+  - `docs/references.bib`: BibTeX entries.
+- **Caveats:** a few BibTeX entries were assembled from the verified fields rather than copied from the official export (e.g. author lists shortened with "others", one page range missing). Re-export them from the Anthology before final submission. Team members still need to read the papers; the one-line summaries come from abstracts and the overview paper.
