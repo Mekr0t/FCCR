@@ -1,0 +1,113 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Fails if anything that looks like the (licence-restricted) dataset or a derived artifact is tracked.
+  data-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: No dataset / derived data / model weights in git
+        run: |
+          forbidden='(^|/)data/|semeval2025_task7_data|(^|/)(train_dev_sets|test_set)/|\.(csv|tsv|pkl|parquet|jsonl|npy|npz|faiss|safetensors|bin|pt|pth|ckpt|gguf|zip|7z)$|predictions\.json$|Projektove_zadanie\.pdf$'
+          hits=$(git ls-files | grep -E "$forbidden" || true)
+          if [ -n "$hits" ]; then
+            echo "::error::Forbidden files are tracked (dataset licence / artifacts):"
+            echo "$hits"
+            echo "Remove them with 'git rm --cached <file>' and tell the team (history may need cleaning)."
+            exit 1
+          fi
+          echo "OK: no forbidden files tracked."
+      - name: No large files (> 5 MB)
+        run: |
+          big=$(git ls-files -z | xargs -0 -I{} sh -c 'test -f "{}" && s=$(stat -c%s "{}") && [ "$s" -gt 5242880 ] && echo "$s {}"' || true)
+          if [ -n "$big" ]; then
+            echo "::error::Files over 5 MB are tracked:"
+            echo "$big"
+            exit 1
+          fi
+          echo "OK: no large files."
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Install dependencies (CPU torch, without the transformers stack)
+        # Dense search uses torch (CPU build is enough); the GPU/model test skips itself without CUDA.
+        run: |
+          grep -v -E '^(torch|sentence-transformers|transformers|huggingface_hub|tokenizers|safetensors)==' requirements.txt > requirements-ci.txt
+          python -m pip install --upgrade pip
+          pip install torch==2.11.0 --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements-ci.txt
+      - name: Download public sample data
+        run: |
+          mkdir -p data/raw/sample
+          for f in trial_posts.csv trial_fact_checks.csv trial_data_mapping.csv load.py; do
+            curl -sSfL -o "data/raw/sample/$f" "https://raw.githubusercontent.com/kinit-sk/semeval_2025/main/sample_data/$f"
+          done
+      - name: Run tests
+        run: python -m pytest -q -rs
+
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check whether the report changed
+        id: changes
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then echo "build=true" >> "$GITHUB_OUTPUT"; exit 0; fi
+          base="${{ github.event.pull_request.base.sha || github.event.before }}"
+          if [ -z "$base" ] || ! git cat-file -e "$base" 2>/dev/null; then git fetch --depth=50 origin "${{ github.base_ref || 'main' }}" || true; fi
+          if [ -z "$base" ] || [ "$base" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "$base" 2>/dev/null; then
+            echo "build=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          if git diff --name-only "$base" HEAD | grep -qE '^(report/|docs/references\.bib)'; then
+            echo "build=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "build=false" >> "$GITHUB_OUTPUT"
+          fi
+        shell: bash
+      - name: Install Tectonic
+        if: steps.changes.outputs.build == 'true'
+        run: |
+          curl -sSfL -o tectonic.tar.gz "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.17.0/tectonic-0.17.0-x86_64-unknown-linux-musl.tar.gz"
+          tar -xzf tectonic.tar.gz
+          sudo mv tectonic /usr/local/bin/
+          tectonic --version
+      - name: Cache Tectonic packages
+        if: steps.changes.outputs.build == 'true'
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/Tectonic
+          key: tectonic-${{ hashFiles('report/**/*.tex') }}
+          restore-keys: tectonic-
+      - name: Build stage-1 report
+        if: steps.changes.outputs.build == 'true'
+        working-directory: report/stage1
+        run: |
+          mkdir -p build
+          tectonic -X compile main.tex --outdir build --keep-logs
+          if grep -nE "(Citation|Reference).*undefined" build/main.log; then
+            echo "::error::Undefined citations or references in the report."
+            exit 1
+          fi
+      - name: Upload PDF
+        if: steps.changes.outputs.build == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: report-stage1-pdf
+          path: report/stage1/build/main.pdf

@@ -60,3 +60,6 @@ __pycache__/
 Thumbs.db
 .env
 .claude/settings.local.json
+
+# report build output (CI / local tectonic --outdir build)
+report/**/build/

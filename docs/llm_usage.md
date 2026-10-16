@@ -195,3 +195,19 @@ All numbers reported in the project come from running the code in this repositor
   - deadlines.
 
   Added a 5-point summary with a link to `README.md`. The rules are drawn from the project's existing conventions (`CLAUDE.md`) and the assignment requirements.
+
+### 15. CI workflow and rules for AI agents
+- **User prompts:** "also do you think its worth to create CI workflof? if so could you create one"; "can you edit claude.md so when some teamate will type like 'clone this repo and help with issue #' agent will go by the rules, dont do anything that shouldnt do or rogue …"
+- **What the agent did:**
+  - Wrote `.github/workflows/ci.yml` with three jobs:
+    - (1) a data guard that fails if dataset-like files or files over 5 MB are tracked;
+    - (2) `pytest` on Python 3.13 with CPU PyTorch and the public sample data;
+    - (3) a Tectonic build of the report, which fails on undefined citations; it runs only when `report/` or the BibTeX file changes.
+  - Added a "Rules for AI agents" section and a "Current state" section to `CLAUDE.md`, covering:
+    - issue workflow and scope;
+    - forbidden actions (data, git, test split, evaluation code);
+    - when to ask the human;
+    - honesty;
+    - mandatory logging.
+  - `AGENTS.md` (written by the user) points Codex to `CLAUDE.md`.
+- **Verified:** the workflow YAML parses. The data guard was run on the repo (no hits) and on synthetic paths (correct hits). A fresh clone with the CI install set (no transformers stack) and the GPU hidden gave 42 passed, 1 skipped (GPU test). The first simulation without PyTorch caught a failing test, so CPU PyTorch was added. The report-job citation check was run on the local build log.

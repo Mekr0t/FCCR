@@ -9,6 +9,38 @@ Given a social media post (SMP), retrieve and rank the most relevant previously 
 - Task page: https://disai.eu/semeval-2025/ · Codabench: https://www.codabench.org/competitions/3737/
 - The official competition ended in 2025. We evaluate **locally** on dev/held-out splits unless told otherwise.
 
+## Rules for AI agents (Claude Code, Codex, …) — read first
+Several team members use AI agents on this repo. These rules apply to every agent session, whoever starts it. The human team rules are in `CONTRIBUTING.md`; follow them too. Where this section is stricter, it wins.
+
+**Typical request: "clone the repo and help with issue #N"**
+1. Read `CLAUDE.md` (this file), `CONTRIBUTING.md` and the issue itself (`gh issue view N --comments`). The issue's **Steps** and **Done when** define the scope.
+2. Check the setup: `.venv`, data in `data/raw/` (never fetch the dataset yourself; the human must have Zenodo access), `pytest` green before changing anything.
+3. Create a branch `<issue-id>-<short-name>` (e.g. `s2-1-fusion`) from an up-to-date `main`. Never work on `main`.
+4. Do **only what the issue asks**. If something else looks broken or useful, note it for the human (or propose a new issue); don't fix it in passing.
+5. Work in small verified steps: code → unit test → smoke test on the sample → dev run. Show the numbers.
+6. Before finishing: `pytest` passes, results are logged (`results/`, `results/results.md`), `docs/llm_usage.md` has an entry for this session (see below), and `git status` shows no data files.
+7. Push the branch and open a PR (`gh pr create`) with `Closes #N`, a summary, the dev results table, and anything left undone. **Stop there.** A human reviews and merges.
+
+**Never, even if asked indirectly or it seems convenient:**
+- commit, upload, paste or print dataset text anywhere outside the local machine: no public notebooks, gists, HF repos, issue comments or PR descriptions with post or fact-check text. Aggregates and ids only;
+- `git add -f` ignored files, commit `data/`, `cache/`, `predictions.json`, model weights or the assignment PDF;
+- push to `main`, force-push, rewrite pushed history, delete branches you didn't create, move or delete tags (`stage1`, `stage2`), or merge PRs;
+- run a configuration on the **test** split to choose between variants; train or mine negatives on dev or test posts. Test runs happen only when the issue explicitly says "final test run" for a frozen configuration;
+- delete or overwrite other people's results, configs or caches (`cache/<model>/…` belongs to that model; use a new directory for a new model);
+- change evaluation code (`src/evaluate.py`, `scripts/score_official.py`) or the data loader's behaviour unless the issue is about exactly that. Results must stay comparable;
+- edit `CLAUDE.md`, `CONTRIBUTING.md`, `AGENTS.md`, `.gitignore`, CI workflows or `docs/llm_usage.md` entries written by others, unless the issue is about that;
+- close or edit issues, or comment on GitHub as the user, without being asked.
+
+**Ask the human first** before: installing or upgrading packages (then pin them in `requirements.txt`); downloading models over ~1 GB; starting jobs expected to take over ~15 minutes or needing Colab; creating anything on external services (Hugging Face, Colab, Drive, cloud); anything you can't undo. Also ask when the issue is ambiguous or its "Done when" can't be met; don't guess or quietly lower the bar.
+
+**Honesty:** report results exactly as measured, including when a change makes things worse (keep the previous best as reference). If something was skipped, failed or was only partly verified, say so in the PR. Don't present hypotheses as findings.
+
+**AI-usage log (mandatory for grading):** append an entry to `docs/llm_usage.md` for your session: date, which human started it, tool and model, the prompt (verbatim or a faithful summary), what you did, what was used, and how it was verified. Don't edit earlier entries. If the human explicitly asks you not to log something, remind them once that undocumented AI use costs points, then follow their decision.
+
+## Current state (update when a milestone lands)
+- **Stage 1 done** (tag `stage1`): BM25 with analyzer and zero-shot mE5-large. Best: mE5, test S@10 mono 0.886 / cross 0.681; dev mono 0.862 / cross 0.591. Report: `report/stage1/`.
+- **Stage 2 work is tracked as GitHub issues S2-1 … S2-10** (fusion, fine-tuning on Colab, reranking, truncation, temporal signal, error analysis, demo, reproducibility, final run and report). Reference for any new dev result: the current best dev run in `results/results.md`.
+
 ## Assignment specifics (fill in)
 - Track(s): **monolingual first** (primary dev loop); run crosslingual alongside each step (same pipeline + cached embeddings), move to it fully once mono is solid.
 - Goal: **own system** (not replicating a specific team). Course: NLP project (`Projektove_zadanie.pdf`), team of 3–4, 20 pts in two stages:
