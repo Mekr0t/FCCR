@@ -17,26 +17,26 @@
 }
 
 @inproceedings{pikuliak-etal-2023-multilingual,
-  title     = "Multilingual Previously Fact-Checked Claim Retrieval",
-  author    = "Pikuliak, Mat{\'u}{\v{s}} and Srba, Ivan and Moro, Robert and Hromadka, Timo and Smole{\v{n}}, Timotej and Meli{\v{s}}ek, Martin and Vykopal, Ivan and Simko, Jakub and Podrou{\v{z}}ek, Juraj and Bielikova, Maria",
-  editor    = "Bouamor, Houda and Pino, Juan and Bali, Kalika",
-  booktitle = "Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing",
-  month     = dec,
-  year      = "2023",
-  address   = "Singapore",
-  publisher = "Association for Computational Linguistics",
-  url       = "https://aclanthology.org/2023.emnlp-main.1027/",
-  doi       = "10.18653/v1/2023.emnlp-main.1027",
-  pages     = "16477--16500"
+    title = "Multilingual Previously Fact-Checked Claim Retrieval",
+    author = "Pikuliak, Mat{\'u}{\v{s}} and Srba, Ivan and Moro, Robert and Hromadka, Timo and Smole{\v{n}}, Timotej and Meli{\v{s}}ek, Martin and Vykopal, Ivan and Simko, Jakub and Podrou{\v{z}}ek, Juraj and Bielikova, Maria",
+    editor = "Bouamor, Houda  and Pino, Juan  and Bali, Kalika",
+    booktitle = "Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing",
+    month = dec,
+    year = "2023",
+    address = "Singapore",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2023.emnlp-main.1027",
+    doi = "10.18653/v1/2023.emnlp-main.1027",
+    pages = "16477--16500",
 }
 
 @misc{semeval2025task7-dataset,
-  title        = "{S}em{E}val-2025 Task 7: Multilingual and Crosslingual Fact-Checked Claim Retrieval (dataset)",
-  author       = "Peng, Qiwei and Moro, Robert and Gregor, Michal and Srba, Ivan and others",
-  year         = "2025",
-  publisher    = "Zenodo",
-  doi          = "10.5281/zenodo.14989176",
-  howpublished = "\url{https://doi.org/10.5281/zenodo.14989176}"
+    title = "{S}em{E}val-2025 Task 7: Multilingual and Crosslingual Fact-Checked Claim Retrieval (dataset)",
+    author = "Peng, Qiwei and Moro, Robert and Gregor, Michal and Srba, Ivan and Ostermann, Simon and Simko, Marian and Podrou{\v{z}}ek, Juraj and Mesar{\v{c}}{\'i}k, Mat{\'u}{\v{s}} and Kop{\v{c}}an, Jaroslav and S{\o}gaard, Anders",
+    year = "2025",
+    publisher = "Zenodo",
+    doi = "10.5281/zenodo.14989176",
+    howpublished = "Zenodo, \url{https://doi.org/10.5281/zenodo.14989176}",
 }
 
 % ---------------- Prior work on fact-checked claim retrieval ----------------
@@ -155,15 +155,21 @@
 }
 
 @inproceedings{rastogi-2025-fact,
-  title     = "fact check {AI} at {S}em{E}val-2025 Task 7: Multilingual and Crosslingual Fact-checked Claim Retrieval",
-  author    = "Rastogi, Pranshu",
-  booktitle = "Proceedings of the 19th International Workshop on Semantic Evaluation (SemEval-2025)",
-  month     = jul,
-  year      = "2025",
-  address   = "Vienna, Austria",
-  publisher = "Association for Computational Linguistics",
-  url       = "https://aclanthology.org/2025.semeval-1.306/",
-  note      = "Pages: re-export from the Anthology page."
+    title = "fact check {AI} at {S}em{E}val-2025 Task 7: Multilingual and Crosslingual Fact-checked Claim Retrieval",
+    author = "Rastogi, Pranshu",
+    editor = "Rosenthal, Sara  and
+      Ros{\'a}, Aiala  and
+      Ghosh, Debanjan  and
+      Zampieri, Marcos",
+    booktitle = "Proceedings of the 19th {I}nternational {W}orkshop on {S}emantic {E}valuation ({S}em{E}val-2025)",
+    month = jul,
+    year = "2025",
+    address = "Vienna, Austria",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2025.semeval-1.306/",
+    pages = "2352--2357",
+    ISBN = "979-8-89176-273-2",
+    abstract = "The SemEval-2025 Task 7 on Multilingualand Crosslingual Fact-checked Claim Retrievalfocuses on retrieving relevant Fact-checkedclaims for social media Posts across multiplelanguages. This task is particularly challengingdue to linguistic barriers and the vast numberof languages Fact-checkers must consider.In this work, I approach the problem as aLearning-to-Rank task and solve it using abi-encoder-based model, fine-tuned on a pre-trained transformer optimized for sentence sim-ilarity. For the monolingual task, training wasperformed in both the source languages andtheir English translations. For cross-lingualretrieval, the training relied on English transla-tions.Most fine-tuned models have fewer than 500Mparameters, and the training was carried outefficiently using kaggle T4 GPUs with paral-lelization. Despite this lightweight setup, ourapproach achieved 92{\%} Success@10 for mul-tilingual retrieval and 80{\%} Success@10 forcross-lingual retrieval, securing 5th place inthe cross-lingual track and 10th place in themultilingual setting."
 }
 
 @inproceedings{syed-pedersen-2025-duluth,
@@ -204,15 +210,22 @@
 }
 
 @inproceedings{reimers-gurevych-2020-making,
-  title     = "Making Monolingual Sentence Embeddings Multilingual using Knowledge Distillation",
-  author    = "Reimers, Nils and Gurevych, Iryna",
-  booktitle = "Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP)",
-  month     = nov,
-  year      = "2020",
-  address   = "Online",
-  publisher = "Association for Computational Linguistics",
-  url       = "https://aclanthology.org/2020.emnlp-main.365/",
-  doi       = "10.18653/v1/2020.emnlp-main.365"
+    title = "Making Monolingual Sentence Embeddings Multilingual using Knowledge Distillation",
+    author = "Reimers, Nils  and
+      Gurevych, Iryna",
+    editor = "Webber, Bonnie  and
+      Cohn, Trevor  and
+      He, Yulan  and
+      Liu, Yang",
+    booktitle = "Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing ({EMNLP})",
+    month = nov,
+    year = "2020",
+    address = "Online",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2020.emnlp-main.365/",
+    doi = "10.18653/v1/2020.emnlp-main.365",
+    pages = "4512--4525",
+    abstract = "We present an easy and efficient method to extend existing sentence embedding models to new languages. This allows to create multilingual versions from previously monolingual models. The training is based on the idea that a translated sentence should be mapped to the same location in the vector space as the original sentence. We use the original (monolingual) model to generate sentence embeddings for the source language and then train a new system on translated sentences to mimic the original model. Compared to other methods for training multilingual sentence embeddings, this approach has several advantages: It is easy to extend existing models with relatively few samples to new languages, it is easier to ensure desired properties for the vector space, and the hardware requirements for training are lower. We demonstrate the effectiveness of our approach for 50+ languages from various language families. Code to extend sentence embeddings models to more than 400 languages is publicly available."
 }
 
 @inproceedings{ni-etal-2022-large,
@@ -243,14 +256,25 @@
 }
 
 @inproceedings{chen-etal-2024-m3,
-  title     = "{M}3-Embedding: Multi-Linguality, Multi-Functionality, Multi-Granularity Text Embeddings Through Self-Knowledge Distillation",
-  author    = "Chen, Jianlyu and Xiao, Shitao and Zhang, Peitian and Luo, Kun and Lian, Defu and Liu, Zheng",
-  booktitle = "Findings of the Association for Computational Linguistics: ACL 2024",
-  month     = aug,
-  year      = "2024",
-  address   = "Bangkok, Thailand",
-  publisher = "Association for Computational Linguistics",
-  pages     = "2318--2335"
+    title = "{M}3-Embedding: Multi-Linguality, Multi-Functionality, Multi-Granularity Text Embeddings Through Self-Knowledge Distillation",
+    author = "Chen, Jianlyu  and
+      Xiao, Shitao  and
+      Zhang, Peitian  and
+      Luo, Kun  and
+      Lian, Defu  and
+      Liu, Zheng",
+    editor = "Ku, Lun-Wei  and
+      Martins, Andre  and
+      Srikumar, Vivek",
+    booktitle = "Findings of the {A}ssociation for {C}omputational {L}inguistics: {ACL} 2024",
+    month = aug,
+    year = "2024",
+    address = "Bangkok, Thailand",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2024.findings-acl.137/",
+    doi = "10.18653/v1/2024.findings-acl.137",
+    pages = "2318--2335",
+    abstract = "In this paper, we introduce a new embedding model called M3-Embedding, which is distinguished for its versatility in Multi-Linguality, Multi-Functionality, and Multi-Granularity. It provides a uniform support for the semantic retrieval of more than 100 working languages. It can simultaneously accomplish the three common retrieval functionalities: dense retrieval, multi-vector retrieval, and sparse retrieval. Besides, it is also capable of processing inputs of different granularities, spanning from short sentences to long documents of up to 8,192 tokens. The effective training of M3-Embedding presents a series of technical contributions. Notably, we propose a novel self-knowledge distillation approach, where the relevance scores from different retrieval functionalities can be integrated as the teacher signal to enhance the training quality. We also optimize the batching strategy, which enables a large batch size and high training throughput to improve the discriminativeness of embeddings. M3-Embedding exhibits a superior performance in our experiment, leading to new state-of-the-art results on multilingual, cross-lingual, and long-document retrieval benchmarks."
 }
 
 @inproceedings{cormack-etal-2009-rrf,
@@ -271,14 +295,28 @@
 }
 
 @inproceedings{phatthiyaphaibun-etal-2023-pythainlp,
-  title     = "{P}y{T}hai{NLP}: {T}hai Natural Language Processing in Python",
-  author    = "Phatthiyaphaibun, Wannaphong and others",
-  booktitle = "Proceedings of the 3rd Workshop for Natural Language Processing Open Source Software (NLP-OSS 2023)",
-  month     = dec,
-  year      = "2023",
-  address   = "Singapore",
-  publisher = "Association for Computational Linguistics",
-  url       = "https://aclanthology.org/2023.nlposs-1.4/",
-  doi       = "10.18653/v1/2023.nlposs-1.4",
-  pages     = "25--36"
+    title = "{P}y{T}hai{NLP}: {T}hai Natural Language Processing in Python",
+    author = "Phatthiyaphaibun, Wannaphong  and
+      Chaovavanich, Korakot  and
+      Polpanumas, Charin  and
+      Suriyawongkul, Arthit  and
+      Lowphansirikul, Lalita  and
+      Chormai, Pattarawat  and
+      Limkonchotiwat, Peerat  and
+      Suntorntip, Thanathip  and
+      Udomcharoenchaikit, Can",
+    editor = "Tan, Liling  and
+      Milajevs, Dmitrijs  and
+      Chauhan, Geeticka  and
+      Gwinnup, Jeremy  and
+      Rippeth, Elijah",
+    booktitle = "Proceedings of the 3rd Workshop for Natural Language Processing Open Source Software ({NLP}-{OSS} 2023)",
+    month = dec,
+    year = "2023",
+    address = "Singapore",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2023.nlposs-1.4/",
+    doi = "10.18653/v1/2023.nlposs-1.4",
+    pages = "25--36",
+    abstract = "We present PyThaiNLP, a free and open-source natural language processing (NLP) library for Thai language implemented in Python. It provides a wide range of software, models, and datasets for Thai language. We first provide a brief historical context of tools for Thai language prior to the development of PyThaiNLP. We then outline the functionalities it provided as well as datasets and pre-trained language models. We later summarize its development milestones and discuss our experience during its development. We conclude by demonstrating how industrial and research communities utilize PyThaiNLP in their work. The library is freely available at \url{https://github.com/pythainlp/pythainlp}."
 }
