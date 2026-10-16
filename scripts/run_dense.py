@@ -40,6 +40,7 @@ from src.data import (  # noqa: E402
     post_language,
     post_text,
 )
+from src.checks import assert_predictions_in_pool  # noqa: E402
 from src.evaluate import evaluate, official_score, save_predictions  # noqa: E402
 from src.retrieval.dense import (  # noqa: E402
     DEFAULT_MODEL,
@@ -205,6 +206,8 @@ def main():
         "timing": timing,
         "config": cfg,
     }
+    if official:  # every predicted id must come from the post's pool before anything is written
+        assert_predictions_in_pool(preds, eval_units(resolve(cfg["data_dir"]), track, cfg["eval_split"]))
     with open(os.path.join(out_dir, "metrics.json"), "w", encoding="utf-8") as f:
         json.dump(record, f, ensure_ascii=False, indent=2)
     save_predictions(preds, os.path.join(out_dir, "predictions.json"), k=100)

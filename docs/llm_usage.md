@@ -211,3 +211,23 @@ All numbers reported in the project come from running the code in this repositor
     - mandatory logging.
   - `AGENTS.md` (written by the user) points Codex to `CLAUDE.md`.
 - **Verified:** the workflow YAML parses. The data guard was run on the repo (no hits) and on synthetic paths (correct hits). A fresh clone with the CI install set (no transformers stack) and the GPU hidden gave 42 passed, 1 skipped (GPU test). The first simulation without PyTorch caught a failing test, so CPU PyTorch was added. The report-job citation check was run on the local build log.
+
+## Session 3 — 2026-10-16
+
+### 16. Runtime pool check and test suite for configs, pinned sample results, scorer parity and local data
+- **Started by:** Roman (GitHub user Mekr0t), through a Claude Code session (main agent: Claude Opus 5.5, `claude-opus-5-5`), which delegated this subtask to a sub-agent.
+- **Tool and model:** Claude Code sub-agent on Claude Haiku 5.5 (`claude-haiku-5-5`).
+- **User prompt (faithful summary of the delegated task):** read `CLAUDE.md` (rules for AI agents) and `CONTRIBUTING.md`; add (1) a pinned BM25 sample test (S@10 0.9574 / 0.7794 for eng, 0.7021 / 0.5497 for orig) that does not write to `results/`; (2) a test over every `configs/*.yaml` (required keys, run_name equals filename stem, track/split/run_name consistency, dense vs BM25 keys, unknown keys derived from the runner code); (3) a toy parity test of `src/evaluate.py` against the copied official scorer in `scripts/score_official.py`; (4) a runtime helper that checks predictions are inside each post's pool, have at least 10 unique ids, and cover exactly the evaluated posts, called by both official runners before saving; (5) `needs_data` tests on saved official predictions that skip without the dataset. Do not commit; CI must pass without the dataset, CUDA or transformers.
+- **What the agent did:**
+  - added `src/checks.py` with `assert_predictions_in_pool(preds, units)`; called it in `scripts/run_bm25.py` and `scripts/run_dense.py` (official path only, right before `save_predictions`); default behaviour otherwise unchanged;
+  - added `tests/test_checks.py` (toy data), `tests/test_pinned_sample.py` (calls the runner's `run_sample` in memory, nothing written), `tests/test_configs.py` (allowed keys read from the runners' source via AST scan), `tests/test_scorer_parity.py` (imports the official functions from `scripts/score_official.py`, round-trips through `save_predictions`), `tests/test_local_data.py` (marker `needs_data`, registered in `pytest.ini`; environment variable `SEMEVAL_OFFICIAL_DIR` only to simulate a missing dataset);
+  - one known config issue was not changed: `configs/bm25_sample.yaml` has `run_name: bm25_sample_eng`, which differs from its filename stem. It is recorded as a strict xfail in `tests/test_configs.py`;
+  - re-ran `configs/bm25_mono_dev_eng.yaml`: S@10 0.6847 and MRR@10 0.4942 as before; `results/results.md` byte-identical; the regenerated `metrics.json` differed only in timing fields and line endings, so it was restored with `git checkout` to keep the committed file unchanged.
+- **Verified:** full suite with data present: 248 passed, 57 skipped, 1 xfailed (the known config mismatch). With `CUDA_VISIBLE_DEVICES=-1`: 247 passed, 58 skipped (GPU test), 1 xfailed. With `SEMEVAL_OFFICIAL_DIR` pointing at a missing path: all 22 `needs_data` tests skip. `git status` after the suite shows no changes under `results/` or `configs/`. No judge agent was run on this session. No run used the test split.
+
+### 17. Follow-up fixes to entry 16 (main session, Claude Opus 5.5)
+- **Context:** the judge sub-agent passed entry 16's work (PASS 5/5). It ran a CI simulation with the transformers stack blocked, no CUDA and no dataset: 225 passed, 80 skipped, 0 failed. It also checked the dense and BM25 runtime check end to end on cached dev runs.
+- **Changes:**
+  - renamed `configs/bm25_sample.yaml` → `configs/bm25_sample_eng.yaml`, so the filename matches its `run_name`, and removed the strict xfail from `tests/test_configs.py`;
+  - moved the pool check in `run_bm25.py`/`run_dense.py` before `metrics.json` is written, so a failing run leaves no stale metrics.
+- **Verified:** `pytest` gives 249 passed, 57 skipped (skips are config checks that don't apply to that config type). The sample run reproduces S@10 0.9574.
