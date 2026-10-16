@@ -1,9 +1,31 @@
 # SemEval-2025 Task 7 — Multilingual & Crosslingual Fact-Checked Claim Retrieval
 
-Replication of [SemEval-2025 Task 7](https://disai.eu/semeval-2025/): given a social media post, rank previously fact-checked claims so that a matching one lands in the top 10 (Success@10).
-Overview paper: [Peng et al., 2025](https://arxiv.org/abs/2505.10740).
+NLP course project. Given a social media post, rank previously fact-checked claims so that a matching one lands in the top 10 (Success@10), within the same language (monolingual track) or across languages (crosslingual track).
+Task: [SemEval-2025 Task 7](https://disai.eu/semeval-2025/) · overview paper: [Peng et al., 2025](https://aclanthology.org/2025.semeval-1.323/).
 
 > **The dataset is NOT in this repo and must never be committed.** It is licensed for research use only and distributed on request via [Zenodo (10.5281/zenodo.14989176)](https://doi.org/10.5281/zenodo.14989176). `data/` is gitignored — keep it that way.
+
+## Documents
+
+| | |
+|---|---|
+| **Stage 1 report (PDF, Slovak)** | [`report/stage1/main.pdf`](report/stage1/main.pdf) — source: [`report/stage1/main.tex`](report/stage1/main.tex) |
+| Use of LLMs / AI agents (appendix) | [`docs/llm_usage.md`](docs/llm_usage.md) |
+| Literature notes + BibTeX | [`docs/literature.md`](docs/literature.md), [`docs/references.bib`](docs/references.bib) |
+| Dataset statistics | [`results/data_stats.md`](results/data_stats.md) |
+| All results (every run) | [`results/results.md`](results/results.md), report tables: [`results/report_tables.md`](results/report_tables.md) |
+
+## Status (test S@10)
+
+| System | Monolingual avg | Crosslingual |
+|---|---|---|
+| Organizers' BM25 | 0.8123 | 0.6028 |
+| Organizers' multilingual-E5-large | 0.8589 | 0.6373 |
+| Ours — BM25 baseline (English translations, `\w+` tokens) | 0.7714 | 0.5373 |
+| Ours — BM25 + stemming/stopwords/Thai segmentation (mono: orig+eng, cross: eng) | 0.8682 | 0.6225 |
+| **Ours — mE5-large zero-shot (mono: orig+eng, cross: eng)** | **0.8862** | **0.6813** |
+
+Stage 1 (baselines) is done. Stage 2 roadmap: rank fusion (RRF) → fine-tuning mE5 with hard negatives → cross-encoder reranking → own contribution (truncation handling, temporal signal), plus error analysis. See [`CLAUDE.md`](CLAUDE.md) for the full plan and conventions.
 
 ## Setup
 
@@ -18,10 +40,11 @@ Dense retrieval needs a CUDA GPU (developed on an RTX 5070 laptop, 8 GB). Check 
 `python -c "import torch; a=torch.randn(512,512,device='cuda'); print((a@a).sum())"` (an error mentioning
 "no kernel image" means a wheel without sm_120 support). The first dense run downloads
 `intfloat/multilingual-e5-large` (~2.2 GB) from the Hugging Face hub; embeddings are cached in `cache/` (gitignored).
+BM25 runs need only a CPU.
 
 ### Data layout
 
-Unpack the official release and the public sample so that you have:
+Request the dataset on Zenodo (link above), then unpack it together with the public sample so that you have:
 
 ```
 data/raw/
@@ -40,48 +63,71 @@ done
 
 Parsed CSVs are cached to `data/processed/` on first load (~15–25 s once, ~1 s afterwards).
 
-## Usage
+## Reproducing the stage-1 results
 
 ```bash
-python -m pytest -q                                              # unit tests (needs data/raw/sample)
-python scripts/run_bm25.py --config configs/bm25_mono_dev_eng.yaml
-python scripts/run_dense.py --config configs/dense_mono_dev_both.yaml   # mE5-large, GPU
+python -m pytest -q                                                            # 43 tests, ~20 s
+
+# the four test-set runs reported in the stage-1 report (Table "main results")
+python scripts/run_bm25.py  --config configs/bm25_mono_test_both_stem_stop_thai.yaml   # CPU, ~20 s
+python scripts/run_bm25.py  --config configs/bm25_cross_test_eng_stem_stop.yaml        # CPU, ~25 s
+python scripts/run_dense.py --config configs/dense_mono_test_both.yaml                 # GPU, ~7 min (embeds 261k fact-checks once)
+python scripts/run_dense.py --config configs/dense_cross_test_eng.yaml                 # GPU, ~5 min
+
+# cross-check any prediction file against the official scoring logic
 python scripts/score_official.py --track monolingual \
     --split-dir data/raw/semeval2025_task7_data/test_set \
-    --pred results/bm25_mono_test_eng/predictions.json            # our scorer + official logic, must agree
+    --pred results/dense_mono_test_both/predictions.json
+
+# regenerate statistics and report tables
+python scripts/data_stats.py
+python scripts/make_report_tables.py
 ```
 
-Each run writes `results/<run_name>/metrics.json` and `predictions.json` (gitignored, regenerable) and upserts a row in [`results/results.md`](results/results.md).
+Expected test S@10 (MRR@10):
+
+| Config | S@10 | MRR@10 | Tolerance |
+|---|---|---|---|
+| `bm25_mono_test_both_stem_stop_thai` | 0.8682 | 0.7130 | exact (deterministic) |
+| `bm25_cross_test_eng_stem_stop` | 0.6225 | 0.3825 | exact (deterministic) |
+| `dense_mono_test_both` | 0.8862 | 0.7250 | ±0.005 (GPU/driver numerics) |
+| `dense_cross_test_eng` | 0.6813 | 0.4166 | ±0.005 (GPU/driver numerics) |
+
+Dev ablations (all `configs/*_dev_*.yaml`) are listed with their results in [`results/results.md`](results/results.md).
+Each run writes `results/<run_name>/metrics.json` and `predictions.json` (gitignored, regenerable) and upserts a row in `results/results.md`.
 
 ## Evaluation protocol
 
-- **Tune on dev** (`train_dev_sets`, `posts_dev`). The test set is used only for final numbers and baseline replication.
+- **Tune on dev** (`train_dev_sets`, `posts_dev`). Each test configuration is chosen on dev and run once on test.
 - Retrieval pools come from `tasks.json`: per language for monolingual, one shared pool for crosslingual.
-- Scoring matches the official scripts: monolingual = mean of per-language S@10, crosslingual = micro S@10. We also report MRR@10.
+- Scoring matches the official scripts: monolingual = mean of per-language S@10, crosslingual = micro S@10. We also report MRR@10. Our scorer reproduces the organizers' published baseline numbers exactly.
+
+## Building the report
+
+The report compiles with [Tectonic](https://tectonic-typesetting.github.io/) (single binary, fetches packages on demand) or any TeX distribution / Overleaf (pdfLaTeX or XeLaTeX):
+
+```bash
+cd report/stage1
+tectonic main.tex          # → main.pdf (runs BibTeX automatically; bibliography: docs/references.bib)
+```
+
+On Overleaf, upload `main.tex`, the `tables/` folder and `docs/references.bib`, and change `\bibliography{../../docs/references}` to `\bibliography{references}`.
 
 ## Layout
 
 ```
-src/data.py              loading + parsing, tasks.json splits/pools, text construction
-src/evaluate.py          S@10, MRR@10, per-language breakdown, official-format predictions
-src/retrieval/bm25.py    sparse BM25 (matches rank_bm25 BM25Okapi)
-src/retrieval/dense.py   fp16 bi-encoder embeddings (mE5), on-disk embedding cache, matmul search
-scripts/run_bm25.py      config-driven BM25 runs
-scripts/run_dense.py     config-driven dense (mE5-large) runs
-scripts/score_official.py  score any prediction file, cross-checked against the official logic
-configs/                 one YAML per experiment
-results/                 metrics per run + results.md summary
-tests/                   pytest suite
+src/data.py                  loading + parsing, tasks.json splits/pools, text construction
+src/evaluate.py              S@10, MRR@10, per-language breakdown, official-format predictions
+src/retrieval/bm25.py        sparse BM25 (matches rank_bm25 BM25Okapi) + analyzer (stemming, stopwords, Thai)
+src/retrieval/dense.py       fp16 bi-encoder embeddings (mE5), on-disk embedding cache, matmul search
+scripts/run_bm25.py          config-driven BM25 runs
+scripts/run_dense.py         config-driven dense (mE5-large) runs
+scripts/score_official.py    score any prediction file, cross-checked against the official logic
+scripts/data_stats.py        aggregate dataset statistics → results/data_stats.{json,md}
+scripts/make_report_tables.py  report tables from results/*/metrics.json → results/report_tables.md
+configs/                     one YAML per experiment
+results/                     metrics per run, results.md summary, statistics, report tables
+report/stage1/               stage-1 report (LaTeX source, tables, PDF)
+docs/                        literature notes, BibTeX, LLM/AI usage appendix
+tests/                       pytest suite
 ```
-
-## Status
-
-| System (test S@10) | Monolingual avg | Crosslingual |
-|---|---|---|
-| Organizers' BM25 | 0.8123 | 0.6028 |
-| Organizers' multilingual-E5-large | 0.8589 | 0.6373 |
-| Ours — BM25 baseline (English translations, `\w+` tokens) | 0.7714 | 0.5373 |
-| Ours — BM25 + stemming/stopwords/Thai segmentation (mono: orig+eng, cross: eng) | 0.8682 | 0.6225 |
-| Ours — mE5-large zero-shot (mono: orig+eng, cross: eng) | 0.8862 | 0.6813 |
-
-Roadmap: dense retrieval (mE5 / BGE-M3) → rank fusion → reranking. See `CLAUDE.md` for the full plan and conventions.

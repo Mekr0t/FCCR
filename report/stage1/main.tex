@@ -1,7 +1,14 @@
 \documentclass[11pt,a4paper]{article}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[slovak]{babel}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[utf8]{inputenc}
+  \usepackage[T1]{fontenc}
+  \usepackage{lmodern}
+\else
+  \usepackage{fontspec}   % XeLaTeX/LuaLaTeX (e.g. Tectonic): Latin Modern OpenType has all Slovak glyphs
+\fi
+% shorthands=off: Slovak babel makes "-" active, which breaks \cmidrule{2-6} (booktabs)
+\usepackage[slovak,shorthands=off]{babel}
 \usepackage[margin=2.5cm]{geometry}
 \usepackage{booktabs}
 \usepackage{multirow}
@@ -14,10 +21,12 @@
 
 \newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
 \newcommand{\sat}{S@10}
+\usepackage{microtype}
+\setlength{\emergencystretch}{3em}  % fewer overfull lines with long Slovak words and \texttt names
 
 \title{Viacjazyčné a medzijazykové vyhľadávanie overených tvrdení\\
-\large SemEval-2025 Task~7 --- 1.~etapa: návrh projektu a baseline riešenie}
-\author{\todo{mená členov tímu}}
+\large SemEval-2025 Task~7 -- 1.~etapa: návrh projektu a baseline riešenie}
+\author{Viktor Hančovský, Benjamín Konkoľ, Jakub Spiśák, Roman Šafranko}
 \date{\today}
 
 \begin{document}
@@ -165,7 +174,7 @@ Upravená verzia pridáva jazykovo špecifické stemovanie (Snowball), odstraňo
 Thajčina nepoužíva medzery medzi slovami a samohláskové a tónové znamienka nepatria do triedy \texttt{\textbackslash w}, takže základná tokenizácia rozbije thajský text na nezmyselné fragmenty.
 
 \paragraph{Husté vyhľadávanie (multilingual-E5-large).}
-Používame model \texttt{intfloat/multilingual-e5-large} \citep{wang-etal-2024-multilingual-e5} bez dotrénovania, s~predponami \texttt{query:} a \texttt{passage:} podľa odporúčania autorov a maximálnou dĺžkou vstupu 512 tokenov.
+Používame model \texttt{intfloat/\allowbreak multilingual-\allowbreak e5-large} \citep{wang-etal-2024-multilingual-e5} bez dotrénovania, s~predponami \texttt{query:} a \texttt{passage:} podľa odporúčania autorov a maximálnou dĺžkou vstupu 512 tokenov.
 Reprezentácie všetkých fact-checkov vypočítame raz (fp16, GPU RTX 5070 s~8\,GB) a uložíme na disk; výpočet pre 270\,tis. fact-checkov trvá približne 5--7 minút.
 Vyhľadávanie je skalárny súčin normalizovaných vektorov (menej ako 1\,s na celú množinu).
 
@@ -204,7 +213,7 @@ Vyhľadávanie je skalárny súčin normalizovaných vektorov (menej ako 1\,s na
   \item \textbf{Fúzia} BM25 a hustého vyhľadávania pomocou RRF \citep{cormack-etal-2009-rrf}: lexikálne a husté vyhľadávanie robia odlišné chyby.
   \item \textbf{Dotrénovanie bi-enkodéra} (mE5) kontrastívnou stratou na trénovacích pároch (približne 20\,tis. monolingválnych a 6\,tis. medzijazykových) so ťažkými negatívnymi príkladmi získanými z~našich baseline výsledkov; podľa literatúry ide o~najväčší zdroj zlepšenia \citep{devadiga-etal-2025-tifin, enache-2025-unibuc}.
   Trénovanie prebehne na GPU T4 (Google Colab).
-  \item \textbf{Preusporiadanie} 50 najlepších kandidátov cross-enkodérom (napr. \texttt{bge-reranker-v2-m3}).
+  \item \textbf{Preusporiadanie} 50 najlepších kandidátov cross-enkodérom (napr. \texttt{bge-\allowbreak reranker-\allowbreak v2-m3}).
   \item \textbf{Vlastný príspevok:} riešenie orezávania dlhých príspevkov a využitie metadát, najmä časovej blízkosti príspevku a fact-checku, ako ďalšieho signálu pri usporiadaní.
   \item \textbf{Analýza chýb} s~vopred definovanou taxonómiou, nezávislou anotáciou dvoma členmi tímu a overením navrhnutej úpravy na oddelených dátach.
   \item \textbf{Demo} pre externých používateľov, ktoré zobrazuje skóre a odkaz na verejný fact-check (nie texty z~dátovej množiny).
@@ -214,7 +223,7 @@ Každý krok vyhodnotíme na vývojovej množine ako ablačný experiment voči 
 % =====================================================================
 \section{Reprodukovateľnosť}
 \label{sec:repro}
-Kód je v~repozitári \todo{URL repozitára}.
+Kód je v~repozitári \url{https://github.com/Mekr0t/FCCR}.
 Súbor \texttt{README.md} popisuje inštaláciu, umiestnenie dát a spúšťanie experimentov.
 Každý experiment je definovaný konfiguračným súborom v~\texttt{configs/} a výsledky sú v~\texttt{results/}.
 Testovacia sada (pytest) overuje načítanie dát, metriky, zhodu BM25 s~referenčnou knižnicou a správanie analyzátora.

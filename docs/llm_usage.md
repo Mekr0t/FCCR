@@ -171,3 +171,13 @@ All numbers reported in the project come from running the code in this repositor
   - 0% OCR-only posts on test is a real property of the data;
   - the Hindi share of the crosslingual test set (40.9% of posts);
   - all table values against the metrics files.
+
+### 13. README update
+- **User prompt:** "readme seems little bit update add like link to main.pdf or something also commit and push"
+- **What the agent did:** rewrote `README.md`:
+  - a documents table linking the stage-1 PDF, the LLM-usage appendix, the literature notes, the statistics and the results;
+  - the current status table;
+  - a "Reproducing the stage-1 results" section with the exact commands and the expected S@10/MRR@10 and tolerances for the 4 reported test runs;
+  - report build instructions (Tectonic / Overleaf);
+  - an updated repository layout.
+- **Output:** the expected numbers in the README come from the judge-verified `metrics.json` files.
