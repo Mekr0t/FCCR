@@ -152,3 +152,22 @@ All numbers reported in the project come from running the code in this repositor
   - `docs/literature.md`: annotated tables (task/dataset, prior work, system papers with scores and takeaways, methods), plus takeaways for the report.
   - `docs/references.bib`: BibTeX entries.
 - **Caveats:** a few BibTeX entries were assembled from the verified fields rather than copied from the official export (e.g. author lists shortened with "others", one page range missing). Re-export them from the Anthology before final submission. Team members still need to read the papers; the one-line summaries come from abstracts and the overview paper.
+
+### 11. Dataset statistics and report tables (stage-1)
+- **Tool / model:** Claude Code subagent (Claude Haiku 5.5, claude-haiku-5-5), delegated general-purpose task from the main session.
+- **Prompt (summary):** "Write `scripts/data_stats.py` (aggregate-only dataset statistics for both official splits, written to `results/data_stats.{json,md}`), `scripts/make_report_tables.py` (main test table, per-language table, dev ablation table, built from `results/*/metrics.json` and the organizers' baseline predictions, written to `results/report_tables.md`), and a pytest for the bold-best logic. Do not commit; output must contain no post or fact-check text; reuse `src/data.py` without changing it."
+- **What the agent did:** read `src/data.py`, `src/evaluate.py` and the existing tests; wrote the three files; ran both scripts; ran pytest (43 passed: 39 existing + 4 new).
+- **Output used:** `results/data_stats.md`, `results/report_tables.md` (generated; no model-written prose in them beyond fixed headings and footnotes).
+- **Human review:** the generated numbers were checked only by the scoring code itself. The organizer rows were checked against the published S@10 values (max difference 0.00004). Read the statistics before quoting them in the report.
+
+### 12. Draft of the stage-1 report (Slovak, LaTeX)
+- **User prompts:** "if everuthing clear for now can we finish things in stage 1"; report language and format chosen in a dialog: "Slovak, LaTeX".
+- **What the agent did (main model, Claude Opus 5.5, no sub-agent):** wrote `report/stage1/main.tex` and `report/stage1/tables/*.tex`:
+  - sections: introduction, related work, data, methodology, baselines, results with interpretation, stage-2 plan, reproducibility;
+  - citations from `docs/references.bib`;
+  - all numbers in the tables are copied from the generated, judge-verified files `results/report_tables.md` and `results/data_stats.md`.
+- **Caveats:** explanations the experiments have not confirmed yet are marked as hypotheses in the text. Places needing team input are marked `\todo{}`: author names, repository URL, the Slovak translation of this appendix. The team must review and edit the text.
+- **Verified by:** judge sub-agent (PASS 5/5) on the statistics and tables (entry 11). It independently confirmed:
+  - 0% OCR-only posts on test is a real property of the data;
+  - the Hindi share of the crosslingual test set (40.9% of posts);
+  - all table values against the metrics files.

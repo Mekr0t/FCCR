@@ -1,0 +1,20 @@
+% Source: results/report_tables.md (Table B)
+\begin{table}[t]
+\centering
+\caption{\sat{} po jazykoch na testovacej množine (monolingválna úloha). Poľština (pol) a turečtina (tur) sa v~trénovacích dátach nenachádzajú.}
+\label{tab:lang}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccccccccccc}
+\toprule
+Systém & ara & deu & eng & fra & msa & pol & por & spa & tha & tur & priemer \\
+\midrule
+BM25 (org.) & 0{,}846 & 0{,}812 & 0{,}750 & 0{,}822 & 0{,}914 & 0{,}732 & 0{,}754 & 0{,}796 & 0{,}907 & 0{,}790 & 0{,}812 \\
+mE5 (org.) & 0{,}916 & \textbf{0{,}872} & \textbf{0{,}818} & 0{,}854 & 0{,}860 & 0{,}798 & 0{,}808 & 0{,}856 & 0{,}929 & 0{,}878 & 0{,}859 \\
+BM25 upravené (naše) & 0{,}930 & 0{,}860 & 0{,}760 & \textbf{0{,}898} & 0{,}957 & 0{,}814 & \textbf{0{,}816} & \textbf{0{,}862} & 0{,}945 & 0{,}840 & 0{,}868 \\
+mE5 (naše) & \textbf{0{,}942} & \textbf{0{,}872} & 0{,}814 & \textbf{0{,}898} & \textbf{0{,}978} & \textbf{0{,}830} & 0{,}802 & \textbf{0{,}862} & \textbf{0{,}984} & \textbf{0{,}880} & \textbf{0{,}886} \\
+\midrule
+\# príspevkov & 500 & 500 & 500 & 500 & 93 & 500 & 500 & 500 & 183 & 500 & 4\,276 \\
+veľkosť kolekcie & 21\,153 & 7\,485 & 145\,287 & 6\,316 & 686 & 8\,796 & 32\,598 & 25\,440 & 583 & 12\,536 & \\
+\bottomrule
+\end{tabular}
+\end{table}

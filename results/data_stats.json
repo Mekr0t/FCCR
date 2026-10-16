@@ -1,0 +1,818 @@
+{
+  "splits": {
+    "train_dev_sets": {
+      "eval_split": "dev",
+      "n_parse_failures": 0,
+      "monolingual": {
+        "per_language": {
+          "ara": {
+            "n_train_posts": 676,
+            "n_eval_posts": 78,
+            "pool_size": 14201,
+            "gold_pairs": 78,
+            "n_multi_gold_posts": 0,
+            "pct_multi_gold": 0.0
+          },
+          "deu": {
+            "n_train_posts": 667,
+            "n_eval_posts": 83,
+            "pool_size": 4996,
+            "gold_pairs": 101,
+            "n_multi_gold_posts": 18,
+            "pct_multi_gold": 21.686746987951807
+          },
+          "eng": {
+            "n_train_posts": 4351,
+            "n_eval_posts": 478,
+            "pool_size": 85734,
+            "gold_pairs": 627,
+            "n_multi_gold_posts": 101,
+            "pct_multi_gold": 21.12970711297071
+          },
+          "fra": {
+            "n_train_posts": 1596,
+            "n_eval_posts": 188,
+            "pool_size": 4355,
+            "gold_pairs": 200,
+            "n_multi_gold_posts": 9,
+            "pct_multi_gold": 4.787234042553192
+          },
+          "msa": {
+            "n_train_posts": 1062,
+            "n_eval_posts": 105,
+            "pool_size": 8424,
+            "gold_pairs": 116,
+            "n_multi_gold_posts": 10,
+            "pct_multi_gold": 9.523809523809524
+          },
+          "por": {
+            "n_train_posts": 2571,
+            "n_eval_posts": 302,
+            "pool_size": 21569,
+            "gold_pairs": 403,
+            "n_multi_gold_posts": 85,
+            "pct_multi_gold": 28.14569536423841
+          },
+          "spa": {
+            "n_train_posts": 5628,
+            "n_eval_posts": 615,
+            "pool_size": 14082,
+            "gold_pairs": 692,
+            "n_multi_gold_posts": 70,
+            "pct_multi_gold": 11.382113821138212
+          },
+          "tha": {
+            "n_train_posts": 465,
+            "n_eval_posts": 42,
+            "pool_size": 382,
+            "gold_pairs": 42,
+            "n_multi_gold_posts": 0,
+            "pct_multi_gold": 0.0
+          }
+        },
+        "totals": {
+          "n_train_posts": 17016,
+          "n_eval_posts": 1891,
+          "pool_size": 153743,
+          "gold_pairs": 2259,
+          "n_multi_gold_posts": 293,
+          "pct_multi_gold": 15.494447382337388,
+          "pct_eng_posts": 25.27763088313062
+        }
+      },
+      "crosslingual": {
+        "n_train_posts": 4972,
+        "n_eval_posts": 552,
+        "pool_size": 153743,
+        "gold_pairs": 651,
+        "n_multi_gold_posts": 79,
+        "pct_multi_gold": 14.31159420289855,
+        "n_gold_fc_missing_from_fact_checks": 0,
+        "post_language_counts": {
+          "spa": {
+            "posts": 80,
+            "pct": 14.492753623188406
+          },
+          "eng": {
+            "posts": 79,
+            "pct": 14.31159420289855
+          },
+          "hin": {
+            "posts": 79,
+            "pct": 14.31159420289855
+          },
+          "zho": {
+            "posts": 48,
+            "pct": 8.695652173913043
+          },
+          "por": {
+            "posts": 46,
+            "pct": 8.333333333333334
+          },
+          "sin": {
+            "posts": 45,
+            "pct": 8.152173913043478
+          },
+          "urd": {
+            "posts": 35,
+            "pct": 6.340579710144928
+          },
+          "tgl": {
+            "posts": 31,
+            "pct": 5.615942028985507
+          },
+          "kor": {
+            "posts": 25,
+            "pct": 4.528985507246377
+          },
+          "fra": {
+            "posts": 25,
+            "pct": 4.528985507246377
+          },
+          "msa": {
+            "posts": 21,
+            "pct": 3.8043478260869565
+          },
+          "ara": {
+            "posts": 12,
+            "pct": 2.1739130434782608
+          },
+          "deu": {
+            "posts": 10,
+            "pct": 1.8115942028985508
+          },
+          "tha": {
+            "posts": 7,
+            "pct": 1.2681159420289856
+          },
+          "la": {
+            "posts": 1,
+            "pct": 0.18115942028985507
+          },
+          "mi": {
+            "posts": 1,
+            "pct": 0.18115942028985507
+          },
+          "cat": {
+            "posts": 1,
+            "pct": 0.18115942028985507
+          },
+          "ig": {
+            "posts": 1,
+            "pct": 0.18115942028985507
+          },
+          "lg": {
+            "posts": 1,
+            "pct": 0.18115942028985507
+          },
+          "lb": {
+            "posts": 1,
+            "pct": 0.18115942028985507
+          },
+          "so": {
+            "posts": 1,
+            "pct": 0.18115942028985507
+          },
+          "fas": {
+            "posts": 1,
+            "pct": 0.18115942028985507
+          },
+          "khm": {
+            "posts": 1,
+            "pct": 0.18115942028985507
+          }
+        },
+        "gold_fc_language_counts": {
+          "eng": {
+            "pairs": 395,
+            "pct": 60.675883256528415
+          },
+          "spa": {
+            "pairs": 106,
+            "pct": 16.282642089093702
+          },
+          "por": {
+            "pairs": 64,
+            "pct": 9.831029185867896
+          },
+          "fra": {
+            "pairs": 30,
+            "pct": 4.608294930875576
+          },
+          "msa": {
+            "pairs": 23,
+            "pct": 3.533026113671275
+          },
+          "deu": {
+            "pairs": 16,
+            "pct": 2.457757296466974
+          },
+          "ara": {
+            "pairs": 10,
+            "pct": 1.5360983102918586
+          },
+          "tha": {
+            "pairs": 7,
+            "pct": 1.075268817204301
+          }
+        },
+        "top_pair_languages": [
+          {
+            "post_lang": "hin",
+            "fc_lang": "eng",
+            "pairs": 99,
+            "pct": 15.2073732718894
+          },
+          {
+            "post_lang": "spa",
+            "fc_lang": "spa",
+            "pairs": 91,
+            "pct": 13.978494623655914
+          },
+          {
+            "post_lang": "eng",
+            "fc_lang": "eng",
+            "pairs": 87,
+            "pct": 13.36405529953917
+          },
+          {
+            "post_lang": "por",
+            "fc_lang": "por",
+            "pairs": 58,
+            "pct": 8.90937019969278
+          },
+          {
+            "post_lang": "zho",
+            "fc_lang": "eng",
+            "pairs": 48,
+            "pct": 7.373271889400922
+          },
+          {
+            "post_lang": "sin",
+            "fc_lang": "eng",
+            "pairs": 45,
+            "pct": 6.912442396313364
+          },
+          {
+            "post_lang": "urd",
+            "fc_lang": "eng",
+            "pairs": 36,
+            "pct": 5.529953917050691
+          },
+          {
+            "post_lang": "tgl",
+            "fc_lang": "eng",
+            "pairs": 33,
+            "pct": 5.0691244239631335
+          },
+          {
+            "post_lang": "fra",
+            "fc_lang": "fra",
+            "pairs": 26,
+            "pct": 3.9938556067588324
+          },
+          {
+            "post_lang": "kor",
+            "fc_lang": "eng",
+            "pairs": 25,
+            "pct": 3.8402457757296466
+          },
+          {
+            "post_lang": "msa",
+            "fc_lang": "msa",
+            "pairs": 20,
+            "pct": 3.0721966205837172
+          },
+          {
+            "post_lang": "deu",
+            "fc_lang": "deu",
+            "pairs": 10,
+            "pct": 1.5360983102918586
+          },
+          {
+            "post_lang": "ara",
+            "fc_lang": "ara",
+            "pairs": 9,
+            "pct": 1.3824884792626728
+          },
+          {
+            "post_lang": "tha",
+            "fc_lang": "tha",
+            "pairs": 7,
+            "pct": 1.075268817204301
+          },
+          {
+            "post_lang": "eng",
+            "fc_lang": "spa",
+            "pairs": 6,
+            "pct": 0.9216589861751152
+          }
+        ],
+        "pct_eng_posts_detected": 14.31159420289855
+      },
+      "post_composition": {
+        "n_posts": 2443,
+        "pct_text_only": 45.55873925501432,
+        "pct_ocr_only": 9.823986901350798,
+        "pct_both": 44.61727384363488,
+        "pct_neither": 0.0,
+        "ocr_items_mean": 0.585,
+        "ocr_items_median": 1.0,
+        "pct_posts_with_any_ocr": 54.44126074498568
+      },
+      "lengths": {
+        "posts_monolingual": {
+          "orig": {
+            "n": 1891,
+            "mean": 83.71,
+            "median": 44.0,
+            "p90": 192.0
+          },
+          "eng": {
+            "n": 1891,
+            "mean": 87.2,
+            "median": 45.0,
+            "p90": 198.0
+          }
+        },
+        "posts_crosslingual": {
+          "orig": {
+            "n": 552,
+            "mean": 75.44,
+            "median": 35.0,
+            "p90": 176.0
+          },
+          "eng": {
+            "n": 552,
+            "mean": 84.68,
+            "median": 42.0,
+            "p90": 197.9
+          }
+        },
+        "fact_checks": {
+          "orig": {
+            "n": 153743,
+            "mean": 26.85,
+            "median": 25.0,
+            "p90": 39.0
+          },
+          "eng": {
+            "n": 153743,
+            "mean": 27.75,
+            "median": 26.0,
+            "p90": 41.0
+          }
+        }
+      }
+    },
+    "test_set": {
+      "eval_split": "test",
+      "n_parse_failures": 0,
+      "monolingual": {
+        "per_language": {
+          "ara": {
+            "n_train_posts": null,
+            "n_eval_posts": 500,
+            "pool_size": 21153,
+            "gold_pairs": 514,
+            "n_multi_gold_posts": 14,
+            "pct_multi_gold": 2.8
+          },
+          "deu": {
+            "n_train_posts": null,
+            "n_eval_posts": 500,
+            "pool_size": 7485,
+            "gold_pairs": 574,
+            "n_multi_gold_posts": 52,
+            "pct_multi_gold": 10.4
+          },
+          "eng": {
+            "n_train_posts": null,
+            "n_eval_posts": 500,
+            "pool_size": 145287,
+            "gold_pairs": 740,
+            "n_multi_gold_posts": 132,
+            "pct_multi_gold": 26.4
+          },
+          "fra": {
+            "n_train_posts": null,
+            "n_eval_posts": 500,
+            "pool_size": 6316,
+            "gold_pairs": 549,
+            "n_multi_gold_posts": 42,
+            "pct_multi_gold": 8.4
+          },
+          "msa": {
+            "n_train_posts": null,
+            "n_eval_posts": 93,
+            "pool_size": 686,
+            "gold_pairs": 96,
+            "n_multi_gold_posts": 3,
+            "pct_multi_gold": 3.225806451612903
+          },
+          "pol": {
+            "n_train_posts": null,
+            "n_eval_posts": 500,
+            "pool_size": 8796,
+            "gold_pairs": 564,
+            "n_multi_gold_posts": 47,
+            "pct_multi_gold": 9.4
+          },
+          "por": {
+            "n_train_posts": null,
+            "n_eval_posts": 500,
+            "pool_size": 32598,
+            "gold_pairs": 613,
+            "n_multi_gold_posts": 94,
+            "pct_multi_gold": 18.8
+          },
+          "spa": {
+            "n_train_posts": null,
+            "n_eval_posts": 500,
+            "pool_size": 25440,
+            "gold_pairs": 576,
+            "n_multi_gold_posts": 64,
+            "pct_multi_gold": 12.8
+          },
+          "tha": {
+            "n_train_posts": null,
+            "n_eval_posts": 183,
+            "pool_size": 583,
+            "gold_pairs": 183,
+            "n_multi_gold_posts": 0,
+            "pct_multi_gold": 0.0
+          },
+          "tur": {
+            "n_train_posts": null,
+            "n_eval_posts": 500,
+            "pool_size": 12536,
+            "gold_pairs": 550,
+            "n_multi_gold_posts": 45,
+            "pct_multi_gold": 9.0
+          }
+        },
+        "totals": {
+          "n_train_posts": null,
+          "n_eval_posts": 4276,
+          "pool_size": 260880,
+          "gold_pairs": 4959,
+          "n_multi_gold_posts": 493,
+          "pct_multi_gold": 11.529466791393826,
+          "pct_eng_posts": 11.693171188026193
+        }
+      },
+      "crosslingual": {
+        "n_train_posts": null,
+        "n_eval_posts": 4000,
+        "pool_size": 272447,
+        "gold_pairs": 5322,
+        "n_multi_gold_posts": 819,
+        "pct_multi_gold": 20.475,
+        "n_gold_fc_missing_from_fact_checks": 0,
+        "post_language_counts": {
+          "hin": {
+            "posts": 1637,
+            "pct": 40.925
+          },
+          "eng": {
+            "posts": 1003,
+            "pct": 25.075
+          },
+          "ara": {
+            "posts": 259,
+            "pct": 6.475
+          },
+          "spa": {
+            "posts": 236,
+            "pct": 5.9
+          },
+          "tur": {
+            "posts": 141,
+            "pct": 3.525
+          },
+          "urd": {
+            "posts": 131,
+            "pct": 3.275
+          },
+          "deu": {
+            "posts": 115,
+            "pct": 2.875
+          },
+          "ben": {
+            "posts": 112,
+            "pct": 2.8
+          },
+          "por": {
+            "posts": 85,
+            "pct": 2.125
+          },
+          "fra": {
+            "posts": 81,
+            "pct": 2.025
+          },
+          "zho": {
+            "posts": 72,
+            "pct": 1.8
+          },
+          "pol": {
+            "posts": 62,
+            "pct": 1.55
+          },
+          "tha": {
+            "posts": 22,
+            "pct": 0.55
+          },
+          "msa": {
+            "posts": 12,
+            "pct": 0.3
+          },
+          "ita": {
+            "posts": 4,
+            "pct": 0.1
+          },
+          "orm": {
+            "posts": 3,
+            "pct": 0.075
+          },
+          "ind": {
+            "posts": 2,
+            "pct": 0.05
+          },
+          "mar": {
+            "posts": 2,
+            "pct": 0.05
+          },
+          "tel": {
+            "posts": 2,
+            "pct": 0.05
+          },
+          "nld": {
+            "posts": 2,
+            "pct": 0.05
+          },
+          "kor": {
+            "posts": 1,
+            "pct": 0.025
+          },
+          "pan": {
+            "posts": 1,
+            "pct": 0.025
+          },
+          "oci": {
+            "posts": 1,
+            "pct": 0.025
+          },
+          "ron": {
+            "posts": 1,
+            "pct": 0.025
+          },
+          "asm": {
+            "posts": 1,
+            "pct": 0.025
+          },
+          "guj": {
+            "posts": 1,
+            "pct": 0.025
+          },
+          "san": {
+            "posts": 1,
+            "pct": 0.025
+          },
+          "mkd": {
+            "posts": 1,
+            "pct": 0.025
+          },
+          "kan": {
+            "posts": 1,
+            "pct": 0.025
+          },
+          "ltz": {
+            "posts": 1,
+            "pct": 0.025
+          },
+          "hun": {
+            "posts": 1,
+            "pct": 0.025
+          },
+          "und": {
+            "posts": 1,
+            "pct": 0.025
+          },
+          "vie": {
+            "posts": 1,
+            "pct": 0.025
+          },
+          "tam": {
+            "posts": 1,
+            "pct": 0.025
+          },
+          "fas": {
+            "posts": 1,
+            "pct": 0.025
+          },
+          "swa": {
+            "posts": 1,
+            "pct": 0.025
+          },
+          "fin": {
+            "posts": 1,
+            "pct": 0.025
+          }
+        },
+        "gold_fc_language_counts": {
+          "eng": {
+            "pairs": 3934,
+            "pct": 73.9195791055994
+          },
+          "spa": {
+            "pairs": 280,
+            "pct": 5.261180007515971
+          },
+          "ara": {
+            "pairs": 248,
+            "pct": 4.659902292371289
+          },
+          "tur": {
+            "pairs": 203,
+            "pct": 3.8143555054490794
+          },
+          "hin": {
+            "pairs": 181,
+            "pct": 3.40097707628711
+          },
+          "deu": {
+            "pairs": 171,
+            "pct": 3.2130777903043968
+          },
+          "por": {
+            "pairs": 115,
+            "pct": 2.1608417888012026
+          },
+          "fra": {
+            "pairs": 97,
+            "pct": 1.8226230740323186
+          },
+          "pol": {
+            "pairs": 69,
+            "pct": 1.2965050732807215
+          },
+          "tha": {
+            "pairs": 15,
+            "pct": 0.2818489289740699
+          },
+          "msa": {
+            "pairs": 9,
+            "pct": 0.16910935738444194
+          }
+        },
+        "top_pair_languages": [
+          {
+            "post_lang": "hin",
+            "fc_lang": "eng",
+            "pairs": 2313,
+            "pct": 43.46110484780158
+          },
+          {
+            "post_lang": "eng",
+            "fc_lang": "eng",
+            "pairs": 1073,
+            "pct": 20.16159338594513
+          },
+          {
+            "post_lang": "ara",
+            "fc_lang": "ara",
+            "pairs": 236,
+            "pct": 4.434423149192033
+          },
+          {
+            "post_lang": "spa",
+            "fc_lang": "spa",
+            "pairs": 226,
+            "pct": 4.24652386320932
+          },
+          {
+            "post_lang": "eng",
+            "fc_lang": "hin",
+            "pairs": 170,
+            "pct": 3.1942878617061257
+          },
+          {
+            "post_lang": "ben",
+            "fc_lang": "eng",
+            "pairs": 145,
+            "pct": 2.7245396467493426
+          },
+          {
+            "post_lang": "tur",
+            "fc_lang": "tur",
+            "pairs": 145,
+            "pct": 2.7245396467493426
+          },
+          {
+            "post_lang": "urd",
+            "fc_lang": "eng",
+            "pairs": 140,
+            "pct": 2.6305900037579857
+          },
+          {
+            "post_lang": "deu",
+            "fc_lang": "deu",
+            "pairs": 121,
+            "pct": 2.2735813603908306
+          },
+          {
+            "post_lang": "por",
+            "fc_lang": "por",
+            "pairs": 85,
+            "pct": 1.5971439308530628
+          },
+          {
+            "post_lang": "zho",
+            "fc_lang": "eng",
+            "pairs": 77,
+            "pct": 1.4468245020668922
+          },
+          {
+            "post_lang": "pol",
+            "fc_lang": "pol",
+            "pairs": 61,
+            "pct": 1.1461856444945508
+          },
+          {
+            "post_lang": "fra",
+            "fc_lang": "fra",
+            "pairs": 60,
+            "pct": 1.1273957158962795
+          },
+          {
+            "post_lang": "eng",
+            "fc_lang": "tur",
+            "pairs": 46,
+            "pct": 0.864336715520481
+          },
+          {
+            "post_lang": "spa",
+            "fc_lang": "eng",
+            "pairs": 43,
+            "pct": 0.8079669297256671
+          }
+        ],
+        "pct_eng_posts_detected": 25.075
+      },
+      "post_composition": {
+        "n_posts": 8276,
+        "pct_text_only": 53.32286128564524,
+        "pct_ocr_only": 0.0,
+        "pct_both": 46.67713871435476,
+        "pct_neither": 0.0,
+        "ocr_items_mean": 0.467,
+        "ocr_items_median": 0.0,
+        "pct_posts_with_any_ocr": 46.67713871435476
+      },
+      "lengths": {
+        "posts_monolingual": {
+          "orig": {
+            "n": 4276,
+            "mean": 77.95,
+            "median": 39.0,
+            "p90": 171.0
+          },
+          "eng": {
+            "n": 4276,
+            "mean": 86.95,
+            "median": 45.0,
+            "p90": 187.0
+          }
+        },
+        "posts_crosslingual": {
+          "orig": {
+            "n": 4000,
+            "mean": 66.82,
+            "median": 37.0,
+            "p90": 138.0
+          },
+          "eng": {
+            "n": 4000,
+            "mean": 69.77,
+            "median": 39.0,
+            "p90": 141.0
+          }
+        },
+        "fact_checks": {
+          "orig": {
+            "n": 272447,
+            "mean": 29.76,
+            "median": 26.0,
+            "p90": 44.0
+          },
+          "eng": {
+            "n": 272447,
+            "mean": 30.82,
+            "median": 27.0,
+            "p90": 46.0
+          }
+        }
+      }
+    }
+  }
+}

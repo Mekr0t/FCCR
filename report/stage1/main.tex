@@ -1,0 +1,230 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[slovak]{babel}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage[numbers,sort&compress]{natbib}
+\bibliographystyle{plainnat}
+
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+\newcommand{\sat}{S@10}
+
+\title{Viacjazyčné a medzijazykové vyhľadávanie overených tvrdení\\
+\large SemEval-2025 Task~7 --- 1.~etapa: návrh projektu a baseline riešenie}
+\author{\todo{mená členov tímu}}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Zaoberáme sa úlohou SemEval-2025 Task~7: pre príspevok zo sociálnej siete treba v~kolekcii stoviek tisíc už overených tvrdení (fact-checkov) nájsť tie, ktoré sa ho týkajú, a to aj vtedy, keď sú príspevok a fact-check v~rôznych jazykoch.
+V~prvej etape sme implementovali reprodukovateľný experimentálny rámec s~oficiálnym protokolom hodnotenia a dve baseline riešenia: lexikálne BM25 a husté vyhľadávanie pomocou modelu multilingual-E5-large bez dotrénovania.
+Na testovacej množine dosahuje E5 baseline \sat{} 0{,}886 (monolingválna úloha) a 0{,}681 (medzijazyková úloha), čím prekonáva oficiálne baseline organizátorov (0{,}859 a 0{,}637).
+Upravené BM25 so stemovaním, odstraňovaním stop slov a segmentáciou thajčiny dosahuje 0{,}868 a 0{,}623.
+\end{abstract}
+
+% =====================================================================
+\section{Úvod}
+\label{sec:intro}
+
+\paragraph{Problém.}
+Dezinformácie sa šíria rýchlejšie, než ich stihnú profesionálni overovatelia faktov (fact-checkeri) vyvracať.
+Veľká časť nepravdivých tvrdení sa však opakuje: to isté tvrdenie sa objavuje v~nových príspevkoch, v~iných formuláciách, na iných platformách a často aj v~iných jazykoch.
+Ak by overovateľ vedel pre nový príspevok rýchlo nájsť už existujúci fact-check, nemusí tvrdenie overovať znova.
+Takáto úloha sa nazýva \emph{vyhľadávanie už overených tvrdení} (previously fact-checked claim retrieval) \citep{shaar-etal-2020-known}.
+
+\paragraph{Formulácia úlohy.}
+Pre príspevok $p$ zo sociálnej siete (text, prípadne text extrahovaný z~priložených obrázkov pomocou OCR) a kolekciu fact-checkov $\mathcal{F}$ má systém vrátiť usporiadaný zoznam fact-checkov tak, aby sa relevantné fact-checky nachádzali čo najvyššie.
+Ide o~úlohu \emph{vyhľadávania a usporiadania} (ranking), nie o~klasifikáciu pravdivosti.
+Úloha SemEval-2025 Task~7 \citep{peng-etal-2025-semeval} má dve podúlohy:
+\begin{itemize}
+  \item \textbf{monolingválnu} --- príspevok aj fact-check sú v~rovnakom jazyku a kolekcia kandidátov je obmedzená na fact-checky v~jazyku príspevku,
+  \item \textbf{medzijazykovú} (crosslingual) --- príspevok a fact-check môžu byť v~rôznych jazykoch a kolekcia kandidátov nie je obmedzená.
+\end{itemize}
+
+\paragraph{Motivácia.}
+Fact-checky existujú prevažne vo veľkých jazykoch (najmä v~angličtine), zatiaľ čo dezinformácie sa šíria vo všetkých jazykoch.
+Medzijazykové vyhľadávanie umožňuje znovu využiť existujúcu prácu overovateľov aj v~jazykoch, kde je ich málo \citep{pikuliak-etal-2023-multilingual, peng-etal-2025-semeval}.
+
+\paragraph{Ciele projektu.}
+\begin{enumerate}
+  \item Vytvoriť reprodukovateľný experimentálny rámec s~oficiálnym protokolom hodnotenia (1.~etapa).
+  \item Implementovať a vyhodnotiť lexikálne a husté baseline riešenie (1.~etapa).
+  \item Navrhnúť vlastné riešenie, ktoré baseline podstatne zlepší: fúziu výsledkov, dotrénovanie modelu na trénovacích pároch so ťažkými negatívnymi príkladmi a preusporiadanie kandidátov (2.~etapa).
+  \item Systematicky analyzovať chyby a výsledky interpretovať po jazykoch (2.~etapa).
+\end{enumerate}
+Projekt sa zameriava primárne na monolingválnu podúlohu; medzijazykovú podúlohu vyhodnocujeme paralelne, keďže zdieľa celý systém aj predvypočítané reprezentácie.
+
+% =====================================================================
+\section{Prehľad existujúcich prístupov}
+\label{sec:related}
+
+\paragraph{Vyhľadávanie už overených tvrdení.}
+\citet{shaar-etal-2020-known} úlohu formulovali a použili dvojfázový prístup: kandidátov získali pomocou BM25 a preusporiadali ich modelom založeným na BERT s~učením sa usporiadania (learning to rank).
+\citet{vo-lee-2020-facts} vyhľadávali fact-checkové články k~tweetom s~využitím textu aj obrázkov, čo je relevantné aj pre nás, keďže časť príspevkov obsahuje text iba v~obrázku.
+\citet{shaar-etal-2022-role} ukázali, že kontext na strane príspevku zlepšuje vyhľadávanie o~viac ako 10 bodov.
+\citet{kazemi-etal-2021-claim} rozšírili párovanie tvrdení na jazyky mimo angličtiny (hindčina, bengálčina, malajálamčina, tamilčina) pomocou destilovaného viacjazyčného modelu viet.
+\citet{pikuliak-etal-2023-multilingual} vytvorili dátovú množinu MultiClaim (približne 28\,tis. príspevkov v~27 jazykoch a 206\,tis. fact-checkov v~39 jazykoch), z~ktorej vychádza aj táto úloha.
+Najlepším modelom bez dotrénovania bol v~ich porovnaní GTR-T5-Large \citep{ni-etal-2022-large}.
+
+\paragraph{Reprezentácie textu pre vyhľadávanie.}
+Klasickým lexikálnym modelom je BM25 \citep{robertson-zaragoza-2009-bm25}.
+Husté vyhľadávanie používa bi-enkodéry, ktoré zakódujú dotaz a dokument nezávisle do vektora a podobnosť počítajú ako kosínusovú podobnosť \citep{reimers-gurevych-2019-sentence}.
+Viacjazyčné bi-enkodéry vznikajú destiláciou z~jednojazyčných modelov \citep{reimers-gurevych-2020-making} alebo kontrastívnym predtrénovaním na veľkých viacjazyčných korpusoch, napríklad modely E5 \citep{wang-etal-2022-e5, wang-etal-2024-multilingual-e5} a BGE-M3 \citep{chen-etal-2024-m3}.
+Presnejšie, ale pomalšie sú cross-enkodéry, ktoré spracujú dotaz aj dokument naraz a používajú sa na preusporiadanie malého počtu kandidátov \citep{nogueira-cho-2019-passage}.
+Výsledky viacerých vyhľadávačov sa dajú kombinovať pomocou reciprocal rank fusion \citep{cormack-etal-2009-rrf}.
+
+\paragraph{Riešenia v~SemEval-2025 Task~7.}
+Súťaže sa zúčastnilo 179 registrovaných účastníkov s~52 odovzdanými riešeniami \citep{peng-etal-2025-semeval}.
+Najlepší výsledok v~monolingválnej úlohe bol \sat{} 0{,}960, desiate miesto 0{,}923.
+Najlepšie zdokumentované riešenia majú spoločnú štruktúru: husté vyhľadávanie, potom preusporiadanie alebo kombinácia viacerých modelov.
+\begin{itemize}
+  \item \textbf{TIFIN India} \citep{devadiga-etal-2025-tifin} (3.~miesto, 0{,}938): preklad všetkých textov do angličtiny pomocou LLM, dotrénovaný model Stella-400M, preusporiadanie 50 kandidátov modelom Qwen2.5-72B a fúzia RRF.
+  Dotrénovanie bez preusporiadania dosiahlo 0{,}922.
+  \item \textbf{RACAI} \citep{chivereanu-tufis-2025-racai} (4.~miesto, 0{,}938): model BGE-Multilingual-Gemma2 s~9\,mld. parametrov, dotrénovaný kontrastívne pomocou LoRA a prompt tuningu, bez preusporiadania; najväčší prínos dotrénovania v~medzijazykovej úlohe.
+  \item \textbf{QUST\_NLP} \citep{liu-etal-2025-qust} (5.~miesto, 0{,}937): výber vyhľadávača, viacero preusporiadateľov a vážené hlasovanie.
+  Spojenie originálneho a anglického textu pomohlo v~monolingválnej, ale uškodilo v~medzijazykovej úlohe.
+  \item \textbf{UniBuc-AE} \citep{enache-2025-unibuc} (6.~miesto, 0{,}934): modely rodiny E5 dotrénované kontrastívne so ťažkými negatívnymi príkladmi a kombinované hlasovaním.
+  \item \textbf{UWBa} \citep{lenc-etal-2025-uwba} (7.~miesto, 0{,}927): kombinácia piatich modelov bez dotrénovania nad anglickými prekladmi.
+  \item \textbf{Duluth} \citep{syed-pedersen-2025-duluth}: TF-IDF s~optimalizovanou veľkosťou slovníka (0{,}69).
+\end{itemize}
+Z~prehľadu vyplýva, že najväčšie zlepšenia prináša dotrénovanie bi-enkodéra so ťažkými negatívnymi príkladmi a preusporiadanie kandidátov.
+Riešenia s~modelmi s~9--72\,mld. parametrov sú mimo dosahu našich výpočtových prostriedkov, preto sa v~2.~etape zameriame na menšie modely.
+
+% =====================================================================
+\section{Dáta}
+\label{sec:data}
+
+Používame oficiálnu dátovú množinu úlohy \citep{semeval2025task7-dataset}, ktorá je dostupná na výskumné účely na základe žiadosti.
+Trénovacia a vývojová časť vychádza z~MultiClaim \citep{pikuliak-etal-2023-multilingual}; testovacia časť obsahuje nové dáta zozbierané rovnakou metodikou.
+
+\paragraph{Štruktúra.}
+Každý \emph{príspevok} obsahuje text napísaný používateľom a texty extrahované z~priložených obrázkov (OCR, Google Vision API).
+Každý \emph{fact-check} obsahuje overované tvrdenie (claim) a názov článku (title).
+Všetky texty sú dostupné v~origináli aj v~anglickom preklade (Google Translate) spolu s~detegovaným jazykom.
+Rozdelenie na podúlohy, trénovacie, vývojové a testovacie príspevky aj kolekciu kandidátov pre každú podúlohu definuje súbor \texttt{tasks.json}.
+Monolingválna úloha má v~trénovacej a vývojovej časti 8 jazykov (ara, deu, eng, fra, msa, por, spa, tha); testovacia časť pridáva poľštinu a turečtinu, ktoré neboli vopred ohlásené.
+
+\input{tables/data_stats.tex}
+
+\paragraph{Pozorovania.}
+\begin{itemize}
+  \item \textbf{Veľkosti kolekcií sa líšia o~tri rády}: od 382 (thajčina) po 145\,287 (angličtina, test).
+  Úloha je preto v~rôznych jazykoch rôzne ťažká a priemerovanie cez jazyky dáva malým jazykom rovnakú váhu ako angličtine.
+  Niektoré vývojové množiny sú veľmi malé (thajčina 42, arabčina 78 príspevkov), takže rozdiely v~jednotlivých jazykoch na vývojovej množine treba interpretovať opatrne.
+  \item \textbf{Približne 11--21\,\% príspevkov má viac správnych fact-checkov} (rovnaké tvrdenie overilo viacero organizácií), čo metriku \sat{} mierne zvýhodňuje.
+  \item \textbf{Text v~obrázkoch je dôležitý}: takmer polovica príspevkov obsahuje OCR a vo vývojovej časti má 9{,}8\,\% príspevkov text \emph{iba} v~obrázku.
+  V~testovacej časti takéto príspevky nie sú, preto vplyv OCR na vývojovej množine môže byť väčší ako na testovacej.
+  \item \textbf{Medzijazyková testovacia množina je nevyvážená}: podľa detegovaného jazyka tvoria hindské príspevky 40{,}9\,\% a páry hindčina$\to$angličtina 43{,}5\,\% všetkých správnych párov; 73{,}9\,\% správnych fact-checkov je v~angličtine.
+  Vo vývojovej časti je podiel hindčiny len 14{,}3\,\%, takže výsledky na vývojovej a testovacej množine nemusia byť priamo porovnateľné (tab.~\ref{tab:crosslang}).
+  Zaujímavé je, že značná časť párov v~medzijazykovej úlohe má podľa detektora \emph{rovnaký} jazyk príspevku aj fact-checku (napr. eng$\to$eng 20\,\% na teste); medzijazyková úloha sa teda od monolingválnej líši najmä neobmedzenou kolekciou kandidátov.
+  \item \textbf{Fact-checky sú krátke} (medián 26 slov), príspevky dlhšie a variabilnejšie (90.~percentil približne 190 slov), čo pri modeloch s~limitom 512 tokenov vedie k~orezaniu časti príspevkov.
+\end{itemize}
+
+% =====================================================================
+\section{Metodika}
+\label{sec:method}
+
+\paragraph{Metriky.}
+Hlavnou metrikou úlohy je \emph{Success@10} (\sat{}): podiel príspevkov, pre ktoré je medzi prvými desiatimi vrátenými fact-checkmi aspoň jeden správny.
+Metrika zodpovedá praktickému použitiu, keď overovateľ prezrie krátky zoznam kandidátov.
+Doplnkovo uvádzame \emph{Mean Reciprocal Rank} orezaný na 10 (MRR@10), ktorý zohľadňuje aj pozíciu prvého správneho výsledku.
+V~monolingválnej úlohe sa \sat{} počíta pre každý jazyk zvlášť a výsledok je ich priemerom (každý jazyk má rovnakú váhu bez ohľadu na počet príspevkov); v~medzijazykovej úlohe sa počíta cez všetky príspevky naraz.
+Takto počítajú výsledky aj oficiálne hodnotiace skripty.
+
+\paragraph{Protokol hodnotenia.}
+\begin{itemize}
+  \item Všetky návrhové rozhodnutia (variant textu, nastavenia analyzátora) robíme \textbf{iba na vývojovej množine}.
+  Na testovacej množine spúšťame každú vybranú konfiguráciu práve raz a výsledky slúžia len na finálne porovnanie.
+  \item Kolekciu kandidátov pre každý príspevok berieme presne podľa \texttt{tasks.json}: v~monolingválnej úlohe fact-checky jazyka príspevku, v~medzijazykovej všetkých 153\,743 (vývoj) resp. 272\,447 (test) fact-checkov.
+  \item Naša implementácia metrík je overená proti oficiálnym hodnotiacim skriptom: na štyroch oficiálnych baseline predikciách organizátorov dáva presne rovnaké hodnoty ako uvádza článok organizátorov.
+  Každý súbor s~predikciami vyhodnocujeme oboma implementáciami.
+  \item Všetky experimenty sú riadené konfiguračnými súbormi, majú fixované náhodné semienka a ukladajú metriky aj použitú konfiguráciu.
+\end{itemize}
+
+\paragraph{Reprezentácia textu.}
+Text príspevku tvorí používateľský text spojený so všetkými OCR textami; text fact-checku tvorí tvrdenie spojené s~názvom.
+Porovnávame tri varianty: originálny text (\emph{orig}), anglický preklad (\emph{eng}) a ich spojenie (\emph{both}).
+
+% =====================================================================
+\section{Baseline riešenia}
+\label{sec:baseline}
+
+\paragraph{BM25.}
+Implementovali sme BM25 (Okapi, $k_1 = 1{,}5$, $b = 0{,}75$) pomocou riedkych matíc, aby bolo vyhľadávanie v~kolekcii s~270\,tis. dokumentmi rýchle (5--25\,s na celý beh).
+Výsledky sú overené testom zhody s~knižnicou \texttt{rank\_bm25}.
+Základná verzia používa tokenizáciu na slová (\texttt{\textbackslash w+}) bez ďalšieho spracovania.
+Upravená verzia pridáva jazykovo špecifické stemovanie (Snowball), odstraňovanie stop slov a segmentáciu thajčiny pomocou knižnice PyThaiNLP \citep{phatthiyaphaibun-etal-2023-pythainlp}.
+Thajčina nepoužíva medzery medzi slovami a samohláskové a tónové znamienka nepatria do triedy \texttt{\textbackslash w}, takže základná tokenizácia rozbije thajský text na nezmyselné fragmenty.
+
+\paragraph{Husté vyhľadávanie (multilingual-E5-large).}
+Používame model \texttt{intfloat/multilingual-e5-large} \citep{wang-etal-2024-multilingual-e5} bez dotrénovania, s~predponami \texttt{query:} a \texttt{passage:} podľa odporúčania autorov a maximálnou dĺžkou vstupu 512 tokenov.
+Reprezentácie všetkých fact-checkov vypočítame raz (fp16, GPU RTX 5070 s~8\,GB) a uložíme na disk; výpočet pre 270\,tis. fact-checkov trvá približne 5--7 minút.
+Vyhľadávanie je skalárny súčin normalizovaných vektorov (menej ako 1\,s na celú množinu).
+
+% =====================================================================
+\section{Výsledky}
+\label{sec:results}
+
+\input{tables/results_main.tex}
+
+\input{tables/results_dev.tex}
+
+\input{tables/results_lang.tex}
+
+\paragraph{Interpretácia.}
+\begin{itemize}
+  \item \textbf{Husté vyhľadávanie je lepšie ako lexikálne}, najmä v~medzijazykovej úlohe (0{,}681 oproti 0{,}623 na teste), kde majú príspevok a fact-check často málo spoločných slov.
+  \item \textbf{Spracovanie textu je pre BM25 zásadné.}
+  Odstránenie stop slov bolo najväčším jednotlivým zlepšením (napr. nemčina na vývojovej množine z~0{,}578 na 0{,}747) a segmentácia thajčiny zlepšila thajčinu z~0{,}738 na 0{,}857 pri originálnom texte.
+  Upravené BM25 (0{,}868) prekonáva oficiálne BM25 organizátorov (0{,}812) aj ich E5 baseline (0{,}859).
+  \item \textbf{Variant textu závisí od podúlohy.}
+  V~monolingválnej úlohe pomáha spojenie originálu s~prekladom (E5: 0{,}862 oproti 0{,}827 len s~angličtinou na vývojovej množine), zatiaľ čo v~medzijazykovej úlohe škodí (0{,}533 oproti 0{,}591).
+  Rovnaký jav nezávisle opísal tím QUST\_NLP \citep{liu-etal-2025-qust}.
+  Pravdepodobné vysvetlenie (zatiaľ neoverené): v~monolingválnej úlohe originál zachytí presné formulácie a preklad pridá robustnosť; v~medzijazykovej úlohe sú fact-checky prevažne v~inom jazyku ako príspevok, preto originálny text do reprezentácie pridáva skôr šum.
+  \item \textbf{Angličtina je najťažší jazyk} (E5: 0{,}814 na teste) napriek tomu, že ide o~najväčší jazyk s~najkvalitnejšími dátami.
+  Pravdepodobnou príčinou je veľkosť kolekcie: 145\,tis. kandidátov oproti stovkám až desaťtisícom v~ostatných jazykoch, takže medzi kandidátmi je oveľa viac podobných fact-checkov (overíme v~analýze chýb).
+  \item \textbf{Naše E5 prekonáva E5 organizátorov} (0{,}886 oproti 0{,}859).
+  Zisk je sústredený v~jazykoch, kde pomáha spojenie originálu a prekladu (malajčina +0{,}118, thajčina +0{,}055, francúzština +0{,}044); v~angličtine, portugalčine a nemčine sú výsledky rovnaké.
+  \item \textbf{Obmedzenie:} pri variante \emph{both} sa 11\,\% príspevkov nezmestí do 512 tokenov a ich koniec sa oreže.
+\end{itemize}
+
+% =====================================================================
+\section{Plán 2.~etapy}
+\label{sec:plan}
+
+\begin{enumerate}
+  \item \textbf{Fúzia} BM25 a hustého vyhľadávania pomocou RRF \citep{cormack-etal-2009-rrf}: lexikálne a husté vyhľadávanie robia odlišné chyby.
+  \item \textbf{Dotrénovanie bi-enkodéra} (mE5) kontrastívnou stratou na trénovacích pároch (približne 20\,tis. monolingválnych a 6\,tis. medzijazykových) so ťažkými negatívnymi príkladmi získanými z~našich baseline výsledkov; podľa literatúry ide o~najväčší zdroj zlepšenia \citep{devadiga-etal-2025-tifin, enache-2025-unibuc}.
+  Trénovanie prebehne na GPU T4 (Google Colab).
+  \item \textbf{Preusporiadanie} 50 najlepších kandidátov cross-enkodérom (napr. \texttt{bge-reranker-v2-m3}).
+  \item \textbf{Vlastný príspevok:} riešenie orezávania dlhých príspevkov a využitie metadát, najmä časovej blízkosti príspevku a fact-checku, ako ďalšieho signálu pri usporiadaní.
+  \item \textbf{Analýza chýb} s~vopred definovanou taxonómiou, nezávislou anotáciou dvoma členmi tímu a overením navrhnutej úpravy na oddelených dátach.
+  \item \textbf{Demo} pre externých používateľov, ktoré zobrazuje skóre a odkaz na verejný fact-check (nie texty z~dátovej množiny).
+\end{enumerate}
+Každý krok vyhodnotíme na vývojovej množine ako ablačný experiment voči predchádzajúcemu najlepšiemu systému.
+
+% =====================================================================
+\section{Reprodukovateľnosť}
+\label{sec:repro}
+Kód je v~repozitári \todo{URL repozitára}.
+Súbor \texttt{README.md} popisuje inštaláciu, umiestnenie dát a spúšťanie experimentov.
+Každý experiment je definovaný konfiguračným súborom v~\texttt{configs/} a výsledky sú v~\texttt{results/}.
+Testovacia sada (pytest) overuje načítanie dát, metriky, zhodu BM25 s~referenčnou knižnicou a správanie analyzátora.
+Dátová množina nie je súčasťou repozitára kvôli licencii a treba si ju vyžiadať od organizátorov.
+
+\bibliography{../../docs/references}
+
+\appendix
+\section{Použitie LLM a AI agentov}
+\label{app:llm}
+\todo{Preložiť a vložiť obsah súboru \texttt{docs/llm\_usage.md} (nástroj, model, účel, prompty, výstupy).}
+
+\end{document}

@@ -14,7 +14,8 @@ Given a social media post (SMP), retrieve and rank the most relevant previously 
 - Goal: **own system** (not replicating a specific team). Course: NLP project (`Projektove_zadanie.pdf`), team of 3–4, 20 pts in two stages:
   - **Stage 1 (10 pts):** problem + motivation, literature/data/existing-solutions review, metrics + methodology, **reproducible baseline**, report quality with citations.
   - **Stage 2 (10 pts):** own contribution (new solution or substantial justified extension of baseline), experiments, correct evaluation, comparison with baseline + interpretation, limitations, reproducibility.
-  - Bonus (≤15) candidates relevant here: systematic error analysis with a predefined taxonomy + independently verified categories + a fix confirmed on held-out data; independent reproducibility by someone outside the team.
+  - Bonus (≤15) chosen: (1) systematic error analysis with a predefined taxonomy + two independent annotators + agreement + a fix confirmed on held-out data; (2) independent reproducibility by someone outside the team; (3) deployment: simple public demo (query → matching fact-checks with score + link to the public fact-check URL, never dataset text; embeddings kept private), tested by 2–3 outside users with a structured form, one documented feedback→fix iteration, online ~1 week during grading then taken down.
+- Compute: fine-tuning runs on Google Colab (T4, 16 GB, fp16 only — no bf16); laptop for inference/embedding.
 - Deliverable: code + written report (per stage). **Deadlines: Stage 1 — 2026-10-25; Stage 2 — 2026-12-06.**
 - Stage 1 scope (freeze by ~10-22, leave the rest for writing): BM25 + zero-shot mE5 baselines on dev + test, literature review, methodology. Stage 2 scope: fusion → reranking → fine-tuning, ablations, error analysis.
 - Data source + split: official Zenodo release; develop/tune on dev (`posts_dev`), report final numbers on test.

@@ -1,0 +1,28 @@
+% Source: results/report_tables.md (Table C)
+\begin{table}[t]
+\centering
+\caption{Ablácie na vývojovej množine (\sat{}). Na základe týchto výsledkov sme vybrali konfigurácie pre testovaciu množinu (zvýraznené). Varianty textu: \emph{orig} = originál, \emph{eng} = anglický preklad, \emph{both} = spojenie.}
+\label{tab:dev}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{llcccccccccc}
+\toprule
+ & & \multicolumn{9}{c}{Monolingválna} & Medzijaz. \\
+\cmidrule(lr){3-11}\cmidrule(lr){12-12}
+Model & Konfigurácia & ara & deu & eng & fra & msa & por & spa & tha & priem. & \sat{} \\
+\midrule
+BM25 & eng & 0{,}705 & 0{,}518 & 0{,}546 & 0{,}750 & 0{,}619 & 0{,}735 & 0{,}724 & 0{,}881 & 0{,}685 & 0{,}413 \\
+BM25 & orig & 0{,}731 & 0{,}530 & 0{,}540 & 0{,}761 & 0{,}752 & 0{,}785 & 0{,}766 & 0{,}738 & 0{,}700 & -- \\
+BM25 & eng + stem & 0{,}731 & 0{,}578 & 0{,}569 & 0{,}771 & 0{,}724 & 0{,}752 & 0{,}753 & 0{,}905 & 0{,}723 & -- \\
+BM25 & eng + stem + stop & 0{,}782 & 0{,}747 & 0{,}630 & 0{,}793 & 0{,}733 & 0{,}811 & 0{,}807 & 0{,}881 & 0{,}773 & \textbf{0{,}520} \\
+BM25 & orig + thai & 0{,}731 & 0{,}530 & 0{,}540 & 0{,}761 & 0{,}752 & 0{,}785 & 0{,}766 & 0{,}857 & 0{,}715 & -- \\
+BM25 & orig + stem + stop + thai & 0{,}782 & 0{,}723 & 0{,}626 & 0{,}824 & 0{,}733 & 0{,}775 & 0{,}846 & 0{,}905 & 0{,}777 & -- \\
+BM25 & both + stem + stop + thai & 0{,}795 & 0{,}759 & 0{,}626 & 0{,}819 & 0{,}790 & 0{,}808 & 0{,}842 & 0{,}905 & \textbf{0{,}793} & 0{,}489 \\
+\midrule
+mE5 & eng & 0{,}808 & 0{,}759 & 0{,}797 & 0{,}862 & 0{,}790 & 0{,}772 & 0{,}854 & 0{,}976 & 0{,}827 & \textbf{0{,}591} \\
+mE5 & orig & 0{,}808 & 0{,}783 & 0{,}780 & 0{,}846 & 0{,}790 & 0{,}798 & 0{,}807 & 0{,}952 & 0{,}821 & 0{,}534 \\
+mE5 & both & 0{,}859 & 0{,}819 & 0{,}795 & 0{,}867 & 0{,}895 & 0{,}838 & 0{,}868 & 0{,}952 & \textbf{0{,}862} & 0{,}533 \\
+\midrule
+\multicolumn{2}{l}{\# príspevkov (dev)} & 78 & 83 & 478 & 188 & 105 & 302 & 615 & 42 & 1\,891 & 552 \\
+\bottomrule
+\end{tabular}
+\end{table}
