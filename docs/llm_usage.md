@@ -181,3 +181,17 @@ All numbers reported in the project come from running the code in this repositor
   - report build instructions (Tectonic / Overleaf);
   - an updated repository layout.
 - **Output:** the expected numbers in the README come from the judge-verified `metrics.json` files.
+
+### 14. Team rules (CONTRIBUTING.md)
+- **User prompt:** "create contributing.md where all the rules will be then also add short version of team rules in readme with link to that md file then commit and push"
+- **What the agent did:** wrote `CONTRIBUTING.md` with sections on:
+  - data/licence handling;
+  - experiment and evaluation protocol;
+  - code conventions;
+  - git workflow;
+  - issues;
+  - mandatory documentation of LLM/AI use;
+  - report rules;
+  - deadlines.
+
+  Added a 5-point summary with a link to `README.md`. The rules are drawn from the project's existing conventions (`CLAUDE.md`) and the assignment requirements.

@@ -27,6 +27,16 @@ Task: [SemEval-2025 Task 7](https://disai.eu/semeval-2025/) · overview paper: [
 
 Stage 1 (baselines) is done. Stage 2 roadmap: rank fusion (RRF) → fine-tuning mE5 with hard negatives → cross-encoder reranking → own contribution (truncation handling, temporal signal), plus error analysis. See [`CLAUDE.md`](CLAUDE.md) for the full plan and conventions.
 
+## Team rules (short version)
+
+Full rules: **[CONTRIBUTING.md](CONTRIBUTING.md)**. Read them before your first PR.
+
+1. **Never commit or upload the dataset** or anything containing its text (predictions, exports, screenshots). Results in git are aggregates only.
+2. **Tune on dev, run test once** per frozen configuration. Training uses `posts_train` only.
+3. **Every experiment runs from a config** and logs to `results/`; every number in the report comes from there.
+4. **Branch per issue, PR with one review**, `pytest` green. No direct pushes or force pushes to `main`.
+5. **Log every use of LLMs/AI tools** in [`docs/llm_usage.md`](docs/llm_usage.md) the same day (tool, purpose, prompt, what was used and how it was verified). This is mandatory for grading.
+
 ## Setup
 
 ```bash
