@@ -1,0 +1,186 @@
+{
+  "run_name": "dense_mono_test_both_repro_20261022",
+  "model": "mE5-large",
+  "model_id": "intfloat/multilingual-e5-large",
+  "text_variant": "both",
+  "pool": "per-language",
+  "pool_size": {
+    "ara": 21153,
+    "deu": 7485,
+    "eng": 145287,
+    "fra": 6316,
+    "msa": 686,
+    "pol": 8796,
+    "por": 32598,
+    "spa": 25440,
+    "tha": 583,
+    "tur": 12536
+  },
+  "split": "test",
+  "track": "monolingual",
+  "embedding": {
+    "fact_checks": {
+      "n": 260880,
+      "n_embedded": 64272,
+      "n_cached": 196608,
+      "embed_s": 100.4070827960968,
+      "tokens": {
+        "n": 260880,
+        "mean_tokens": 68.74116835326586,
+        "p99_tokens": 208.0,
+        "max_tokens": 4676,
+        "n_truncated": 88,
+        "frac_truncated": 0.00033731984053971177
+      }
+    },
+    "posts": {
+      "n": 4276,
+      "n_embedded": 4276,
+      "n_cached": 0,
+      "embed_s": 30.974872589111328,
+      "tokens": {
+        "n": 4276,
+        "mean_tokens": 261.23058933582786,
+        "p99_tokens": 2023.5,
+        "max_tokens": 6117,
+        "n_truncated": 478,
+        "frac_truncated": 0.1117867165575304
+      }
+    },
+    "device": "cuda"
+  },
+  "seed": 42,
+  "headline_s_at_10": 0.8862101181032964,
+  "headline_mrr_at_10": 0.7250123465370637,
+  "headline_note": "monolingual: mean over languages; crosslingual: micro over posts",
+  "metrics": {
+    "k": 10,
+    "s_at_k": 0.8702057998129092,
+    "mrr": 0.6943428252186437,
+    "n_posts": 4276,
+    "per_language": {
+      "ara": {
+        "s_at_k": 0.942,
+        "mrr": 0.7248507936507936,
+        "n": 500
+      },
+      "deu": {
+        "s_at_k": 0.872,
+        "mrr": 0.7016460317460318,
+        "n": 500
+      },
+      "eng": {
+        "s_at_k": 0.814,
+        "mrr": 0.5814976190476191,
+        "n": 500
+      },
+      "fra": {
+        "s_at_k": 0.898,
+        "mrr": 0.7503190476190477,
+        "n": 500
+      },
+      "msa": {
+        "s_at_k": 0.978494623655914,
+        "mrr": 0.9032855436081243,
+        "n": 93
+      },
+      "pol": {
+        "s_at_k": 0.83,
+        "mrr": 0.7142888888888889,
+        "n": 500
+      },
+      "por": {
+        "s_at_k": 0.802,
+        "mrr": 0.5655452380952382,
+        "n": 500
+      },
+      "spa": {
+        "s_at_k": 0.862,
+        "mrr": 0.6847904761904762,
+        "n": 500
+      },
+      "tha": {
+        "s_at_k": 0.9836065573770492,
+        "mrr": 0.9098252233498135,
+        "n": 183
+      },
+      "tur": {
+        "s_at_k": 0.88,
+        "mrr": 0.7140746031746033,
+        "n": 500
+      }
+    },
+    "macro_avg_s_at_k": 0.8862101181032964,
+    "macro_mrr": 0.7250123465370637
+  },
+  "timing": {
+    "embed_total_s": 132.49840354919434,
+    "units": {
+      "ara": {
+        "search_s": 0.07006072998046875,
+        "n_posts": 500,
+        "pool": 21153
+      },
+      "deu": {
+        "search_s": 0.011029243469238281,
+        "n_posts": 500,
+        "pool": 7485
+      },
+      "eng": {
+        "search_s": 0.15537118911743164,
+        "n_posts": 500,
+        "pool": 145287
+      },
+      "fra": {
+        "search_s": 0.008727312088012695,
+        "n_posts": 500,
+        "pool": 6316
+      },
+      "msa": {
+        "search_s": 0.003390789031982422,
+        "n_posts": 93,
+        "pool": 686
+      },
+      "pol": {
+        "search_s": 0.010772228240966797,
+        "n_posts": 500,
+        "pool": 8796
+      },
+      "por": {
+        "search_s": 0.03608989715576172,
+        "n_posts": 500,
+        "pool": 32598
+      },
+      "spa": {
+        "search_s": 0.0270841121673584,
+        "n_posts": 500,
+        "pool": 25440
+      },
+      "tha": {
+        "search_s": 0.0019674301147460938,
+        "n_posts": 183,
+        "pool": 583
+      },
+      "tur": {
+        "search_s": 0.01564168930053711,
+        "n_posts": 500,
+        "pool": 12536
+      }
+    },
+    "search_total_s": 0.3401346206665039,
+    "total_s": 138.6044406890869
+  },
+  "config": {
+    "run_name": "dense_mono_test_both_repro_20261022",
+    "data_dir": "data/raw/semeval2025_task7_data/test_set",
+    "track": "monolingual",
+    "eval_split": "test",
+    "text_variant": "both",
+    "model": "intfloat/multilingual-e5-large",
+    "model_label": "mE5-large",
+    "max_seq_length": 512,
+    "batch_size": 32,
+    "k": 10,
+    "top_n": 100
+  }
+}

@@ -1,0 +1,10 @@
+run_name: bm25_cross_test_eng_stem_stop_repro_20261022
+data_dir: data/raw/semeval2025_task7_data/test_set
+track: crosslingual
+eval_split: test
+text_variant: eng
+analyzer:
+  stem: true
+  stopwords: true
+k: 10
+top_n: 100

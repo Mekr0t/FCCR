@@ -25,3 +25,7 @@
 | bm25_cross_dev_both_stem_stop_thai | bm25 | both | all | dev | crosslingual | 0.4891 | 0.3108 | - |
 | bm25_mono_test_both_stem_stop_thai | bm25 | both | per-language | test | monolingual | 0.8682 | 0.7130 | 0.8682 |
 | bm25_cross_test_eng_stem_stop | bm25 | eng | all | test | crosslingual | 0.6225 | 0.3825 | - |
+| bm25_mono_test_both_stem_stop_thai_repro_20261022 | bm25 | both | per-language | test | monolingual | 0.8682 | 0.7130 | 0.8682 |
+| bm25_cross_test_eng_stem_stop_repro_20261022 | bm25 | eng | all | test | crosslingual | 0.6225 | 0.3825 | - |
+| dense_mono_test_both_repro_20261022 | mE5-large | both | per-language | test | monolingual | 0.8862 | 0.7250 | 0.8862 |
+| dense_cross_test_eng_repro_20261022 | mE5-large | eng | all | test | crosslingual | 0.6810 | 0.4163 | - |

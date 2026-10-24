@@ -39,6 +39,8 @@ Full rules: **[CONTRIBUTING.md](CONTRIBUTING.md)**. Read them before your first 
 
 ## Setup
 
+Install Python 3.13 first; on Windows, `py -3.13 --version` must find that runtime before creating the environment.
+
 ```bash
 py -3.13 -m venv .venv            # Windows (python3.13 -m venv .venv elsewhere)
 .venv\Scripts\activate            # source .venv/bin/activate on Linux/macOS
@@ -62,7 +64,16 @@ data/raw/
   sample/                   # public sample: trial_posts.csv, trial_fact_checks.csv, trial_data_mapping.csv
 ```
 
-The sample (needed by the tests) is public; fetch it with:
+The sample (needed by the tests) is public. In PowerShell:
+
+```powershell
+New-Item -ItemType Directory -Force data/raw/sample | Out-Null
+foreach ($f in 'trial_posts.csv', 'trial_fact_checks.csv', 'trial_data_mapping.csv', 'load.py') {
+  Invoke-WebRequest "https://raw.githubusercontent.com/kinit-sk/semeval_2025/main/sample_data/$f" -OutFile "data/raw/sample/$f"
+}
+```
+
+In Bash (Linux/macOS or Git Bash):
 
 ```bash
 mkdir -p data/raw/sample
@@ -71,12 +82,12 @@ for f in trial_posts.csv trial_fact_checks.csv trial_data_mapping.csv load.py; d
 done
 ```
 
-Parsed CSVs are cached to `data/processed/` on first load (~15–25 s once, ~1 s afterwards).
+Parsed CSVs are cached to `data/processed/` on first load. This can take several minutes on a cold Windows setup; later runs reuse the parsed cache. The experiment times below depend on hardware and whether this cache already exists.
 
 ## Reproducing the stage-1 results
 
 ```bash
-python -m pytest -q                                                            # 43 tests, ~20 s
+python -m pytest -q -rs
 
 # the four test-set runs reported in the stage-1 report (Table "main results")
 python scripts/run_bm25.py  --config configs/bm25_mono_test_both_stem_stop_thai.yaml   # CPU, ~20 s
@@ -105,6 +116,8 @@ Expected test S@10 (MRR@10):
 
 Dev ablations (all `configs/*_dev_*.yaml`) are listed with their results in [`results/results.md`](results/results.md).
 Each run writes `results/<run_name>/metrics.json` and `predictions.json` (gitignored, regenerable) and upserts a row in `results/results.md`.
+For an independent reproduction, copy each frozen YAML and change only `run_name` (also rename the YAML to match), so the original metrics and predictions are preserved.
+The test count depends on the YAML files and locally saved predictions. Some parameterized config checks deliberately skip when they do not apply; the model test needs CUDA and a loadable E5 model, and saved-prediction checks need the official data and prediction files. `-rs` shows each skip reason.
 
 ## Evaluation protocol
 
