@@ -1,0 +1,222 @@
+{
+  "source_commit": "7c55503833ee5dab4ee1e601f2694fafffbce56d",
+  "prepared_utc": "2026-10-22T07:24:55.722681+00:00",
+  "dataset_copy_verified": true,
+  "dataset_manifest_sha256": "42ad73d747bf1ff6bba596179045bbdfd8ec480f1930bd8c9b073f0fa4529095",
+  "completed_utc": "2026-10-24T09:40:21.710019+00:00",
+  "environment": {
+    "python": "3.13.16 (main, Oct 14 2026, 01:05:56) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "packages": {
+      "annotated-doc": "0.0.5",
+      "anyio": "4.15.1",
+      "certifi": "2026.10.19",
+      "click": "8.5.0",
+      "cloudpickle": "3.1.2",
+      "colorama": "0.4.6",
+      "filelock": "3.32.3",
+      "fsspec": "2026.7.0",
+      "h11": "0.16.0",
+      "hf-xet": "1.7.0",
+      "httpcore": "1.0.9",
+      "httpx": "0.28.1",
+      "huggingface_hub": "1.33.0",
+      "idna": "3.20",
+      "iniconfig": "2.3.1",
+      "Jinja2": "3.1.6",
+      "joblib": "1.6.0",
+      "markdown-it-py": "4.2.0",
+      "MarkupSafe": "3.0.3",
+      "mdurl": "0.1.2",
+      "mpmath": "1.3.0",
+      "narwhals": "2.27.1",
+      "networkx": "3.6.1",
+      "numpy": "2.5.4",
+      "packaging": "26.3",
+      "pandas": "3.0.6",
+      "pluggy": "1.7.0",
+      "pyarrow": "26.0.0",
+      "Pygments": "2.21.0",
+      "PyStemmer": "3.1.0",
+      "pytest": "9.1.1",
+      "pythainlp": "5.4.0",
+      "python-dateutil": "3.0.0",
+      "PyYAML": "6.0.3",
+      "rank-bm25": "0.2.2",
+      "regex": "2026.9.29",
+      "rich": "15.0.0",
+      "safetensors": "0.8.0",
+      "scikit-learn": "1.9.1",
+      "scipy": "1.18.1",
+      "sentence-transformers": "6.1.0",
+      "setuptools": "78.1.0",
+      "shellingham": "1.5.4",
+      "six": "1.17.0",
+      "stopwordsiso": "0.7.1",
+      "sympy": "1.14.0",
+      "threadpoolctl": "3.7.0",
+      "tokenizers": "0.23.3",
+      "torch": "2.11.0+cu128",
+      "tqdm": "4.70.1",
+      "transformers": "5.19.0",
+      "typer": "0.27.3",
+      "typing_extensions": "4.16.0",
+      "tzdata": "2026.5"
+    }
+  },
+  "model": {
+    "model_id": "intfloat/multilingual-e5-large",
+    "revision": "3d7cfbdacd47fdda877c5cd8a79fbcc4f2a574f3",
+    "download_s": 175.8288562297821
+  },
+  "gpu": {
+    "name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "memory_mib": 8188,
+    "driver": "566.24",
+    "torch_cuda": "12.8"
+  },
+  "tests": {
+    "passed": 259,
+    "skipped": 65,
+    "runtime_s": 16.64
+  },
+  "baseline_cpu_tests": {
+    "passed": 226,
+    "skipped": 59
+  },
+  "gpu_sample_smoke": {
+    "passed": 1,
+    "runtime_s": 29.94
+  },
+  "runs": [
+    {
+      "original": "bm25_mono_test_both_stem_stop_thai",
+      "reproduction": "bm25_mono_test_both_stem_stop_thai_repro_20261022",
+      "source_config_sha256": "4fea3e73aaca529daaf5736714e22f63236daf6dc262b5e28a8aa31cc0a52cae",
+      "expected_s_at_10": 0.8682344438568659,
+      "expected_mrr_at_10": 0.7130267305868231,
+      "tolerance": 0,
+      "got_s_at_10": 0.8682344438568659,
+      "got_mrr_at_10": 0.7130267305868231,
+      "delta_s_at_10": 0.0,
+      "delta_mrr_at_10": 0.0,
+      "within_tolerance": true,
+      "official_scorer_agrees": true,
+      "runtime_s": 224.3422932624817,
+      "n_posts": 4276
+    },
+    {
+      "original": "bm25_cross_test_eng_stem_stop",
+      "reproduction": "bm25_cross_test_eng_stem_stop_repro_20261022",
+      "source_config_sha256": "d09df44b1a6a6f41457603212907e2b7d5b2281bb7f0bd1f5c6af83621063b38",
+      "expected_s_at_10": 0.6225,
+      "expected_mrr_at_10": 0.3824632936507937,
+      "tolerance": 0,
+      "got_s_at_10": 0.6225,
+      "got_mrr_at_10": 0.3824632936507937,
+      "delta_s_at_10": 0.0,
+      "delta_mrr_at_10": 0.0,
+      "within_tolerance": true,
+      "official_scorer_agrees": true,
+      "runtime_s": 33.2725031375885,
+      "n_posts": 4000
+    },
+    {
+      "original": "dense_mono_test_both",
+      "reproduction": "dense_mono_test_both_repro_20261022",
+      "source_config_sha256": "6a99213a049dd3a6617d5e6b8ec4d0022690a84a436f486786b04c0cad7cf4e9",
+      "expected_s_at_10": 0.8862101181032964,
+      "expected_mrr_at_10": 0.724965679870397,
+      "tolerance": 0.005,
+      "got_s_at_10": 0.8862101181032964,
+      "got_mrr_at_10": 0.7250123465370637,
+      "delta_s_at_10": 0.0,
+      "delta_mrr_at_10": 4.6666666666750345e-05,
+      "within_tolerance": true,
+      "official_scorer_agrees": true,
+      "runtime_s": 138.6044406890869,
+      "n_posts": 4276,
+      "embedding": {
+        "fact_checks": {
+          "n": 260880,
+          "n_embedded": 64272,
+          "n_cached": 196608,
+          "embed_s": 100.4070827960968,
+          "tokens": {
+            "n": 260880,
+            "mean_tokens": 68.74116835326586,
+            "p99_tokens": 208.0,
+            "max_tokens": 4676,
+            "n_truncated": 88,
+            "frac_truncated": 0.00033731984053971177
+          }
+        },
+        "posts": {
+          "n": 4276,
+          "n_embedded": 4276,
+          "n_cached": 0,
+          "embed_s": 30.974872589111328,
+          "tokens": {
+            "n": 4276,
+            "mean_tokens": 261.23058933582786,
+            "p99_tokens": 2023.5,
+            "max_tokens": 6117,
+            "n_truncated": 478,
+            "frac_truncated": 0.1117867165575304
+          }
+        },
+        "device": "cuda"
+      },
+      "resumed_after_interruption": true,
+      "previous_attempt_embedded_fact_checks": 196608,
+      "previous_attempt_last_logged_embedding_s": 545
+    },
+    {
+      "original": "dense_cross_test_eng",
+      "reproduction": "dense_cross_test_eng_repro_20261022",
+      "source_config_sha256": "a98277408f94ef14b97c2e6dc55a4e82058bebbfbc120062c3d20fa16d92c831",
+      "expected_s_at_10": 0.68125,
+      "expected_mrr_at_10": 0.41664375000000003,
+      "tolerance": 0.005,
+      "got_s_at_10": 0.681,
+      "got_mrr_at_10": 0.41631478174603176,
+      "delta_s_at_10": -0.00024999999999997247,
+      "delta_mrr_at_10": -0.0003289682539682759,
+      "within_tolerance": true,
+      "official_scorer_agrees": true,
+      "runtime_s": 473.73918199539185,
+      "n_posts": 4000,
+      "embedding": {
+        "fact_checks": {
+          "n": 272447,
+          "n_embedded": 272447,
+          "n_cached": 0,
+          "embed_s": 450.81024956703186,
+          "tokens": {
+            "n": 272447,
+            "mean_tokens": 48.56377203639607,
+            "p99_tokens": 161.0,
+            "max_tokens": 2363,
+            "n_truncated": 31,
+            "frac_truncated": 0.00011378359827783018
+          }
+        },
+        "posts": {
+          "n": 4000,
+          "n_embedded": 4000,
+          "n_cached": 0,
+          "embed_s": 16.443263292312622,
+          "tokens": {
+            "n": 4000,
+            "mean_tokens": 114.3165,
+            "p99_tokens": 856.1899999999955,
+            "max_tokens": 2037,
+            "n_truncated": 112,
+            "frac_truncated": 0.028
+          }
+        },
+        "device": "cuda"
+      }
+    }
+  ]
+}

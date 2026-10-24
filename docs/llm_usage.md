@@ -231,3 +231,22 @@ All numbers reported in the project come from running the code in this repositor
   - renamed `configs/bm25_sample.yaml` → `configs/bm25_sample_eng.yaml`, so the filename matches its `run_name`, and removed the strict xfail from `tests/test_configs.py`;
   - moved the pool check in `run_bm25.py`/`run_dense.py` before `metrics.json` is written, so a failing run leaves no stale metrics.
 - **Verified:** `pytest` gives 249 passed, 57 skipped (skips are config checks that don't apply to that config type). The sample run reproduces S@10 0.9574.
+
+## Session 5 — 2026-10-22–24 (issue #1)
+
+### 19. Clean-clone reproduction of the four frozen stage-1 configurations
+- **Started by:** Jakub Spišák (GitHub `jakub-spisak`).
+- **Tool / model:** OpenAI Codex desktop, GPT-6 family (the exact runtime model identifier was not exposed in this session).
+- **User prompts (faithful summary):** inspect issue #1; use the supplied local path to the licensed SemEval-2025 Task 7 release and complete the issue. After being asked about the GPU dependencies and >1 GB model download, the user explicitly approved: "Áno, over všetky štyri konfigurácie".
+- **What the agent did:**
+  - cloned `main` at `7c55503833ee5dab4ee1e601f2694fafffbce56d` into a separate directory and created `s1-1-reproduce`; kept the earlier issue-2 checkout untouched;
+  - copied only the human-supplied raw release, verified all 28 source/copy file hashes, and downloaded the public sample afresh; created new environments and new model/embedding caches;
+  - installed the pinned CUDA requirements and downloaded `intfloat/multilingual-e5-large` at revision `3d7cfbdacd47fdda877c5cd8a79fbcc4f2a574f3` with the human's approval; verified CUDA on the RTX 4060 Laptop;
+  - ran the CPU baseline suite before changes (226 passed, 59 skipped), then the real E5 GPU sample test (1 passed); completed the four frozen test configurations using new YAMLs whose only changed setting is `run_name`; after the human stopped work on October 22, resumed the unfinished monolingual dense run on October 24 from its own 196,608 saved embeddings, with no previous predictions or metrics and no repeated completed test run;
+  - ran BM25 in a separate freshly created CPU environment while the GPU installation completed; ran dense and final tests in the fresh CUDA `.venv`; recorded uv/interpreter/cache/temp deviations from the README;
+  - stored aggregate metrics and result rows, generated full-precision comparison/provenance notes, and prepared a PR description and the issue's requested result-table comment;
+  - clarified the Windows sample download, Python prerequisite, cold-cache timing, variable test counts/skip reasons and preservation of reference results in the README.
+- **Output used:** four reproduction YAMLs, four aggregate `metrics.json` files, new rows in `results/results.md`, `results/reproduction_20261022.{md,json}`, README corrections and this appended log entry. No earlier log entries, reference results, loaders, retrieval code or evaluators were edited.
+- **Verified:** both BM25 headline metrics match the committed references exactly; both dense metrics meet ±0.005. All four prediction files passed the independent official-logic S@10 check (`AGREE`). Final CUDA suite: **259 passed, 65 skipped**; remaining skips are inapplicable config checks, while the real GPU/model and all four saved-prediction checks ran. Original configuration values and metrics were compared with the source commit. Data/artifact and file-size guards passed before publication.
+- **Limits / human review:** AI-assisted teammate reproduction, not an independent person outside the team. Human PR review and merging remain the team's responsibility. Dataset text, predictions, caches and model weights stay local and ignored.
+- **Publication:** the human requested on October 24 that Codex prepare commands and leave pushing to them. No remote branch, PR or issue comment was created by this session. The local commit's author and committer were checked against the connected GitHub profile (`Jakub Spišák`, `jakub.spisak@student.tuke.sk`, login `jakub-spisak`); push and PR/comment drafts are supplied for the human.
