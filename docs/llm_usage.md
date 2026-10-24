@@ -250,3 +250,13 @@ All numbers reported in the project come from running the code in this repositor
 - **Verified:** both BM25 headline metrics match the committed references exactly; both dense metrics meet ±0.005. All four prediction files passed the independent official-logic S@10 check (`AGREE`). Final CUDA suite: **259 passed, 65 skipped**; remaining skips are inapplicable config checks, while the real GPU/model and all four saved-prediction checks ran. Original configuration values and metrics were compared with the source commit. Data/artifact and file-size guards passed before publication.
 - **Limits / human review:** AI-assisted teammate reproduction, not an independent person outside the team. Human PR review and merging remain the team's responsibility. Dataset text, predictions, caches and model weights stay local and ignored.
 - **Publication:** the human requested on October 24 that Codex prepare commands and leave pushing to them. No remote branch, PR or issue comment was created by this session. The local commit's author and committer were checked against the connected GitHub profile (`Jakub Spišák`, `jakub.spisak@student.tuke.sk`, login `jakub-spisak`); push and PR/comment drafts are supplied for the human.
+
+## Session 6 — 2026-10-24 (follow-up to #1)
+
+### 20. README hint for a missing Python 3.13 launcher runtime
+- **Started by:** Roman Šafranko (GitHub `Mekr0t`).
+- **Tool / model:** Claude Code, Claude Opus 5.5 (main session) with a Claude Haiku worker sub-agent for the edit.
+- **User prompts (faithful summary):** "there should be some pull request from jakub, can you check it"; after PR #17 was merged: "merged, now do the readme fix".
+- **What the agent did:** reviewed PR #17 (diff, CI status; verified each `_repro_20261022` config differs from its frozen config only in `run_name`; checked that the diff contains no dataset text). Did not merge it, since the agent rules leave merging to the human. On a new branch, added a README hint for the `py -3.13` error `No suitable Python runtime found` reported in `results/reproduction_20261022.md`.
+- **Output used:** README Setup hint and this log entry.
+- **Verified:** `pytest -q` gives 277 passed, 65 skipped. Diff limited to README.md and docs/llm_usage.md.
