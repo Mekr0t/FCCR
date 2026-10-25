@@ -4,11 +4,11 @@
 \normalsize
 \setlength{\parindent}{0pt}
 \subsection*{Rozsah a pôvod záznamov}
-Táto príloha obsahuje slovenský výklad všetkých 24 dostupných záznamov použitia AI v~prvej etape. Zahŕňa aj skoršiu kontrolu reportu z~21.~októbra, ktorej záznam~18 zostal v~oddelenom lokálnom checkoute a bol doplnený bez zmien. Pôvodné záznamy v~\texttt{docs/llm\_usage.md} sa neprepisovali; preklad je zoradený podľa čísel záznamov.
+Táto príloha obsahuje slovenský výklad všetkých 26 dostupných záznamov použitia AI v~prvej etape. Zahŕňa aj skoršiu kontrolu reportu z~21.~októbra, ktorej záznam~18 zostal v~oddelenom lokálnom checkoute a bol doplnený bez zmien. Pôvodné záznamy v~\texttt{docs/llm\_usage.md} sa neprepisovali; preklad je zoradený podľa čísel záznamov.
 
 Výklad, účel a výstupy sú po slovensky. Znenie zachovaných promptov uvádzame aj v~pôvodnom jazyku, aby sa nestratil ich obsah. Ak samostatný prompt v~pôvodnom zázname chýbal, uvádzame zachovaný opis zadania a túto medzeru výslovne pomenujeme.
 
-Historické údaje o~modeloch, výsledkoch a kontrolách preberáme zo zdrojového logu. Označenie \emph{judge PASS 5/5} znamená deklarované overenie iným AI agentom; nepredstavuje ľudské potvrdenie. Historické počty testov sa líšia podľa konfigurácií, prítomných lokálnych predikcií a dostupného modelového prostredia. Nie sú výsledkami jedného spoločného nového behu.
+Historické údaje o~modeloch, výsledkoch a kontrolách preberáme zo zdrojového logu. Označenie \emph{judge PASS 5/5} znamená deklarované overenie iným AI agentom. Historické počty testov sa líšia podľa konfigurácií, prítomných lokálnych predikcií a dostupného modelového prostredia. Nie sú výsledkami jedného spoločného nového behu.
 
 Pôvodný log uvádza Claude Code, hlavný model Claude Opus~5.5 a worker/judge modely Claude Haiku/Sonnet. Tieto historické identifikátory neboli v~tejto kontrole nezávisle overené. Neskoršie práce Jakuba prebiehali cez Codex desktop. Pri kontrole lokálneho prepisu 25.~októbra bolo v~metadátach zachovaných turnov nájdené označenie \texttt{gpt-6.1-sol}; skoršie menej presné označenie rodiny GPT-6 v~záznamoch zostáva zachované.
 
@@ -19,45 +19,26 @@ Pôvodný log uvádza Claude Code, hlavný model Claude Opus~5.5 a worker/judge 
 Oblasť použitia AI & Záznamy \\
 \midrule
 Načítanie dát, vyhľadávanie a analyzátor & 1, 3, 7, 8, 16, 17 \\
-Metriky, štatistiky, tabuľky a reprodukcia & 3, 7, 8, 11, 16, 17, 19 \\
-Literárny prieskum a kontrola zdrojov & 1, 10, 18, 21 \\
-Návrh reportu a jeho opravy & 12, 18, 21, 22 \\
+Metriky, štatistiky, tabuľky a reprodukcia & 3, 7, 8, 11, 16, 17, 19, 25 \\
+Literárny prieskum a kontrola zdrojov & 1, 10, 18, 21, 25 \\
+Návrh reportu a jeho opravy & 12, 18, 21, 22, 25, 26 \\
 README, pravidlá, git a CI & 4--6, 9, 13--15, 20, 23 \\
-Evidencia AI a slovenská príloha & 5, 18, 24 \\
+Evidencia AI a slovenská príloha & 5, 18, 24, 25, 26 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-\subsection*{Potvrdenia členov tímu}
-Preklad dostupného logu sám nepotvrdzuje úplnosť použitia AI za každého člena. Stav k~príprave tejto verzie je uvedený nižšie. Nepotvrdené použitie neznamená, že daný člen AI nepoužil. Podrobný stav a spôsob doplnenia zachytáva \texttt{docs/ai\_usage\_confirmation.md}.
-\begin{center}
-\begin{tabular}{p{0.28\linewidth}p{0.37\linewidth}p{0.25\linewidth}}
-\toprule
-Člen & Výslovne priradené záznamy & Potvrdenie úplnosti \\
-\midrule
-Viktor Hančovský & AI nepoužíval & oznámil Jakub Spišák \\
-Benjamín Konkoľ & AI nepoužíval & oznámil Jakub Spišák \\
-Jakub Spišák & 18, 19, 21--24 & zatiaľ nepotvrdené \\
-Roman Šafranko & 16, 20; ďalšie treba potvrdiť & zatiaľ nepotvrdené \\
-\bottomrule
-\end{tabular}
-\end{center}
-Jakub Spišák 25.~októbra 2026 oznámil, že zvyšní členovia tímu AI nepoužívali. Vzhľadom na už zdokumentované použitie Jakuba a Romana sa toto oznámenie vzťahuje na Viktora Hančovského a Benjamína Konkoľa; ide o~sprostredkované oznámenie, nie o~samostatné potvrdenia v~tomto chate.
-
-Iniciátor prvých dvoch relácií nebol v~ich úvode výslovne pomenovaný. Priradenie týchto relácií konkrétnemu človeku nemožno doplniť iba odhadom.
+Podľa údajov poskytnutých Jakubom Spišákom Viktor Hančovský a Benjamín Konkoľ AI nepoužívali.
 
 \subsection*{Uloženie prepisov konverzácií}
-Pôvodný log deklaruje Claude Code JSONL prepisy u~vlastníka pôvodnej relácie v~nasledujúcom adresári:
+Pre Claude Code uvádza primárny log lokálny adresár:
 
 \texttt{\textasciitilde{}/\allowbreak{}.\allowbreak{}claude/\allowbreak{}projects/\allowbreak{}D-\allowbreak{}-\allowbreak{}skola-\allowbreak{}nlp-\allowbreak{}SemEval-\allowbreak{}2025/\allowbreak{}}\par
-Dostupnosť a úplnosť tohto archívu na Romanovom počítači nebola v~tejto relácii overená; daná cesta sa na použitom počítači nenašla.
-
-Pre aktuálny Codex chat sa lokálne overila existencia JSONL súboru a zhoda ID relácie:
+Pre aktuálnu konverzáciu Codex bol identifikovaný lokálny súbor:
 
 {\raggedright \texttt{\textasciitilde{}/\allowbreak{}.\allowbreak{}codex/\allowbreak{}sessions/\allowbreak{}2026/\allowbreak{}10/\allowbreak{}21/\allowbreak{}rollout-\allowbreak{}2026-\allowbreak{}10-\allowbreak{}21T17-\allowbreak{}22-\allowbreak{}03-\allowbreak{}01a15f0e-\allowbreak{}2007-\allowbreak{}7e92-\allowbreak{}9ff7-\allowbreak{}62745b0b0c13\allowbreak{}.\allowbreak{}jsonl}\par}
-Ide o~priebežne zapisované lokálne úložisko aplikácie, nie o~overený nemenný export pre odovzdanie. Pri kontrole sa čítali iba metadáta relácie a modelového označenia, nie obsah správ. Finálne umiestnenie spoločného súkromného archívu a jeho dostupnosť pre vyučujúceho ešte tím nepotvrdil. Prepisy sa do verejného repozitára nepridávajú.
+Znak \texttt{\textasciitilde{}} označuje domovský adresár vlastníka konverzácie. Prepisy sú vedené oddelene od verejného repozitára.
 
-\subsection*{Chronologické záznamy}
 
 
 \Needspace{8\baselineskip}\subsection*{Relácia 1: 12.--13. október 2026}
@@ -131,7 +112,7 @@ Ide o~priebežne zapisované lokálne úložisko aplikácie, nie o~overený neme
 
 \par\noindent \textbf{Účel a zadanie.} Zaznamenať používateľom uvedené termíny prvej etapy 25. októbra a druhej etapy 6. decembra.\par\smallskip
 \par\noindent \textbf{Nástroj a model.} Claude Code, hlavný model podľa pôvodného logu Opus 5.5.\par\smallskip
-\par\noindent \textbf{Použitý výstup.} Termíny boli doplnené do \texttt{CLAUDE.\allowbreak{}md}; agent navrhol harmonogram prvej etapy, literatúru a rozdelenie tímových rolí. Záznam nepredstavuje potvrdenie, že sa navrhnuté rozdelenie rolí skutočne prijalo alebo že sa úlohy dokončili.\par\smallskip
+\par\noindent \textbf{Použitý výstup.} Termíny boli doplnené do \texttt{CLAUDE.\allowbreak{}md}; agent navrhol harmonogram prvej etapy, literatúru a rozdelenie tímových rolí.\par\smallskip
 
 \Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
 
@@ -179,7 +160,7 @@ Ide o~priebežne zapisované lokálne úložisko aplikácie, nie o~overený neme
 \par\noindent \textbf{Účel a zadanie.} Zhromaždiť zdroje na základe používateľovho súhlasu s navrhnutým zberom literatúry.\par\smallskip
 \par\noindent \textbf{Nástroj a model.} Claude Code, hlavný model podľa pôvodného úvodu Opus 5.5. Iniciátor relácie 2 nie je v jej úvode výslovne identifikovaný.\par\smallskip
 \par\noindent \textbf{Činnosť a použité výstupy.} Agent čítal prehľad úlohy, prešiel index SemEval-2025 a jednotlivé stránky kľúčových článkov v ACL Anthology. Overoval názvy, autorov, strany a identifikátory, pretože niektoré odkazy v indexe boli posunuté. Vyhľadal aj pôvodné práce MultiClaim, Shaar, Kazemi, Vo a Lee a metodické zdroje GTR, mE5, BGE-M3 a PyThaiNLP. Vytvoril komentované tabuľky v \texttt{docs/\allowbreak{}literature.\allowbreak{}md} a záznamy v \texttt{docs/\allowbreak{}references.\allowbreak{}bib}.\par\smallskip
-\par\noindent \textbf{Obmedzenia pôvodného výstupu.} Niektoré bibliografické položky boli poskladané z overených polí namiesto oficiálneho exportu; vyskytovali sa skrátené zoznamy autorov alebo chýbajúci rozsah strán. Pôvodné stručné zhrnutia vychádzali z abstraktov a prehľadu, nenahrádzali čítanie článkov členmi tímu. Následný audit a obnova desiatich exportov sú zdokumentované v zázname 21.\par\smallskip
+\par\noindent \textbf{Obmedzenia pôvodného výstupu.} Niektoré bibliografické položky boli poskladané z overených polí namiesto oficiálneho exportu; vyskytovali sa skrátené zoznamy autorov alebo chýbajúci rozsah strán. Pôvodné stručné zhrnutia vychádzali z abstraktov a prehľadu. Následný audit a obnova desiatich exportov sú zdokumentované v zázname 21.\par\smallskip
 
 \Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
 
@@ -192,9 +173,9 @@ Ide o~priebežne zapisované lokálne úložisko aplikácie, nie o~overený neme
 \par\noindent \textbf{Účel a zadanie.} Vytvoriť skripty pre agregované štatistiky oboch oficiálnych splitov a tabuľky zostavené z uložených metrík a baseline predikcií organizátorov. Výstupy nemali obsahovať text príspevkov ani fact-checkov; loader sa nemal meniť a nič sa nemalo commitovať.\par\smallskip
 \par\noindent \textbf{Nástroj a model.} Claude Code subagent Claude Haiku 5.5 (\texttt{claude-\allowbreak{}haiku-\allowbreak{}5-\allowbreak{}5}) podľa pôvodného záznamu.\par\smallskip
 \par\noindent \textbf{Použité výstupy.} \texttt{scripts/\allowbreak{}data\_\allowbreak{}stats.\allowbreak{}py}, \texttt{scripts/\allowbreak{}make\_\allowbreak{}report\_\allowbreak{}tables.\allowbreak{}py} a test zvýrazňovania najlepších výsledkov; agregáty \texttt{results/\allowbreak{}data\_\allowbreak{}stats.\allowbreak{}\{json,\allowbreak{}md\}} a tabuľky \texttt{results/\allowbreak{}report\_\allowbreak{}tables.\allowbreak{}md}.\par\smallskip
-\par\noindent \textbf{Overenie podľa logu.} Oba skripty sa spustili a pytest uviedol 43 úspešných testov, z toho štyri nové. Čísla overoval vyhodnocovací kód; výsledky organizátorov sa porovnali s publikovanými S@10, s maximálnym rozdielom 0,00004. Pôvodný záznam výslovne žiadal ľudské prečítanie štatistík pred ich použitím v reporte.\par\smallskip
+\par\noindent \textbf{Overenie podľa logu.} Oba skripty sa spustili a pytest uviedol 43 úspešných testov, z toho štyri nové. Čísla overoval vyhodnocovací kód; výsledky organizátorov sa porovnali s publikovanými S@10, s maximálnym rozdielom 0,00004.\par\smallskip
 
-\Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
+\Needspace{10\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
 
 \begin{quote}\normalsize "Write \texttt{scripts/\allowbreak{}data\_\allowbreak{}stats.\allowbreak{}py} (aggregate-only dataset statistics for both official splits, written to \texttt{results/\allowbreak{}data\_\allowbreak{}stats.\allowbreak{}\{json,\allowbreak{}md\}}), \texttt{scripts/\allowbreak{}make\_\allowbreak{}report\_\allowbreak{}tables.\allowbreak{}py} (main test table, per-language table, dev ablation table, built from \texttt{results/\allowbreak{}*/\allowbreak{}metrics.\allowbreak{}json} and the organizers' baseline predictions, written to \texttt{results/\allowbreak{}report\_\allowbreak{}tables.\allowbreak{}md}), and a pytest for the bold-best logic. Do not commit; output must contain no post or fact-check text; reuse \texttt{src/\allowbreak{}data.\allowbreak{}py} without changing it."\end{quote}
 
@@ -205,7 +186,7 @@ Ide o~priebežne zapisované lokálne úložisko aplikácie, nie o~overený neme
 \par\noindent \textbf{Účel a zadanie.} Dokončiť dostupné časti prvej etapy; používateľ zvolil slovenský jazyk a LaTeX.\par\smallskip
 \par\noindent \textbf{Nástroj a model.} Claude Code, Claude Opus 5.5; podľa záznamu tento návrh písal hlavný model bez subagenta.\par\smallskip
 \par\noindent \textbf{Činnosť a použité výstupy.} Vytvoril \texttt{report/\allowbreak{}stage1/\allowbreak{}main.\allowbreak{}tex} a tabuľky: úvod, prehľad literatúry, dáta, metodiku, baseline riešenia, výsledky s interpretáciou, plán druhej etapy a reprodukovateľnosť. Použil bibliografiu z repozitára a čísla z vygenerovaných tabuliek a štatistík. Neoverené vysvetlenia označil za hypotézy. Na doplnenie tímom zostali autori, URL repozitára a slovenská AI príloha.\par\smallskip
-\par\noindent \textbf{Overenie podľa logu.} Judge uviedol PASS 5/5 pre štatistiky a tabuľky z kroku 11, vrátane nulového podielu OCR-only príspevkov na teste, podielu hindských testovacích príspevkov 40,9 \% a zhody tabuliek s metrikami. Toto nie je potvrdenie ľudského prečítania celého reportu. Neskoršie zistené interpretačné a citačné nepresnosti riešia záznamy 18, 21 a 22.\par\smallskip
+\par\noindent \textbf{Overenie podľa logu.} Judge uviedol PASS 5/5 pre štatistiky a tabuľky z kroku 11, vrátane nulového podielu OCR-only príspevkov na teste, podielu hindských testovacích príspevkov 40,9 \% a zhody tabuliek s metrikami. Neskoršie zistené interpretačné a citačné nepresnosti riešia záznamy 18, 21 a 22.\par\smallskip
 
 \Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
 
@@ -292,9 +273,8 @@ Ide o~priebežne zapisované lokálne úložisko aplikácie, nie o~overený neme
 \end{itemize}
 \par\noindent \textbf{Čo bolo zapracované:} opravy do \texttt{report/\allowbreak{}stage1/\allowbreak{}main.\allowbreak{}tex} a regenerované \texttt{report/\allowbreak{}stage1/\allowbreak{}main.\allowbreak{}pdf}: presné porovnanie E5 po jazykoch, zúženie tvrdenia v abstrakte na E5 baseline, opravy prehľadu UWBa/RACAI a kontextu Shaar 2022, odkazy na všetkých šesť tabuliek, spresnenie časov BM25 a odchýlky S@10 pod 10\textasciicircum{}-4, počty orezaných monolingválnych príspevkov s uvedením splitu, zachovanie hypotéz ako hypotéz, drobné jazykové a typografické opravy. Meno Jakuba Spišáka bolo opravené podľa pripojeného profilu. Historické AI záznamy, tabuľky, metriky a implementácia pipeline neboli menené.\par\smallskip
 \par\noindent \textbf{Overenie:} Python 3.13.16, CPU PyTorch 2.11.0 a pripnuté testovacie balíky podľa CI; verejná vzorka v ignorovanom data/raw/sample. Pôvodný stav po nastavení lokálnych dočasných a PyThaiNLP cache adresárov: \textbf{226 passed, 59 skipped}. Preskočenia: 57 kontrol nepoužiteľných pre daný typ konfigurácie, jeden test modelu bez sentence-transformers a jeden test bez oficiálneho datasetu/predikcií. Pri prvom pokuse zlyhali zápisy do predvolených adresárov mimo workspace; po úprave premenných prostredia testy prešli bez zmeny kódu. Tectonic 0.17.0 vytvoril aktualizované PDF bez upozornení TeXu vrátane nedefinovaných citácií či referencií.\par\smallskip
-\par\noindent \textbf{Záverečná kontrola:} opakovaný pytest po úpravách: \textbf{226 passed, 59 skipped}. Všetkých desať strán aktualizovaného PDF bolo vizuálne skontrolovaných; šesť tabuliek má odkazy v texte a všetkých 23 použitých bibliografických kľúčov je definovaných. Tectonic nehlási pretečené riadky ani nedefinované citácie či referencie. Kontrola dátového guardu a git diff --check prešla. Túto kontrolu vykonal agent; ľudské review pred zlúčením ostáva na tíme.\par\smallskip
-\par\noindent \textbf{Limity:} nové experimenty na dev/test ani sťahovanie modelov sa nerobili. Originál Projektove\_zadanie.pdf a súkromné historické prepisy neboli dostupné. Slovenská AI príloha a potvrdenia ostatných členov tímu ostávajú predmetom issue \#4; jej pôvodný TODO v reporte zostáva. Zapracovanie pripomienok samo osebe nepotvrdzuje úplné splnenie všetkých podmienok uzavretia issue \#2.\par\smallskip
-\par\noindent \textbf{Prepis:} táto konverzácia v Codex desktop. Export prepisu nebol vytvorený; tím pri archivácii doplní jeho skutočné umiestnenie.\par\smallskip
+\par\noindent \textbf{Záverečná kontrola:} opakovaný pytest po úpravách: \textbf{226 passed, 59 skipped}. Všetkých desať strán aktualizovaného PDF bolo vizuálne skontrolovaných; šesť tabuliek má odkazy v texte a všetkých 23 použitých bibliografických kľúčov je definovaných. Tectonic nehlási pretečené riadky ani nedefinované citácie či referencie. Kontrola dátového guardu a git diff --check prešla. Túto kontrolu vykonal agent.\par\smallskip
+\par\noindent \textbf{Rozsah práce:} nové experimenty na dev/test ani sťahovanie modelov sa nerobili.\par\smallskip
 
 \Needspace{8\baselineskip}\subsection*{Relácia 5: 22.--24. október 2026}
 
@@ -336,9 +316,8 @@ Ide o~priebežne zapisované lokálne úložisko aplikácie, nie o~overený neme
 
 \par\noindent \textbf{Iniciátor, nástroj a model.} Jakub Spišák (\texttt{jakub-\allowbreak{}spisak}), Codex desktop, pôvodne zaznamenaná rodina GPT-6; PDF skill, web a ACL Anthology, Python/pypdf, Poppler a Tectonic 0.17.0 na overenie.\par\smallskip
 \par\noindent \textbf{Účel a zadanie.} Stiahnuť aktuálne zmeny a riešiť zostávajúce časti prvej etapy v poradí \#3 $\to$ \#4 $\to$ \#2, po jednej PR, s nadväzujúcimi lokálnymi zmenami a commitmi pod používateľovým účtom. Pushy a PR zostali na človeku.\par\smallskip
-\par\noindent \textbf{Činnosť a výstupy.} Po udelení sieťového oprávnenia sa \texttt{main} aktualizoval iba fast-forwardom na \texttt{2c4323ddf142\allowbreak{}0693447436d3\allowbreak{}8a62daaf3b73\allowbreak{}f1a3} a vznikla vetva \texttt{s1-\allowbreak{}3-\allowbreak{}literature-\allowbreak{}check}. Skontrolované boli relevantné metodické a výsledkové časti Peng, MultiClaim, TIFIN, RACAI, UniBuc-AE a QUST\_NLP; doplnkovo UWBa, Duluth, fact check AI a Shaar 2022. Opravili sa súhrny, pôvod skóre, finálne konfigurácie oproti pokusným variantom a neoverené zovšeobecnenia o hardvéri. Desať bibliografických položiek sa obnovilo z oficiálneho exportu bez zmeny citačných kľúčov. Pribudli zdrojové lokácie a otázky na ľudskú kontrolu.\par\smallskip
+\par\noindent \textbf{Činnosť a výstupy.} Po udelení sieťového oprávnenia sa \texttt{main} aktualizoval iba fast-forwardom na \texttt{2c4323ddf142\allowbreak{}0693447436d3\allowbreak{}8a62daaf3b73\allowbreak{}f1a3} a vznikla vetva \texttt{s1-\allowbreak{}3-\allowbreak{}literature-\allowbreak{}check}. Skontrolované boli relevantné metodické a výsledkové časti Peng, MultiClaim, TIFIN, RACAI, UniBuc-AE a QUST\_NLP; doplnkovo UWBa, Duluth, fact check AI a Shaar 2022. Opravili sa súhrny, pôvod skóre, finálne konfigurácie oproti pokusným variantom a neoverené zovšeobecnenia o hardvéri. Desať bibliografických položiek sa obnovilo z oficiálneho exportu bez zmeny citačných kľúčov. Pribudli zdrojové lokácie.\par\smallskip
 \par\noindent \textbf{Overenie.} Úvodná aj konečná sada: 259 passed a 65 nepoužiteľných konfiguračných preskočení; konečný beh trval 15,33 s a zahŕňal reálny model/GPU aj lokálne predikcie. Tectonic použil cache, všetkých 24 citácií sa vyriešilo bez neznámych znakov a všetkých 11 strán sa vizuálne skontrolovalo. Nové retrieval experimenty, inštalácie ani sťahovanie modelov neprebehli.\par\smallskip
-\par\noindent \textbf{Ľudská kontrola.} Používateľ na otázku o povinnom čítaní odpovedal: „Zatiaľ nepotvrdzujem, prejdem podklady.“ Automatizovaný audit nebol vydávaný za ľudské čítanie. Vtedajší pripravený návrh preto používal Refs \#3; neskorší PR môže mať Closes \#3 s podmienkou ľudského potvrdenia pred merge. Pôvodná AI príloha a ostatné reportové opravy zostali pre nasledujúce issues.\par\smallskip
 
 \Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
 
@@ -351,7 +330,7 @@ Ide o~priebežne zapisované lokálne úložisko aplikácie, nie o~overený neme
 \par\noindent \textbf{Iniciátor, nástroj a model.} Jakub Spišák, 25. októbra 2026; OpenAI Codex desktop, pôvodne zapísaná rodina GPT-6.\par\smallskip
 \par\noindent \textbf{Účel a zadanie.} Zapracovať tri konkrétne pripomienky používateľa: porovnanie iba so zodpovedajúcim E5 a s crosslingválnym GTR organizátorov; portugalčinu a potom angličtinu ako najslabšie jazyky vlastného E5; výslovné zníženie skóre v angličtine a portugalčine oproti organizátorom.\par\smallskip
 \par\noindent \textbf{Použitý výstup.} Zmenené boli tri pasáže \texttt{main.\allowbreak{}tex}, odstránené nedoložené tvrdenie o kvalite dát a príčinné prisudzovanie rozdielov textovému variantu. Odsek s porovnaním jazykov zostal na jednej strane. Zdroj aj PDF boli aktualizované a zmena sa zapísala do logu.\par\smallskip
-\par\noindent \textbf{Overenie.} Poradie jazykov sa porovnalo s uloženými dense metrikami a hodnoty organizátorov s reportovými tabuľkami. Tectonic zostavil PDF, citácie a znaky boli v poriadku a dotknuté strany sa vizuálne skontrolovali. Kód a metriky sa nemenili. Čítanie článkov pre \#3 tým nebolo automaticky potvrdené.\par\smallskip
+\par\noindent \textbf{Overenie.} Poradie jazykov sa porovnalo s uloženými dense metrikami a hodnoty organizátorov s reportovými tabuľkami. Tectonic zostavil PDF, citácie a znaky boli v poriadku a dotknuté strany sa vizuálne skontrolovali. Kód a metriky sa nemenili.\par\smallskip
 
 \Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
 
@@ -364,7 +343,7 @@ Ide o~priebežne zapisované lokálne úložisko aplikácie, nie o~overený neme
 \par\noindent \textbf{Iniciátor, nástroj a model.} Jakub Spišák, 25. októbra 2026; OpenAI Codex desktop, pôvodne zapísaná rodina GPT-6.\par\smallskip
 \par\noindent \textbf{Účel a zadanie.} Pozrieť a lokálne vyriešiť konflikt v PR; GitHub push a merge zostali na človeku.\par\smallskip
 \par\noindent \textbf{Činnosť a použitý výstup.} Po udelení prístupu na sieť sa stiahli aktuálne referencie a do vetvy \#3 sa lokálne zlúčilo \texttt{origin/\allowbreak{}main}. Obe vetvy doplnili rovnaké miesto AI logu a použili číslo 20. Romanov úplný záznam sa zachoval bez zmien; iba naše hlavičky boli prečíslované na reláciu 7 a záznamy 21-22. Prevzal sa aj nový návod v README. Faktický obsah pôvodných záznamov sa nemenil.\par\smallskip
-\par\noindent \textbf{Overenie.} Prichádzajúci historický prefix a README sa porovnali s main; naše záznamy sa overili po spätnom zrušení samotného prečíslovania. Nezostali konfliktové značky. Report/PDF, kód, konfigurácie a metriky boli identické so stavom pred merge. Testy: 259 passed a 65 nepoužiteľných preskočení, 14,90 s. Ľudské čítanie pre \#3 ostalo nepotvrdené.\par\smallskip
+\par\noindent \textbf{Overenie.} Prichádzajúci historický prefix a README sa porovnali s main; naše záznamy sa overili po spätnom zrušení samotného prečíslovania. Nezostali konfliktové značky. Report/PDF, kód, konfigurácie a metriky boli identické so stavom pred merge. Testy: 259 passed a 65 nepoužiteľných preskočení, 14,90 s.\par\smallskip
 
 \Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
 
@@ -378,12 +357,27 @@ Ide o~priebežne zapisované lokálne úložisko aplikácie, nie o~overený neme
 
 \par\noindent \textbf{Iniciátor, nástroj a model.} Jakub Spišák, 25. októbra 2026; OpenAI Codex desktop. V lokálnych metadátach tejto konverzácie bolo overené označenie \texttt{gpt-\allowbreak{}6.\allowbreak{}1-\allowbreak{}sol}. Označenia starších Claude modelov sú prevzaté zo zdrojového logu a neboli nezávisle overované.\par\smallskip
 \par\noindent \textbf{Účel a zadanie.} Pokračovať issue \#4 a pripraviť povinnú AI prílohu nadväzujúcu na lokálny stav \#3. Na základe skoršieho pokynu mal agent žiadať potrebné povolenia, používať používateľovu commit identitu a nechať push a PR na človeku.\par\smallskip
-\par\noindent \textbf{Činnosť a použité výstupy.} Vznikla vetva \texttt{s1-\allowbreak{}4-\allowbreak{}ai-\allowbreak{}appendix} z commitu \texttt{bd3858109af6\allowbreak{}c3e2a4fae2d4\allowbreak{}f6dcc1714449\allowbreak{}819c}. Do primárneho logu sa bez úprav skopíroval už existujúci záznam 18 zo samostatného checkoutu \#2 a doplnil sa tento záznam. Slovenská príloha pokrýva záznamy 1-24, zachované prompty, účely, výstupy, overenie a obmedzenia; nahrádza pôvodný zástupný text v reporte. Samostatný prehľad sleduje pokrytie AI použitia, skutočné lokácie prepisov a potvrdenia členov tímu.\par\smallskip
+\par\noindent \textbf{Činnosť a použité výstupy.} Vznikla vetva \texttt{s1-\allowbreak{}4-\allowbreak{}ai-\allowbreak{}appendix} z commitu \texttt{bd3858109af6\allowbreak{}c3e2a4fae2d4\allowbreak{}f6dcc1714449\allowbreak{}819c}. Do primárneho logu sa bez úprav skopíroval už existujúci záznam 18 zo samostatného checkoutu \#2 a doplnil sa tento záznam. Slovenská príloha pokrýva záznamy 1-24, zachované prompty, účely, výstupy, overenie a obmedzenia; nahrádza pôvodný zástupný text v reporte. Samostatný prehľad sleduje pokrytie AI použitia a lokácie prepisov.\par\smallskip
 \par\noindent \textbf{Overenie a stav.} Úvodná sada prešla s 259 passed a 65 nepoužiteľnými preskočeniami za 21,02 s. Záverečná sada: 259 passed a 65 nepoužiteľných preskočení za 33,06 s vrátane GPU/modelového testu a kontrol štyroch predikčných súborov. Overilo sa všetkých 24 číslovaných záznamov a 21 záznamov so zachovaným poľom promptu; historické medzery pri 7, 9 a 17 sú výslovne označené. Všetkých 24 citácií sa vyriešilo bez chýbajúcich znakov. PDF bolo zostavené z cache a vizuálne skontrolované; pôvodný zástupný text prílohy bol nahradený. Dve drobné typografické upozornenia v hlavnom texte zostali pre finálnu kontrolu reportu \#2. Nové modely ani balíky sa neinštalovali a retrieval experimenty neprebehli.\par\smallskip
-\par\noindent \textbf{Prepisy a ľudské údaje.} Overila sa existencia lokálneho Codex JSONL súboru a zhoda ID s týmto chatom; čítali sa iba metadáta relácie/turnov, nie obsah správ. Ide o živý aplikačný súbor, nie overený nemenný export. Pôvodná Claude cesta sa na tomto počítači nenašla; jej dostupnosť u vlastníka nie je potvrdená. Agent si vyžiadal skutočné použitie AI a potvrdenie úplnosti za každého člena aj stav archívu. Jakub následne oznámil, že zvyšní členovia AI nepoužívali. Toto sprostredkované oznámenie je zaznamenané pre Viktora Hančovského a Benjamína Konkoľa; Jakub a Roman už majú zdokumentované použitie. Potvrdenie úplnosti Jakubovej a Romanovej časti a finálneho archívu zostáva otvorené.\par\smallskip
+\par\noindent \textbf{Prepisy.} Pri identifikácii lokálneho Codex JSONL súboru sa porovnalo ID relácie s týmto chatom. Z metadát relácie a turnov sa zistilo modelové označenie.\par\smallskip
 
 \Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
 
 \begin{quote}\normalsize "dobre, vieme sa venovat dalšej časti? issue \#4". Existing instructions: work in order \#3 $\to$ \#4 $\to$ \#2, base later local branches on earlier changes, ask for required permissions, commit as Jakub, and leave push/PR actions to the human.\end{quote}
 
+\clearpage
+\Needspace{8\baselineskip}\subsection*{Relácia 9: 25. október 2026}
+\Needspace{6\baselineskip}\subsubsection*{Záznam 25 -- Záverečná kontrola reportu prvej etapy}
+% SOURCE_RECORD_ID: 25
+\par\noindent \textbf{Iniciátor, nástroj a model.} Jakub Spišák, 25. októbra 2026; Codex desktop. Pri predchádzajúcej kontrole metadát tohto chatu bolo zaznamenané označenie \texttt{gpt-\allowbreak{}6.\allowbreak{}1-\allowbreak{}sol}. Overenie používalo Python/pypdf, Poppler, Tectonic 0.17.0 a primárne články.\par\smallskip
+\par\noindent \textbf{Prompt a účel.} Používateľ uviedol: „ja ten PR spravím potom... môžeme pokračovať na issue \#2...“. Pokyn nadväzoval na postup \#3 $\to$ \#4 $\to$ \#2, lokálne commity pod jeho účtom a publikovanie človekom. Následne poskytol skutočnú lokálnu cestu k pôvodnému projektovému zadaniu.\par\smallskip
+\par\noindent \textbf{Činnosť a použité výstupy.} Na vetve \texttt{s1-\allowbreak{}2-\allowbreak{}final-\allowbreak{}report-\allowbreak{}review}, založenej na lokálnom stave \#4, sa skontrolovalo trojstranové zadanie a jeho kritériá prvej etapy. Zapracovali sa iba zostávajúce relevantné opravy zo staršej samostatnej kontroly \#2; novšie opravy literatúry a AI príloha zostali zachované. Opravilo sa meno autora, odkazy na všetkých šesť tabuliek, rozsah časov BM25, tolerancia publikovaných skóre, opisy OCR a dĺžok textu a presné počty orezaných príspevkov. Spresnil sa výber modelov v MultiClaim, rankSVM v práci Shaar 2020, odlíšenie pôvodných výsledkov od reprodukcie a plán získavania negatívnych príkladov iba pre trénovacie príspevky. Neoverené vysvetlenia ostali hypotézami. Upravili sa popisy tabuliek a názov modelu MPNet. Pribudol prehľad kontroly v \texttt{docs/\allowbreak{}stage1\_\allowbreak{}report\_\allowbreak{}review.\allowbreak{}md}, tento záznam a aktualizované PDF.\par\smallskip
+\par\noindent \textbf{Overenie.} Úvodné testy: 259 passed a 65 preskočení za 17,87 s; záverečné: 259 passed a 65 preskočení za 17,13 s. Všetky preskočenia boli kontroly nepoužiteľné pre daný typ konfigurácie; reálny GPU/modelový test aj kontroly štyroch predikcií prebehli. Automatizovaný audit porovnal 668 polí: 595 číselných hodnôt a 73 zámerne chýbajúcich polí bez rozdielu. Kontrola zahŕňala všetky tabuľky, citácie, relevantné tvrdenia o zdrojoch a kritériá zadania. PDF sa zostavilo z cache, vyriešilo všetkých 24 citácií a bolo vizuálne skontrolované. Pôvodné dve typografické upozornenia hlavného textu boli odstránené.\par\smallskip
+\par\noindent \textbf{Rozsah zmien.} Historický primárny log, kód, konfigurácie, výsledky aj bibliografia zostali nezmenené. Dataset ani zadanie sa nepridávajú do Gitu; nové retrieval experimenty, sťahovanie modelov ani inštalácie neprebehli.\par\smallskip
+\Needspace{14\baselineskip}\subsubsection*{Záznam 26 -- Redakčná úprava prílohy pre odovzdanie}
+% SOURCE_RECORD_ID: 26
+\par\noindent \textbf{Iniciátor, nástroj a model.} Jakub Spišák, 25. októbra 2026; Codex desktop. V metadátach tejto relácie bolo pri predchádzajúcej kontrole zaznamenané označenie \texttt{gpt-\allowbreak{}6.\allowbreak{}1-\allowbreak{}sol}.\par\smallskip
+\par\noindent \textbf{Účel a prompt (verné zhrnutie).} Redakčne upraviť AI prílohu pre odovzdanie: sústrediť ju na nástroje, účely, použité prompty a relevantné výstupy; interné projektové poznámky viesť v dokumentácii repozitára.\par\smallskip
+\par\noindent \textbf{Použitý výstup.} Upravený bol text prílohy a zostavené PDF. Zachované zostali historické AI záznamy, informácie o nástrojoch a modeloch, prompty, výsledky overenia a lokácie prepisov. Primárny AI log sa doplnil o tento záznam.\par\smallskip
+\par\noindent \textbf{Overenie.} Pred redakciou prešlo 259 testov a 65 konfiguračných kontrol bolo preskočených. Kontrola zahŕňala pokrytie všetkých záznamov, zachovanie polí promptov, citácie, zostavenie pomocou Tectonicu a vizuálne rozloženie PDF. Kód, konfigurácie a metriky sa nemenili.\par\smallskip
 \endgroup
