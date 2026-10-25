@@ -12,6 +12,7 @@
 \usepackage[margin=2.5cm]{geometry}
 \usepackage{booktabs}
 \usepackage{multirow}
+\usepackage{needspace}
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{xcolor}
@@ -35,7 +36,8 @@
 \begin{abstract}
 Zaoberáme sa úlohou SemEval-2025 Task~7: pre príspevok zo sociálnej siete treba v~kolekcii stoviek tisíc už overených tvrdení (fact-checkov) nájsť tie, ktoré sa ho týkajú, a to aj vtedy, keď sú príspevok a fact-check v~rôznych jazykoch.
 V~prvej etape sme implementovali reprodukovateľný experimentálny rámec s~oficiálnym protokolom hodnotenia a dve baseline riešenia: lexikálne BM25 a husté vyhľadávanie pomocou modelu multilingual-E5-large bez dotrénovania.
-Na testovacej množine dosahuje E5 baseline \sat{} 0{,}886 (monolingválna úloha) a 0{,}681 (medzijazyková úloha), čím prekonáva oficiálne baseline organizátorov (0{,}859 a 0{,}637).
+Na testovacej množine dosahuje náš E5 baseline \sat{} 0{,}886 (monolingválna úloha) a 0{,}681 (medzijazyková úloha).
+Naše E5 prekonáva E5 baseline organizátorov v~oboch podúlohách (0{,}859 a 0{,}637); v~medzijazykovej úlohe však zaostáva za ich GTR-T5-Large baseline (0{,}705).
 Upravené BM25 so stemovaním, odstraňovaním stop slov a segmentáciou thajčiny dosahuje 0{,}868 a 0{,}623.
 \end{abstract}
 
@@ -205,10 +207,13 @@ Vyhľadávanie je skalárny súčin normalizovaných vektorov (menej ako 1\,s na
   V~monolingválnej úlohe pomáha spojenie originálu s~prekladom (E5: 0{,}862 oproti 0{,}827 len s~angličtinou na vývojovej množine), zatiaľ čo v~medzijazykovej úlohe škodí (0{,}533 oproti 0{,}591).
   Rovnaký smer rozdielov uvádza tím QUST\_NLP vo svojich abláciách modelov E5 \citep{liu-etal-2025-qust}.
   Pravdepodobné vysvetlenie (zatiaľ neoverené): v~monolingválnej úlohe originál zachytí presné formulácie a preklad pridá robustnosť; v~medzijazykovej úlohe sú fact-checky prevažne v~inom jazyku ako príspevok, preto originálny text do reprezentácie pridáva skôr šum.
-  \item \textbf{Angličtina je najťažší jazyk} (E5: 0{,}814 na teste) napriek tomu, že ide o~najväčší jazyk s~najkvalitnejšími dátami.
-  Pravdepodobnou príčinou je veľkosť kolekcie: 145\,tis. kandidátov oproti stovkám až desaťtisícom v~ostatných jazykoch, takže medzi kandidátmi je oveľa viac podobných fact-checkov (overíme v~analýze chýb).
+  \item \textbf{Výsledky po jazykoch.}
+  Najnižšie \sat{} nášho E5 má portugalčina (0{,}802), nasledovaná angličtinou (0{,}814; tabuľka~\ref{tab:lang}).
+  Vplyv veľkosti kolekcie overíme samostatne.
+  \Needspace{7\baselineskip}
   \item \textbf{Naše E5 prekonáva E5 organizátorov} (0{,}886 oproti 0{,}859).
-  Zisk je sústredený v~jazykoch, kde pomáha spojenie originálu a prekladu (malajčina +0{,}118, thajčina +0{,}055, francúzština +0{,}044); v~angličtine, portugalčine a nemčine sú výsledky rovnaké.
+  Najväčšie rozdiely voči E5 organizátorov sú v~malajčine (+0{,}118), thajčine (+0{,}055) a francúzštine (+0{,}044).
+  V~nemčine je skóre rovnaké (0{,}872); v~angličtine kleslo z~0{,}818 na 0{,}814 a v~portugalčine z~0{,}808 na 0{,}802.
   \item \textbf{Obmedzenie:} pri variante \emph{both} sa 11\,\% príspevkov nezmestí do 512 tokenov a ich koniec sa oreže.
 \end{itemize}
 
