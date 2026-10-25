@@ -39,7 +39,7 @@ Full rules: **[CONTRIBUTING.md](CONTRIBUTING.md)**. Read them before your first 
 
 ## Setup
 
-Install Python 3.13 first; on Windows, `py -3.13 --version` must find that runtime before creating the environment.
+Install Python 3.13 first; on Windows, `py -3.13 --version` must find that runtime before creating the environment. If it fails with `No suitable Python runtime found`, install Python 3.13 from python.org or with `winget install Python.Python.3.13`, open a new terminal, and re-check with `py -3.13 --version` (`py -0` lists the runtimes the launcher sees).
 
 ```bash
 py -3.13 -m venv .venv            # Windows (python3.13 -m venv .venv elsewhere)
