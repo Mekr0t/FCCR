@@ -260,3 +260,34 @@ All numbers reported in the project come from running the code in this repositor
 - **What the agent did:** reviewed PR #17 (diff, CI status; verified each `_repro_20261022` config differs from its frozen config only in `run_name`; checked that the diff contains no dataset text). Did not merge it, since the agent rules leave merging to the human. On a new branch, added a README hint for the `py -3.13` error `No suitable Python runtime found` reported in `results/reproduction_20261022.md`.
 - **Output used:** README Setup hint and this log entry.
 - **Verified:** `pytest -q` gives 277 passed, 65 skipped. Diff limited to README.md and docs/llm_usage.md.
+
+## Session 7 — 2026-10-25 (issue #3)
+
+### 21. Primary-source audit of the stage-1 literature and bibliography
+- **Started by:** Jakub Spišák (GitHub `jakub-spisak`).
+- **Tool / model:** OpenAI Codex desktop, GPT-6 family (exact runtime model identifier not exposed); PDF skill, web/ACL Anthology tools, Python/pypdf, Poppler and Tectonic 0.17.0 for verification.
+- **User prompt (faithful summary):** pull the newest repository changes; work through stage-1 issues #3 → #4 → #2 with a separate PR after each; keep subsequent local work based on the preceding changes; ask for required permissions and use the human's account for commits. The human will perform pushes and create PRs.
+- **What the agent did:**
+  - obtained network permission, pulled `main` with fast-forward only to `2c4323ddf1420693447436d38a62daaf3b73f1a3` (merged issue-1 PR #17), verified the baseline suite, and created `s1-3-literature-check`; preserved the separate earlier issue-2 checkout;
+  - checked relevant methods/result sections of Peng (overview), Pikuliak (MultiClaim), TIFIN India, RACAI, UniBuc-AE and QUST_NLP, with supporting checks of UWBa, Duluth, fact check AI and Shaar 2022; fetched their public PDFs and official ACL BibTeX exports into local working files;
+  - corrected the literature notes and related-work statements: final vs experimental RACAI adaptations, UWBa's per-language final model choice, the scope/location of QUST_NLP's E5 text-variant ablations, TIFIN's translated-post pipeline, UniBuc-AE score fusion, and Shaar's political-debate context;
+  - used the overview's published precision for team results, filled missing crosslingual scores, added the optional fact check AI paragraph, and softened unverified hardware/gain generalizations;
+  - re-exported ten core bibliography entries while retaining citation keys; regenerated the report PDF; added source locations and human-reading questions/checklist in `docs/literature.md` and a separate local review guide;
+  - appended this record and prepared local PR/comment/push texts, without publishing them.
+- **Output used:** `docs/literature.md`, `docs/references.bib`, the relevant literature paragraphs in `report/stage1/main.tex`, regenerated `main.pdf`, and this log entry. Retrieval/evaluation code, experiment configs, stored metrics and earlier log entries were unchanged.
+- **Verified:** baseline 259 passed / 65 inapplicable config skips; final suite 259 passed / 65 skipped (15.33 s), including the real GPU/model and local prediction checks. Tectonic compiled from cached packages; all 24 citation keys have bibliography entries, with no undefined references, missing-character warnings, replacement glyphs or `??`. All 11 rendered pages and enlarged bibliography pages were inspected. The existing small dense-paragraph overfull-box warning and the AI-appendix TODO belong to the remaining report/appendix work; no new experiment was run and no package or model was installed/downloaded.
+- **Human confirmation / limits:** when asked about the issue's required human reading and source check, the human replied: "Zatiaľ nepotvrdzujem, prejdem podklady." Human reading remains unconfirmed; the prepared PR uses `Refs #3`, not automatic closure. This AI source audit is not represented as a human reading. Issue #4 and final issue #2 work remain separate.
+
+### 22. Follow-up: three report discrepancies identified by the human
+- **Date / human:** 2026-10-25, Jakub Spišák (`jakub-spisak`). **Tool / model:** OpenAI Codex desktop, GPT-6 family (exact runtime model identifier not exposed).
+- **Prompt (faithful summary):** correct three remaining PDF statements: specify that our E5 beats the organizers' E5 in both tracks but not their crosslingual GTR; identify Portuguese, then English, as the lowest-scoring languages without an unsupported data-quality claim; state the unchanged German score and the English/Portuguese decreases explicitly.
+- **Changes used:** updated those three passages in `report/stage1/main.tex`; removed the unsupported causal attribution from the same per-language comparison; rebuilt the PDF. Kept the per-language comparison bullet together to avoid splitting it across two pages. These targeted corrections were explicitly requested during review of the issue-3 branch; remaining issue-2 and issue-4 work stays separate.
+- **Verification:** checked the language ordering against the saved dense metrics and the organizer comparisons against `results/report_tables.md`; Tectonic compiled successfully, citation/glyph checks passed, and the affected rendered pages were inspected. No metrics or runtime code changed.
+- **Human reading:** the earlier unconfirmed reading status for issue #3 is unchanged. Push and PR actions remain with the human.
+
+### 23. Resolve the issue-3 PR conflict with the updated main branch
+- **Date / human:** 2026-10-25, Jakub Spišák (`jakub-spisak`). **Tool / model:** OpenAI Codex desktop, GPT-6 family (exact runtime model identifier not exposed).
+- **Prompt (faithful summary):** inspect and resolve the conflict in the PR. The human continues to handle pushes and GitHub PR actions.
+- **What changed:** fetched the latest remote refs after obtaining network permission, merged `origin/main` into `s1-3-literature-check` locally, and resolved the append conflict in this file. Preserved Roman's complete README-hint record from main and all of our issue-3 records. Renumbered only our own Session 6 / entries 20–21 to Session 7 / entries 21–22 to avoid duplicate labels; no factual content of those records changed. Kept the incoming README Python-launcher hint.
+- **Verification:** compared the incoming historical log prefix and README with `origin/main`; verified our preserved log addition after reversing only its heading renumbering; checked for conflict markers and confirmed that runtime code, configs, results and the report/PDF are byte-identical to the pre-merge issue-3 branch. Final local suite: **259 passed, 65 skipped**, 14.90 s; all skips are inapplicable config checks.
+- **Limits:** human paper-reading confirmation for #3 is still pending. No GitHub merge, push or comment was performed by the agent.

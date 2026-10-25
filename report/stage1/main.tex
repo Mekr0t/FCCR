@@ -12,6 +12,7 @@
 \usepackage[margin=2.5cm]{geometry}
 \usepackage{booktabs}
 \usepackage{multirow}
+\usepackage{needspace}
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{xcolor}
@@ -35,7 +36,8 @@
 \begin{abstract}
 Zaoberáme sa úlohou SemEval-2025 Task~7: pre príspevok zo sociálnej siete treba v~kolekcii stoviek tisíc už overených tvrdení (fact-checkov) nájsť tie, ktoré sa ho týkajú, a to aj vtedy, keď sú príspevok a fact-check v~rôznych jazykoch.
 V~prvej etape sme implementovali reprodukovateľný experimentálny rámec s~oficiálnym protokolom hodnotenia a dve baseline riešenia: lexikálne BM25 a husté vyhľadávanie pomocou modelu multilingual-E5-large bez dotrénovania.
-Na testovacej množine dosahuje E5 baseline \sat{} 0{,}886 (monolingválna úloha) a 0{,}681 (medzijazyková úloha), čím prekonáva oficiálne baseline organizátorov (0{,}859 a 0{,}637).
+Na testovacej množine dosahuje náš E5 baseline \sat{} 0{,}886 (monolingválna úloha) a 0{,}681 (medzijazyková úloha).
+Naše E5 prekonáva E5 baseline organizátorov v~oboch podúlohách (0{,}859 a 0{,}637); v~medzijazykovej úlohe však zaostáva za ich GTR-T5-Large baseline (0{,}705).
 Upravené BM25 so stemovaním, odstraňovaním stop slov a segmentáciou thajčiny dosahuje 0{,}868 a 0{,}623.
 \end{abstract}
 
@@ -78,7 +80,7 @@ Projekt sa zameriava primárne na monolingválnu podúlohu; medzijazykovú podú
 \paragraph{Vyhľadávanie už overených tvrdení.}
 \citet{shaar-etal-2020-known} úlohu formulovali a použili dvojfázový prístup: kandidátov získali pomocou BM25 a preusporiadali ich modelom založeným na BERT s~učením sa usporiadania (learning to rank).
 \citet{vo-lee-2020-facts} vyhľadávali fact-checkové články k~tweetom s~využitím textu aj obrázkov, čo je relevantné aj pre nás, keďže časť príspevkov obsahuje text iba v~obrázku.
-\citet{shaar-etal-2022-role} ukázali, že kontext na strane príspevku zlepšuje vyhľadávanie o~viac ako 10 bodov.
+\citet{shaar-etal-2022-role} ukázali, že kontext na strane vstupného tvrdenia v~politickej debate môže zlepšiť vyhľadávanie o~viac ako 10 bodov MAP; nejde o~priamy experiment s~OCR príspevkov zo sociálnych sietí.
 \citet{kazemi-etal-2021-claim} rozšírili párovanie tvrdení na jazyky mimo angličtiny (hindčina, bengálčina, malajálamčina, tamilčina) pomocou destilovaného viacjazyčného modelu viet.
 \citet{pikuliak-etal-2023-multilingual} vytvorili dátovú množinu MultiClaim (približne 28\,tis. príspevkov v~27 jazykoch a 206\,tis. fact-checkov v~39 jazykoch), z~ktorej vychádza aj táto úloha.
 Najlepším modelom bez dotrénovania bol v~ich porovnaní GTR-T5-Large \citep{ni-etal-2022-large}.
@@ -91,21 +93,28 @@ Presnejšie, ale pomalšie sú cross-enkodéry, ktoré spracujú dotaz aj dokume
 Výsledky viacerých vyhľadávačov sa dajú kombinovať pomocou reciprocal rank fusion \citep{cormack-etal-2009-rrf}.
 
 \paragraph{Riešenia v~SemEval-2025 Task~7.}
-Súťaže sa zúčastnilo 179 registrovaných účastníkov s~52 odovzdanými riešeniami \citep{peng-etal-2025-semeval}.
-Najlepší výsledok v~monolingválnej úlohe bol \sat{} 0{,}960, desiate miesto 0{,}923.
-Najlepšie zdokumentované riešenia majú spoločnú štruktúru: husté vyhľadávanie, potom preusporiadanie alebo kombinácia viacerých modelov.
+Súťaže sa zúčastnilo 179 registrovaných účastníkov s~52 testovacími odovzdaniami \citep{peng-etal-2025-semeval}.
+Poradia a nasledujúce monolingválne skóre preberáme z~oficiálneho prehľadu (tabuľka~8); články tímov môžu uvádzať iné zaokrúhlenie.
+Najlepší výsledok bol \sat{} 0{,}9601, desiate miesto 0{,}9232.
+Zdokumentované systémy často kombinujú husté vyhľadávanie s~preusporiadaním alebo fúziou modelov, existujú však aj silné systémy bez týchto krokov.
 \begin{itemize}
-  \item \textbf{TIFIN India} \citep{devadiga-etal-2025-tifin} (3.~miesto, 0{,}938): preklad všetkých textov do angličtiny pomocou LLM, dotrénovaný model Stella-400M, preusporiadanie 50 kandidátov modelom Qwen2.5-72B a fúzia RRF.
-  Dotrénovanie bez preusporiadania dosiahlo 0{,}922.
-  \item \textbf{RACAI} \citep{chivereanu-tufis-2025-racai} (4.~miesto, 0{,}938): model BGE-Multilingual-Gemma2 s~9\,mld. parametrov, dotrénovaný kontrastívne pomocou LoRA a prompt tuningu, bez preusporiadania; najväčší prínos dotrénovania v~medzijazykovej úlohe.
-  \item \textbf{QUST\_NLP} \citep{liu-etal-2025-qust} (5.~miesto, 0{,}937): výber vyhľadávača, viacero preusporiadateľov a vážené hlasovanie.
-  Spojenie originálneho a anglického textu pomohlo v~monolingválnej, ale uškodilo v~medzijazykovej úlohe.
-  \item \textbf{UniBuc-AE} \citep{enache-2025-unibuc} (6.~miesto, 0{,}934): modely rodiny E5 dotrénované kontrastívne so ťažkými negatívnymi príkladmi a kombinované hlasovaním.
-  \item \textbf{UWBa} \citep{lenc-etal-2025-uwba} (7.~miesto, 0{,}927): kombinácia piatich modelov bez dotrénovania nad anglickými prekladmi.
-  \item \textbf{Duluth} \citep{syed-pedersen-2025-duluth}: TF-IDF s~optimalizovanou veľkosťou slovníka (0{,}69).
+  \item \textbf{TIFIN India} \citep{devadiga-etal-2025-tifin} (3.~miesto, 0{,}9383): preklad príspevkov do angličtiny modelom Aya-expanse-8B, dotrénovanie Stella-400M s~ťažkými negatívnymi príkladmi, preusporiadanie 50 kandidátov modelom Qwen2.5-72B a RRF.
+  Samotný dotrénovaný vyhľadávač s~prekladmi dosiahol 0{,}9217 (tabuľka~5 článku).
+  \item \textbf{RACAI} \citep{chivereanu-tufis-2025-racai} (4.~miesto, 0{,}9377): BGE-Multilingual-Gemma2-9B na originálnych textoch, kontrastívne dotrénovaný pomocou LoRA, bez preusporiadania.
+  Prompt tuning, QLoRA a Matryoshka reprezentácie skúmali samostatne; nemožno ich všetky pripísať finálnej konfigurácii.
+  \item \textbf{QUST\_NLP} \citep{liu-etal-2025-qust} (5.~miesto, 0{,}9365): výber vyhľadávačov podľa jazyka, preusporiadanie a vážené hlasovanie.
+  V~abláciách modelov E5 spojenie originálu s~prekladom zlepšilo monolingválny priemer, zatiaľ čo v~medzijazykovej úlohe bol lepší samotný preklad (\S4.1, tabuľky~1--2 článku); nejde o~pravidlo pre každý model a jazyk.
+  \item \textbf{UniBuc-AE} \citep{enache-2025-unibuc} (6.~miesto, 0{,}9336): anglický e5-large-v2 a viacjazyčný multilingual-e5-large-instruct, kontrastívne učenie a následné dotrénovanie s~ťažkými negatívnymi príkladmi.
+  Štyri konfigurácie kombinujú váženými skóre podobnosti, s~váhami vybranými na validačných dátach.
+  \item \textbf{UWBa} \citep{lenc-etal-2025-uwba} (7.~miesto, 0{,}9270): bez dotrénovania, nad anglickými prekladmi.
+  Finálny monolingválny systém podľa jazyka vyberá NV-Embed-v2 samostatne alebo v~dvojici s~GPT či Mistral; medzijazykový systém používa iba NV-Embed.
+  Päť modelov skúmali pri predbežnom výbere, nie vo finálnej spoločnej kombinácii.
+  \item \textbf{fact check AI} \citep{rastogi-2025-fact} (10.~miesto, 0{,}9232): dotrénované bi-enkodéry a kombinovanie modelov trénovaných v~piatich foldoch.
+  Monolingválne spracovanie využíva originály aj preklady, medzijazykové anglické preklady.
+  \item \textbf{Duluth} \citep{syed-pedersen-2025-duluth}: finálny lexikálny systém TF-IDF so slovnou tokenizáciou a~15\,000 príznakmi dosiahol 0{,}6883 (tabuľka~3 článku; zaokrúhlene 0{,}69).
 \end{itemize}
-Z~prehľadu vyplýva, že najväčšie zlepšenia prináša dotrénovanie bi-enkodéra so ťažkými negatívnymi príkladmi a preusporiadanie kandidátov.
-Riešenia s~modelmi s~9--72\,mld. parametrov sú mimo dosahu našich výpočtových prostriedkov, preto sa v~2.~etape zameriame na menšie modely.
+Tieto výsledky motivujú samostatne overiť prínos dotrénovania, preusporiadania a fúzie na našej vývojovej množine; nezaručujú zlepšenie pre každú konfiguráciu.
+Výpočtové nároky publikovaných veľkých modelov nemožno preniesť na našu 8\,GB GPU bez samostatného overenia; v~2.~etape preto plánujeme menšie modely a dotrénovanie na vzdialenej GPU.
 
 % =====================================================================
 \section{Dáta}
@@ -196,12 +205,15 @@ Vyhľadávanie je skalárny súčin normalizovaných vektorov (menej ako 1\,s na
   Upravené BM25 (0{,}868) prekonáva oficiálne BM25 organizátorov (0{,}812) aj ich E5 baseline (0{,}859).
   \item \textbf{Variant textu závisí od podúlohy.}
   V~monolingválnej úlohe pomáha spojenie originálu s~prekladom (E5: 0{,}862 oproti 0{,}827 len s~angličtinou na vývojovej množine), zatiaľ čo v~medzijazykovej úlohe škodí (0{,}533 oproti 0{,}591).
-  Rovnaký jav nezávisle opísal tím QUST\_NLP \citep{liu-etal-2025-qust}.
+  Rovnaký smer rozdielov uvádza tím QUST\_NLP vo svojich abláciách modelov E5 \citep{liu-etal-2025-qust}.
   Pravdepodobné vysvetlenie (zatiaľ neoverené): v~monolingválnej úlohe originál zachytí presné formulácie a preklad pridá robustnosť; v~medzijazykovej úlohe sú fact-checky prevažne v~inom jazyku ako príspevok, preto originálny text do reprezentácie pridáva skôr šum.
-  \item \textbf{Angličtina je najťažší jazyk} (E5: 0{,}814 na teste) napriek tomu, že ide o~najväčší jazyk s~najkvalitnejšími dátami.
-  Pravdepodobnou príčinou je veľkosť kolekcie: 145\,tis. kandidátov oproti stovkám až desaťtisícom v~ostatných jazykoch, takže medzi kandidátmi je oveľa viac podobných fact-checkov (overíme v~analýze chýb).
+  \item \textbf{Výsledky po jazykoch.}
+  Najnižšie \sat{} nášho E5 má portugalčina (0{,}802), nasledovaná angličtinou (0{,}814; tabuľka~\ref{tab:lang}).
+  Vplyv veľkosti kolekcie overíme samostatne.
+  \Needspace{7\baselineskip}
   \item \textbf{Naše E5 prekonáva E5 organizátorov} (0{,}886 oproti 0{,}859).
-  Zisk je sústredený v~jazykoch, kde pomáha spojenie originálu a prekladu (malajčina +0{,}118, thajčina +0{,}055, francúzština +0{,}044); v~angličtine, portugalčine a nemčine sú výsledky rovnaké.
+  Najväčšie rozdiely voči E5 organizátorov sú v~malajčine (+0{,}118), thajčine (+0{,}055) a francúzštine (+0{,}044).
+  V~nemčine je skóre rovnaké (0{,}872); v~angličtine kleslo z~0{,}818 na 0{,}814 a v~portugalčine z~0{,}808 na 0{,}802.
   \item \textbf{Obmedzenie:} pri variante \emph{both} sa 11\,\% príspevkov nezmestí do 512 tokenov a ich koniec sa oreže.
 \end{itemize}
 
