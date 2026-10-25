@@ -1,0 +1,389 @@
+% Slovak rendering of the available historical AI log, prepared for issue #4.
+% The English/mixed primary history remains in docs/llm_usage.md.
+\begingroup
+\normalsize
+\setlength{\parindent}{0pt}
+\subsection*{Rozsah a pôvod záznamov}
+Táto príloha obsahuje slovenský výklad všetkých 24 dostupných záznamov použitia AI v~prvej etape. Zahŕňa aj skoršiu kontrolu reportu z~21.~októbra, ktorej záznam~18 zostal v~oddelenom lokálnom checkoute a bol doplnený bez zmien. Pôvodné záznamy v~\texttt{docs/llm\_usage.md} sa neprepisovali; preklad je zoradený podľa čísel záznamov.
+
+Výklad, účel a výstupy sú po slovensky. Znenie zachovaných promptov uvádzame aj v~pôvodnom jazyku, aby sa nestratil ich obsah. Ak samostatný prompt v~pôvodnom zázname chýbal, uvádzame zachovaný opis zadania a túto medzeru výslovne pomenujeme.
+
+Historické údaje o~modeloch, výsledkoch a kontrolách preberáme zo zdrojového logu. Označenie \emph{judge PASS 5/5} znamená deklarované overenie iným AI agentom; nepredstavuje ľudské potvrdenie. Historické počty testov sa líšia podľa konfigurácií, prítomných lokálnych predikcií a dostupného modelového prostredia. Nie sú výsledkami jedného spoločného nového behu.
+
+Pôvodný log uvádza Claude Code, hlavný model Claude Opus~5.5 a worker/judge modely Claude Haiku/Sonnet. Tieto historické identifikátory neboli v~tejto kontrole nezávisle overené. Neskoršie práce Jakuba prebiehali cez Codex desktop. Pri kontrole lokálneho prepisu 25.~októbra bolo v~metadátach zachovaných turnov nájdené označenie \texttt{gpt-6.1-sol}; skoršie menej presné označenie rodiny GPT-6 v~záznamoch zostáva zachované.
+
+\subsection*{Pokrytie častí projektu}
+\begin{center}
+\begin{tabular}{p{0.60\linewidth}p{0.27\linewidth}}
+\toprule
+Oblasť použitia AI & Záznamy \\
+\midrule
+Načítanie dát, vyhľadávanie a analyzátor & 1, 3, 7, 8, 16, 17 \\
+Metriky, štatistiky, tabuľky a reprodukcia & 3, 7, 8, 11, 16, 17, 19 \\
+Literárny prieskum a kontrola zdrojov & 1, 10, 18, 21 \\
+Návrh reportu a jeho opravy & 12, 18, 21, 22 \\
+README, pravidlá, git a CI & 4--6, 9, 13--15, 20, 23 \\
+Evidencia AI a slovenská príloha & 5, 18, 24 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Potvrdenia členov tímu}
+Preklad dostupného logu sám nepotvrdzuje úplnosť použitia AI za každého člena. Stav k~príprave tejto verzie je uvedený nižšie. Nepotvrdené použitie neznamená, že daný člen AI nepoužil. Podrobný stav a spôsob doplnenia zachytáva \texttt{docs/ai\_usage\_confirmation.md}.
+\begin{center}
+\begin{tabular}{p{0.28\linewidth}p{0.37\linewidth}p{0.25\linewidth}}
+\toprule
+Člen & Výslovne priradené záznamy & Potvrdenie úplnosti \\
+\midrule
+Viktor Hančovský & AI nepoužíval & oznámil Jakub Spišák \\
+Benjamín Konkoľ & AI nepoužíval & oznámil Jakub Spišák \\
+Jakub Spišák & 18, 19, 21--24 & zatiaľ nepotvrdené \\
+Roman Šafranko & 16, 20; ďalšie treba potvrdiť & zatiaľ nepotvrdené \\
+\bottomrule
+\end{tabular}
+\end{center}
+Jakub Spišák 25.~októbra 2026 oznámil, že zvyšní členovia tímu AI nepoužívali. Vzhľadom na už zdokumentované použitie Jakuba a Romana sa toto oznámenie vzťahuje na Viktora Hančovského a Benjamína Konkoľa; ide o~sprostredkované oznámenie, nie o~samostatné potvrdenia v~tomto chate.
+
+Iniciátor prvých dvoch relácií nebol v~ich úvode výslovne pomenovaný. Priradenie týchto relácií konkrétnemu človeku nemožno doplniť iba odhadom.
+
+\subsection*{Uloženie prepisov konverzácií}
+Pôvodný log deklaruje Claude Code JSONL prepisy u~vlastníka pôvodnej relácie v~nasledujúcom adresári:
+
+\texttt{\textasciitilde{}/\allowbreak{}.\allowbreak{}claude/\allowbreak{}projects/\allowbreak{}D-\allowbreak{}-\allowbreak{}skola-\allowbreak{}nlp-\allowbreak{}SemEval-\allowbreak{}2025/\allowbreak{}}\par
+Dostupnosť a úplnosť tohto archívu na Romanovom počítači nebola v~tejto relácii overená; daná cesta sa na použitom počítači nenašla.
+
+Pre aktuálny Codex chat sa lokálne overila existencia JSONL súboru a zhoda ID relácie:
+
+{\raggedright \texttt{\textasciitilde{}/\allowbreak{}.\allowbreak{}codex/\allowbreak{}sessions/\allowbreak{}2026/\allowbreak{}10/\allowbreak{}21/\allowbreak{}rollout-\allowbreak{}2026-\allowbreak{}10-\allowbreak{}21T17-\allowbreak{}22-\allowbreak{}03-\allowbreak{}01a15f0e-\allowbreak{}2007-\allowbreak{}7e92-\allowbreak{}9ff7-\allowbreak{}62745b0b0c13\allowbreak{}.\allowbreak{}jsonl}\par}
+Ide o~priebežne zapisované lokálne úložisko aplikácie, nie o~overený nemenný export pre odovzdanie. Pri kontrole sa čítali iba metadáta relácie a modelového označenia, nie obsah správ. Finálne umiestnenie spoločného súkromného archívu a jeho dostupnosť pre vyučujúceho ešte tím nepotvrdil. Prepisy sa do verejného repozitára nepridávajú.
+
+\subsection*{Chronologické záznamy}
+
+
+\Needspace{8\baselineskip}\subsection*{Relácia 1: 12.--13. október 2026}
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 1 -- Prieskum úlohy a vytvorenie projektu}
+% SOURCE_RECORD_ID: 1
+
+
+\par\noindent \textbf{Účel a zadanie.} Pomôcť začať s replikáciou SemEval-2025 Task 7. Hlavným nástrojom bol podľa pôvodného logu Claude Code s modelom Claude Opus 5.5; worker používal Haiku. Iniciátor relácie 1 nebol v pôvodných záznamoch výslovne pomenovaný.\par\smallskip
+\par\noindent \textbf{Činnosť a použité výstupy.} Agent prešiel stránku úlohy, oficiálny repozitár \texttt{kinit-\allowbreak{}sk/\allowbreak{}semeval\_\allowbreak{}2025}, prehľadový článok a Zenodo. Zhrnul obe podúlohy, metriku S@10, baseline systémy a spôsob žiadosti o dáta. Worker pripravil virtuálne prostredie a pripnuté závislosti, načítanie textov uložených ako reťazce reprezentujúce n-tice, metriky S@10 a MRR, jazykové/makro vyhodnotenie, BM25 skript a testy. Overenie prebehlo na verejnej vzorke.\par\smallskip
+\par\noindent \textbf{Overenie a výsledok podľa logu.} Judge agent uviedol PASS 5/5: testy prešli, metriky sa ručne prepočítali na skonštruovanom príklade a nenašiel únik gold anotácií. BM25 na vzorke dosiahlo S@10 0,957 pre anglický text a 0,702 pre originál. Kolekcia mala iba 50 fact-checkov, preto išlo o overenie spustenia, nie výsledok na oficiálnom teste.\par\smallskip
+
+\Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
+
+\begin{quote}\normalsize "https://disai.eu/semeval-2025/ SemEval 2025 Shared Task 7: Multilingual and Crosslingual Fact-Checked Claim Retrieval - i need to replicate this, can you help me get started"\end{quote}
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 2 -- Problém s prístupom k dátam}
+% SOURCE_RECORD_ID: 2
+
+
+\par\noindent \textbf{Účel a zadanie.} Používateľ nevedel vytvoriť účet potrebný na podanie žiadosti o dataset.\par\smallskip
+\par\noindent \textbf{Nástroj a model.} Claude Code; hlavný model podľa úvodu pôvodného logu Claude Opus 5.5.\par\smallskip
+\par\noindent \textbf{Použitý výstup.} Agent odporučil prihlásenie do Zenodo cez GitHub alebo ORCID, prípadne kontaktovanie organizátorov alebo vyučujúceho. Kód sa nemenil; záznam neuvádza experiment ani testovací výsledok.\par\smallskip
+
+\Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
+
+\begin{quote}\normalsize "there may be a little problem, i cant create account to send request for dataset (error while creating account)"\end{quote}
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 3 -- Zapojenie oficiálneho datasetu}
+% SOURCE_RECORD_ID: 3
+
+
+\par\noindent \textbf{Účel a zadanie.} Prispôsobiť pipeline oficiálnemu vydaniu, ktoré používateľ sprístupnil lokálne.\par\smallskip
+\par\noindent \textbf{Nástroj a model.} Claude Code, hlavný model podľa logu Opus 5.5; implementáciu vykonal worker Sonnet.\par\smallskip
+\par\noindent \textbf{Činnosť a použité výstupy.} Po prečítaní README dát a oficiálneho loadera/scorerov agent zistil štyri rozdiely: identifikátory fact-checkov musia byť celé čísla; treba aspoň desať predikcií pre každý príspevok; súbory párov nemajú stĺpec \texttt{pair\_\allowbreak{}lang}; pôvodný \texttt{rank\_\allowbreak{}bm25} je pri veľkých kolekciách príliš pomalý. Dáta presunul pod ignorované \texttt{data/\allowbreak{}raw/\allowbreak{}} a doplnil zistenia do \texttt{CLAUDE.\allowbreak{}md}. Worker pripravil načítanie splitov a kolekcií z \texttt{tasks.\allowbreak{}json}, riedkomaticové BM25, oficiálny formát predikcií, MRR@10 a skript porovnávajúci hodnotenie s nezávislou kópiou oficiálnej logiky.\par\smallskip
+\par\noindent \textbf{Výsledky podľa logu.} BM25 na dev pri anglickom texte dosiahlo S@10 mono 0,685 a cross 0,413; pri originálnom texte mono 0,700. Na teste malo mono 0,771 a cross 0,537. Vtedajší judge uviedol PASS 5/5, predikcie v správnych kolekciách a bez úniku anotácií. Za nižším skóre oproti organizátorom predpokladal tokenizáciu a zostavovanie textu; príčinu experimentálne nepotvrdil.\par\smallskip
+\par\noindent \textbf{Historické obmedzenie.} Log uvádzal presnú zhodu so všetkými štyrmi publikovanými baseline výsledkami. Neskoršie overenie v zázname 11 spresňuje maximálnu odchýlku na 0,00004. Pri diagnostike judge vykonal malé porovnanie textových variantov na troch testovacích jazykoch; podľa záznamu nebolo použité na návrhové rozhodnutie. Ladenie malo prebiehať na dev.\par\smallskip
+
+\Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
+
+\begin{quote}\normalsize "got dataset its in root folder"\end{quote}
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 4 -- Príprava repozitára na GitHub}
+% SOURCE_RECORD_ID: 4
+
+
+\par\noindent \textbf{Účel a zadanie.} Pripraviť repozitár na publikovanie pri zachovaní licenčných obmedzení dát.\par\smallskip
+\par\noindent \textbf{Nástroj a model.} Claude Code, hlavný model podľa pôvodného logu Opus 5.5.\par\smallskip
+\par\noindent \textbf{Činnosť a výstup.} Agent vytvoril \texttt{.\allowbreak{}gitignore} pre pôvodné dáta a odvodené súbory vrátane dodatočných ochranných vzorov, doplnil \texttt{.\allowbreak{}gitattribute\allowbreak{}s} a README. Pri skúšobnej príprave súborov na commit skontroloval, že by sa nepridal dataset.\par\smallskip
+\par\noindent \textbf{Overenie.} V logu je uvedená kontrola zoznamu pripravovaných súborov. Tento záznam neuvádza nový experiment.\par\smallskip
+
+\Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
+
+\begin{quote}\normalsize "can you prepare repo for pushing on github like gitignore and stuff, add dataset to gitignore (its forbiden), my teamates already have access"\end{quote}
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 5 -- Rozhodnutie o rozsahu projektu}
+% SOURCE_RECORD_ID: 5
+
+
+\par\noindent \textbf{Účel a zadanie.} Rozhodnúť poradie monolingválnej a medzijazykovej časti a prepojiť plán s projektovým zadaním.\par\smallskip
+\par\noindent \textbf{Nástroj a model.} Claude Code, hlavný model podľa pôvodného logu Opus 5.5.\par\smallskip
+\par\noindent \textbf{Použitý výstup.} Odporúčaná bola monolingválna úloha ako hlavný vývojový cyklus a súbežné vyhodnocovanie medzijazykovej úlohy, keďže obe zdieľajú pipeline a uložené reprezentácie. Agent zhrnul požiadavky zadania a založil dokumentáciu použitia AI. Nešlo o meranie prínosu konkrétnej metódy.\par\smallskip
+
+\Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
+
+\begin{quote}\normalsize "can i start with Monolingual and if there will be no complications move to Crosslingual or its just better to start Crosslingual right away"; "own system, uploaded assigment in root folder"\end{quote}
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 6 -- Termíny a plán}
+% SOURCE_RECORD_ID: 6
+
+
+\par\noindent \textbf{Účel a zadanie.} Zaznamenať používateľom uvedené termíny prvej etapy 25. októbra a druhej etapy 6. decembra.\par\smallskip
+\par\noindent \textbf{Nástroj a model.} Claude Code, hlavný model podľa pôvodného logu Opus 5.5.\par\smallskip
+\par\noindent \textbf{Použitý výstup.} Termíny boli doplnené do \texttt{CLAUDE.\allowbreak{}md}; agent navrhol harmonogram prvej etapy, literatúru a rozdelenie tímových rolí. Záznam nepredstavuje potvrdenie, že sa navrhnuté rozdelenie rolí skutočne prijalo alebo že sa úlohy dokončili.\par\smallskip
+
+\Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
+
+\begin{quote}\normalsize "1. stage Oct 25th, 2. stage Dec 6th"\end{quote}
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 7 -- Husté vyhľadávanie bez dotrénovania}
+% SOURCE_RECORD_ID: 7
+
+
+\par\noindent \textbf{Účel a zadanie.} Pripraviť multilingual-E5-large ako druhý baseline. Samostatný používateľský prompt nebol pri tomto zázname zachovaný; pôvodný log obsahuje opis delegovaného zadania.\par\smallskip
+\par\noindent \textbf{Nástroj a model.} Claude Code, hlavný model podľa úvodu Opus 5.5; worker Sonnet, následne judge agent.\par\smallskip
+\par\noindent \textbf{Činnosť a použité výstupy.} Worker nainštaloval PyTorch pre CUDA 12.8, pripravil fp16 enkodér s predponami \texttt{query:} a \texttt{passage:}, limitom 512 tokenov, diskovou cache a maticovým vyhľadávaním. Doplnil \texttt{src/\allowbreak{}retrieval/\allowbreak{}dense.\allowbreak{}py}, \texttt{scripts/\allowbreak{}run\_\allowbreak{}dense.\allowbreak{}py}, konfigurácie a testy. Na dev porovnal originál, angličtinu a ich spojenie; pre každý track vybral variant a až potom vykonal testovací beh.\par\smallskip
+\par\noindent \textbf{Overenie podľa logu.} Judge uviedol PASS 5/5: preveril správne kolekcie a neprítomnosť úniku, podobnosť uložených a nanovo vypočítaných vektorov aspoň 0,9995, časové poradie výberu variantu na dev pred testom, reprodukovateľnosť a zhodu scorerov.\par\smallskip
+\par\noindent \textbf{Výsledky.} S@10 na dev: mono 0,862 pri spojení originálu a angličtiny; cross 0,591 pri angličtine. Test: mono 0,886 a cross 0,681; príslušný E5 organizátorov mal 0,859 a 0,637. Pri variante both bolo približne 11 \% príspevkov dlhších než 512 tokenov.\par\smallskip
+\par\noindent \textbf{Historické spresnenie.} Pôvodný log pripisoval zisk najmä malajčine, thajčine, francúzštine, poľštine a arabčine a angličtinu s portugalčinou označil za približne nezmenené. Neskoršia kontrola reportu spresnila pokles angličtiny 0,818 $\to$ 0,814 a portugalčiny 0,808 $\to$ 0,802; zhodná zostala nemčina 0,872. Samotné porovnanie s organizátormi neurčuje príčinu rozdielov.\par\smallskip
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 8 -- Silnejší analyzátor BM25 a medzijazykový textový variant}
+% SOURCE_RECORD_ID: 8
+
+
+\par\noindent \textbf{Účel a zadanie.} Na používateľov pokyn spustiť dohodnuté experimenty a následne commitovať výsledky.\par\smallskip
+\par\noindent \textbf{Nástroj a model.} Claude Code, hlavný model podľa úvodu Opus 5.5; worker Sonnet a judge agent.\par\smallskip
+\par\noindent \textbf{Činnosť a výstupy.} Na dev sa porovnalo medzijazykové dense vyhľadávanie s originálom a angličtinou. Do BM25 pribudlo Snowball stemovanie cez PyStemmer, odstraňovanie stop slov cez stopwordsiso a thajský tokenizer newmm z PyThaiNLP. Nasledovali dev ablácie a po výbere konfigurácie jeden testovací beh pre každú podúlohu.\par\smallskip
+\par\noindent \textbf{Výsledky podľa logu.} Dense cross na dev: both 0,533 oproti eng 0,591, preto variant both nešiel na test. BM25 mono dev: základná angličtina 0,685; so stemovaním 0,723; so stemovaním a stop slovami 0,773; both so stemovaním, stop slovami a thajskou segmentáciou 0,793. BM25 cross dev vzrástlo z 0,413 na 0,520. Finálne testovacie BM25 dosiahlo mono 0,868 a cross 0,623; organizátori 0,812 a 0,603.\par\smallskip
+\par\noindent \textbf{Overenie a limity.} Judge uviedol PASS 5/5: spätnú kompatibilitu, opravu odlišného formátu jazykového poľa iba v testovacích fact-checkoch, konzistenciu predikcií pri opakovanom overení, zhodu oficiálneho hodnotenia, neprítomnosť úniku a offline fungovanie analyzátora. Log uvádza, že základný regulárny výraz \texttt{\textbackslash{}w+} nevhodne rozdeľoval thajské znamienka. Tvrdenia o vtedajšej kontrole sú prevzaté zo zdrojového záznamu.\par\smallskip
+
+\Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
+
+\begin{quote}\normalsize "yes run them and then commit"\end{quote}
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 9 -- Commit baseline riešení prvej etapy}
+% SOURCE_RECORD_ID: 9
+
+
+\par\noindent \textbf{Účel a zadanie.} Pripraviť výsledky predchádzajúceho kroku na commit. Samostatný prompt nebol uvedený; tento krok nadväzuje na pokyn v zázname 8.\par\smallskip
+\par\noindent \textbf{Nástroj a model.} Claude Code podľa kontextu pôvodnej relácie; osobitný model pre tento krok nebol zaznamenaný.\par\smallskip
+\par\noindent \textbf{Činnosť a overenie.} Agent vykonal \texttt{git \allowbreak{}add} a pred commitom skontroloval zoznam pripravených súborov, či neobsahuje dátové súbory. Nie je tu zaznamenaný nový experiment ani nové skóre.\par\smallskip
+
+\Needspace{8\baselineskip}\subsection*{Relácia 2: 16. október 2026}
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 10 -- Zber literatúry pre prvú etapu}
+% SOURCE_RECORD_ID: 10
+
+
+\par\noindent \textbf{Účel a zadanie.} Zhromaždiť zdroje na základe používateľovho súhlasu s navrhnutým zberom literatúry.\par\smallskip
+\par\noindent \textbf{Nástroj a model.} Claude Code, hlavný model podľa pôvodného úvodu Opus 5.5. Iniciátor relácie 2 nie je v jej úvode výslovne identifikovaný.\par\smallskip
+\par\noindent \textbf{Činnosť a použité výstupy.} Agent čítal prehľad úlohy, prešiel index SemEval-2025 a jednotlivé stránky kľúčových článkov v ACL Anthology. Overoval názvy, autorov, strany a identifikátory, pretože niektoré odkazy v indexe boli posunuté. Vyhľadal aj pôvodné práce MultiClaim, Shaar, Kazemi, Vo a Lee a metodické zdroje GTR, mE5, BGE-M3 a PyThaiNLP. Vytvoril komentované tabuľky v \texttt{docs/\allowbreak{}literature.\allowbreak{}md} a záznamy v \texttt{docs/\allowbreak{}references.\allowbreak{}bib}.\par\smallskip
+\par\noindent \textbf{Obmedzenia pôvodného výstupu.} Niektoré bibliografické položky boli poskladané z overených polí namiesto oficiálneho exportu; vyskytovali sa skrátené zoznamy autorov alebo chýbajúci rozsah strán. Pôvodné stručné zhrnutia vychádzali z abstraktov a prehľadu, nenahrádzali čítanie článkov členmi tímu. Následný audit a obnova desiatich exportov sú zdokumentované v zázname 21.\par\smallskip
+
+\Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
+
+\begin{quote}\normalsize "yeah gather them" (reply to an offer to collect sources for the literature review)\end{quote}
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 11 -- Štatistiky dát a tabuľky reportu}
+% SOURCE_RECORD_ID: 11
+
+
+\par\noindent \textbf{Účel a zadanie.} Vytvoriť skripty pre agregované štatistiky oboch oficiálnych splitov a tabuľky zostavené z uložených metrík a baseline predikcií organizátorov. Výstupy nemali obsahovať text príspevkov ani fact-checkov; loader sa nemal meniť a nič sa nemalo commitovať.\par\smallskip
+\par\noindent \textbf{Nástroj a model.} Claude Code subagent Claude Haiku 5.5 (\texttt{claude-\allowbreak{}haiku-\allowbreak{}5-\allowbreak{}5}) podľa pôvodného záznamu.\par\smallskip
+\par\noindent \textbf{Použité výstupy.} \texttt{scripts/\allowbreak{}data\_\allowbreak{}stats.\allowbreak{}py}, \texttt{scripts/\allowbreak{}make\_\allowbreak{}report\_\allowbreak{}tables.\allowbreak{}py} a test zvýrazňovania najlepších výsledkov; agregáty \texttt{results/\allowbreak{}data\_\allowbreak{}stats.\allowbreak{}\{json,\allowbreak{}md\}} a tabuľky \texttt{results/\allowbreak{}report\_\allowbreak{}tables.\allowbreak{}md}.\par\smallskip
+\par\noindent \textbf{Overenie podľa logu.} Oba skripty sa spustili a pytest uviedol 43 úspešných testov, z toho štyri nové. Čísla overoval vyhodnocovací kód; výsledky organizátorov sa porovnali s publikovanými S@10, s maximálnym rozdielom 0,00004. Pôvodný záznam výslovne žiadal ľudské prečítanie štatistík pred ich použitím v reporte.\par\smallskip
+
+\Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
+
+\begin{quote}\normalsize "Write \texttt{scripts/\allowbreak{}data\_\allowbreak{}stats.\allowbreak{}py} (aggregate-only dataset statistics for both official splits, written to \texttt{results/\allowbreak{}data\_\allowbreak{}stats.\allowbreak{}\{json,\allowbreak{}md\}}), \texttt{scripts/\allowbreak{}make\_\allowbreak{}report\_\allowbreak{}tables.\allowbreak{}py} (main test table, per-language table, dev ablation table, built from \texttt{results/\allowbreak{}*/\allowbreak{}metrics.\allowbreak{}json} and the organizers' baseline predictions, written to \texttt{results/\allowbreak{}report\_\allowbreak{}tables.\allowbreak{}md}), and a pytest for the bold-best logic. Do not commit; output must contain no post or fact-check text; reuse \texttt{src/\allowbreak{}data.\allowbreak{}py} without changing it."\end{quote}
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 12 -- Návrh slovenského reportu prvej etapy}
+% SOURCE_RECORD_ID: 12
+
+
+\par\noindent \textbf{Účel a zadanie.} Dokončiť dostupné časti prvej etapy; používateľ zvolil slovenský jazyk a LaTeX.\par\smallskip
+\par\noindent \textbf{Nástroj a model.} Claude Code, Claude Opus 5.5; podľa záznamu tento návrh písal hlavný model bez subagenta.\par\smallskip
+\par\noindent \textbf{Činnosť a použité výstupy.} Vytvoril \texttt{report/\allowbreak{}stage1/\allowbreak{}main.\allowbreak{}tex} a tabuľky: úvod, prehľad literatúry, dáta, metodiku, baseline riešenia, výsledky s interpretáciou, plán druhej etapy a reprodukovateľnosť. Použil bibliografiu z repozitára a čísla z vygenerovaných tabuliek a štatistík. Neoverené vysvetlenia označil za hypotézy. Na doplnenie tímom zostali autori, URL repozitára a slovenská AI príloha.\par\smallskip
+\par\noindent \textbf{Overenie podľa logu.} Judge uviedol PASS 5/5 pre štatistiky a tabuľky z kroku 11, vrátane nulového podielu OCR-only príspevkov na teste, podielu hindských testovacích príspevkov 40,9 \% a zhody tabuliek s metrikami. Toto nie je potvrdenie ľudského prečítania celého reportu. Neskoršie zistené interpretačné a citačné nepresnosti riešia záznamy 18, 21 a 22.\par\smallskip
+
+\Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
+
+\begin{quote}\normalsize "if everuthing clear for now can we finish things in stage 1"; report language and format chosen in a dialog: "Slovak, LaTeX".\end{quote}
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 13 -- Aktualizácia README}
+% SOURCE_RECORD_ID: 13
+
+
+\par\noindent \textbf{Účel a zadanie.} Používateľ požiadal o aktualizáciu README, odkaz na report a následný commit a push.\par\smallskip
+\par\noindent \textbf{Nástroj a model.} Claude Code, hlavný model podľa úvodu pôvodného logu Opus 5.5.\par\smallskip
+\par\noindent \textbf{Činnosť a použité výstupy.} README dostalo prehľad dokumentov, aktuálnu výsledkovú tabuľku, príkazy na reprodukciu štyroch testovacích behov, očakávané S@10 a MRR@10 s toleranciami, pokyny na zostavenie reportu cez Tectonic alebo Overleaf a rozloženie repozitára.\par\smallskip
+\par\noindent \textbf{Overenie podľa záznamu.} Očakávané hodnoty boli prevzaté z uložených \texttt{metrics.\allowbreak{}json}, ktoré predtým overoval judge. Záznam nepopisuje nový reprodukčný beh; nezávislé zopakovanie štyroch konfigurácií nasledovalo v zázname 19.\par\smallskip
+
+\Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
+
+\begin{quote}\normalsize "readme seems little bit update add like link to main.pdf or something also commit and push"\end{quote}
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 14 -- Pravidlá tímovej práce}
+% SOURCE_RECORD_ID: 14
+
+
+\par\noindent \textbf{Účel a zadanie.} Vytvoriť \texttt{CONTRIBUTING\allowbreak{}.\allowbreak{}md} a doplniť stručnú verziu pravidiel s odkazom do README; používateľ požiadal aj o commit a push.\par\smallskip
+\par\noindent \textbf{Nástroj a model.} Claude Code, hlavný model podľa pôvodného logu Opus 5.5.\par\smallskip
+\par\noindent \textbf{Použitý výstup.} Pravidlá pokrývajú licenciu dát, experimentálny protokol, konvencie kódu a gitu, issues, povinnú evidenciu AI, report a termíny. Do README pribudol päťbodový súhrn. Text vychádzal z existujúcich konvencií a požiadaviek zadania.\par\smallskip
+\par\noindent \textbf{Overenie.} Samostatná skúška či výsledková metrika pri tomto zázname nebola uvedená. Ide o dokumentačný výstup.\par\smallskip
+
+\Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
+
+\begin{quote}\normalsize "create contributing.md where all the rules will be then also add short version of team rules in readme with link to that md file then commit and push"\end{quote}
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 15 -- CI a pravidlá pre AI agentov}
+% SOURCE_RECORD_ID: 15
+
+
+\par\noindent \textbf{Účel a zadanie.} Na žiadosť používateľa pripraviť CI a pravidlá, aby agent pri práci na issue postupoval v dohodnutom rozsahu a vyžadoval potrebné súhlasy.\par\smallskip
+\par\noindent \textbf{Nástroj a model.} Claude Code, hlavný model podľa pôvodného logu Opus 5.5.\par\smallskip
+\par\noindent \textbf{Činnosť a výstupy.} Vznikol \texttt{.\allowbreak{}github/\allowbreak{}workflows/\allowbreak{}ci.\allowbreak{}yml}: ochrana pred commitom dát a súborov nad 5 MB, pytest na Pythone 3.13 s CPU PyTorch a verejnou vzorkou a podmienené zostavenie reportu cez Tectonic s kontrolou nedefinovaných citácií. Do \texttt{CLAUDE.\allowbreak{}md} pribudli pravidlá rozsahu práce, zakázaných krokov, oprávnení, pravdivého vykazovania a AI logu. Používateľský \texttt{AGENTS.\allowbreak{}md} na ne odkazuje.\par\smallskip
+\par\noindent \textbf{Overenie podľa logu.} YAML sa načítal; dátový guard bol vyskúšaný na repozitári aj syntetických názvoch. Simulácia CI v čistom prostredí s ukrytou GPU dala 42 úspešných testov a jedno preskočenie GPU testu. Prvý pokus bez PyTorch odhalil chýbajúcu závislosť, preto sa doplnil CPU PyTorch. Kontrola citácií prebehla nad logom lokálneho zostavenia.\par\smallskip
+
+\Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
+
+\begin{quote}\normalsize "also do you think its worth to create CI workflof? if so could you create one"; "can you edit claude.md so when some teamate will type like 'clone this repo and help with issue \#' agent will go by the rules, dont do anything that shouldnt do or rogue …"\end{quote}
+
+\Needspace{8\baselineskip}\subsection*{Relácia 3: 16. október 2026}
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 16 -- Kontroly konfigurácií, vzorky, scorerov a predikcií}
+% SOURCE_RECORD_ID: 16
+
+
+\par\noindent \textbf{Iniciátor, nástroj a model.} Roman Šafranko (\texttt{Mekr0t}) cez Claude Code; hlavný model Claude Opus 5.5, delegovaný subagent Claude Haiku 5.5 (\texttt{claude-\allowbreak{}haiku-\allowbreak{}5-\allowbreak{}5}) podľa pôvodného záznamu.\par\smallskip
+\par\noindent \textbf{Účel a zadanie.} Doplniť pevné regresné výsledky BM25 na verejnej vzorke, kontroly všetkých YAML konfigurácií, zhodu scorerov na skonštruovaných dátach, runtime kontrolu kolekcií a lokálne kontroly uložených oficiálnych predikcií. Výpočtové ani dátové závislosti nemali znemožniť CI bez datasetu či CUDA.\par\smallskip
+\par\noindent \textbf{Použité výstupy.} \texttt{src/\allowbreak{}checks.\allowbreak{}py} kontroluje presnú množinu príspevkov, aspoň desať rôznych identifikátorov a príslušnosť každej predikcie do správnej kolekcie. Zavolali ho oba oficiálne runnery. Pribudli testy vzorky, konfigurácií, scorerov a lokálnych predikcií. Povolené konfiguračné kľúče sa odvodzujú AST analýzou runnerov. Marker \texttt{needs\_\allowbreak{}data} a premenná \texttt{SEMEVAL\_\allowbreak{}OFFICIAL\_\allowbreak{}DIR} umožňujú chýbajúce dáta výslovne zohľadniť.\par\smallskip
+\par\noindent \textbf{Overenie podľa logu.} Vtedajší stav s dátami: 248 passed, 57 skipped a 1 xfailed. Bez CUDA: 247 passed, 58 skipped a 1 xfailed. Bez oficiálnych dát sa preskočilo 22 lokálnych kontrol. Známy nesúlad názvu \texttt{bm25\_\allowbreak{}sample.\allowbreak{}yaml} s \texttt{run\_\allowbreak{}name} bol označený ako strict xfail. Opakovaný BM25 mono dev eng reprodukoval S@10 0,6847 a MRR 0,4942. Rozdiely v meracom JSON boli iba časovanie a ukončenia riadkov; súbor bol obnovený, aby sa referencie nemenili. Nový judge sa pre túto čiastkovú session nespustil a test split sa nepoužil.\par\smallskip
+
+\Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
+
+\begin{quote}\normalsize read \texttt{CLAUDE.\allowbreak{}md} (rules for AI agents) and \texttt{CONTRIBUTING\allowbreak{}.\allowbreak{}md}; add (1) a pinned BM25 sample test (S@10 0.9574 / 0.7794 for eng, 0.7021 / 0.5497 for orig) that does not write to \texttt{results/\allowbreak{}}; (2) a test over every \texttt{configs/\allowbreak{}*.\allowbreak{}yaml} (required keys, run\_name equals filename stem, track/split/run\_name consistency, dense vs BM25 keys, unknown keys derived from the runner code); (3) a toy parity test of \texttt{src/\allowbreak{}evaluate.\allowbreak{}py} against the copied official scorer in \texttt{scripts/\allowbreak{}score\_\allowbreak{}official.\allowbreak{}py}; (4) a runtime helper that checks predictions are inside each post's pool, have at least 10 unique ids, and cover exactly the evaluated posts, called by both official runners before saving; (5) \texttt{needs\_\allowbreak{}data} tests on saved official predictions that skip without the dataset. Do not commit; CI must pass without the dataset, CUDA or transformers.\end{quote}
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 17 -- Nadväzujúce opravy kontrol}
+% SOURCE_RECORD_ID: 17
+
+
+\par\noindent \textbf{Účel a zadanie.} Dopracovať zistenia z kroku 16. Samostatný nový používateľský prompt v zázname nie je; ide o pokračovanie tej istej práce.\par\smallskip
+\par\noindent \textbf{Nástroj a model.} Hlavná relácia Claude Code s Claude Opus 5.5 podľa pôvodného logu.\par\smallskip
+\par\noindent \textbf{Kontext a použité výstupy.} Pôvodný judge uviedol PASS 5/5 a v CI simulácii bez modelového stacku, CUDA a datasetu 225 úspešných a 80 preskočených testov. V hlavnej relácii sa premenoval súbor na \texttt{bm25\_\allowbreak{}sample\_\allowbreak{}eng.\allowbreak{}yaml} a odstránil xfail. Kontrola predikcií sa presunula pred zápis metrík, aby neúspešný beh nezanechal platne vyzerajúci výsledok.\par\smallskip
+\par\noindent \textbf{Overenie podľa logu.} Celá sada mala 249 passed a 57 skipped; preskočenia boli kontroly nepoužiteľné pre daný typ konfigurácie. Vzorka reprodukovala S@10 0,9574. Tieto počty opisujú historický stav konfigurácií a lokálnych predikcií, nie univerzálny počet testov.\par\smallskip
+
+\Needspace{8\baselineskip}\subsection*{Relácia 4: 21. október 2026}
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 18 -- Kontrola a lokálne opravy reportu prvej etapy}
+% SOURCE_RECORD_ID: 18
+
+
+\par\noindent \textbf{Iniciátor:} Jakub Spišák (pripojený GitHub účet \texttt{jakub-\allowbreak{}spisak}).\par\smallskip
+\par\noindent \textbf{Nástroj a model:} OpenAI Codex desktop, agent založený na GPT-6. Presný identifikátor nasadeného modelu nebol v konverzácii sprístupnený.\par\smallskip
+\par\noindent \textbf{Prompty (verné zhrnutie):} používateľ požiadal o prezretie repozitára Mekr0t/FCCR a issues prvej etapy, následne o kontrolu issues \#2 a \#4 bez commitovania. Po posudku požiadal o lokálne zapracovanie navrhnutých zmien k issue \#2 s jeho účtom ako committerom, s neskorším pushom na novú vetvu a vytvorením PR. Výslovne schválil prípravu lokálneho buildu a testov vrátane Tectonicu a CPU závislostí. Následne si vyžiadal vysvetlenie preskočených testov.\par\smallskip
+\par\noindent \textbf{Kontrola a relevantný výstup:}\par\smallskip
+\begin{itemize}\setlength{\itemsep}{1pt}\setlength{\topsep}{2pt}
+\item kontrola zdroja aj pôvodného desaťstranového PDF, bibliografických kľúčov a odkazov na tabuľky;
+\item 308 porovnaní vybraných výsledkových polí s uloženými metrikami a 99 porovnaní štatistických polí bez rozdielov na zobrazovanej presnosti;
+\item overenie hlavných tvrdení o TIFIN India, RACAI, QUST\_NLP, UniBuc-AE, UWBa a Duluth v primárnych článkoch; efekt orig/eng pri QUST\_NLP je podložený;
+\item identifikácia nesprávnych slovných záverov o E5 v angličtine a portugalčine, nepresného opisu finálneho UWBa a spojeného LoRA/prompt tuningu pri RACAI, chýbajúcich odkazov na tabuľky a menších nepresností o časoch a zhode scorerov.
+\end{itemize}
+\par\noindent \textbf{Čo bolo zapracované:} opravy do \texttt{report/\allowbreak{}stage1/\allowbreak{}main.\allowbreak{}tex} a regenerované \texttt{report/\allowbreak{}stage1/\allowbreak{}main.\allowbreak{}pdf}: presné porovnanie E5 po jazykoch, zúženie tvrdenia v abstrakte na E5 baseline, opravy prehľadu UWBa/RACAI a kontextu Shaar 2022, odkazy na všetkých šesť tabuliek, spresnenie časov BM25 a odchýlky S@10 pod 10\textasciicircum{}-4, počty orezaných monolingválnych príspevkov s uvedením splitu, zachovanie hypotéz ako hypotéz, drobné jazykové a typografické opravy. Meno Jakuba Spišáka bolo opravené podľa pripojeného profilu. Historické AI záznamy, tabuľky, metriky a implementácia pipeline neboli menené.\par\smallskip
+\par\noindent \textbf{Overenie:} Python 3.13.16, CPU PyTorch 2.11.0 a pripnuté testovacie balíky podľa CI; verejná vzorka v ignorovanom data/raw/sample. Pôvodný stav po nastavení lokálnych dočasných a PyThaiNLP cache adresárov: \textbf{226 passed, 59 skipped}. Preskočenia: 57 kontrol nepoužiteľných pre daný typ konfigurácie, jeden test modelu bez sentence-transformers a jeden test bez oficiálneho datasetu/predikcií. Pri prvom pokuse zlyhali zápisy do predvolených adresárov mimo workspace; po úprave premenných prostredia testy prešli bez zmeny kódu. Tectonic 0.17.0 vytvoril aktualizované PDF bez upozornení TeXu vrátane nedefinovaných citácií či referencií.\par\smallskip
+\par\noindent \textbf{Záverečná kontrola:} opakovaný pytest po úpravách: \textbf{226 passed, 59 skipped}. Všetkých desať strán aktualizovaného PDF bolo vizuálne skontrolovaných; šesť tabuliek má odkazy v texte a všetkých 23 použitých bibliografických kľúčov je definovaných. Tectonic nehlási pretečené riadky ani nedefinované citácie či referencie. Kontrola dátového guardu a git diff --check prešla. Túto kontrolu vykonal agent; ľudské review pred zlúčením ostáva na tíme.\par\smallskip
+\par\noindent \textbf{Limity:} nové experimenty na dev/test ani sťahovanie modelov sa nerobili. Originál Projektove\_zadanie.pdf a súkromné historické prepisy neboli dostupné. Slovenská AI príloha a potvrdenia ostatných členov tímu ostávajú predmetom issue \#4; jej pôvodný TODO v reporte zostáva. Zapracovanie pripomienok samo osebe nepotvrdzuje úplné splnenie všetkých podmienok uzavretia issue \#2.\par\smallskip
+\par\noindent \textbf{Prepis:} táto konverzácia v Codex desktop. Export prepisu nebol vytvorený; tím pri archivácii doplní jeho skutočné umiestnenie.\par\smallskip
+
+\Needspace{8\baselineskip}\subsection*{Relácia 5: 22.--24. október 2026}
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 19 -- Reprodukcia štyroch konfigurácií z čistého klonu}
+% SOURCE_RECORD_ID: 19
+
+
+\par\noindent \textbf{Iniciátor, nástroj a model.} Jakub Spišák (\texttt{jakub-\allowbreak{}spisak}), OpenAI Codex desktop. Pri zápise sa uvádzala rodina GPT-6 bez overeného presného identifikátora. Doplňujúce metadáta sú vysvetlené v úvode tejto prílohy.\par\smallskip
+\par\noindent \textbf{Účel a zadanie.} Použiť lokálne sprístupnené licencované dáta a dokončiť reprodukciu podľa issue \#1. Používateľ výslovne schválil GPU závislosti aj stiahnutie modelu nad 1 GB a overenie všetkých štyroch konfigurácií.\par\smallskip
+\par\noindent \textbf{Činnosť a použité výstupy.} Z hlavného commitu \texttt{7c55503833ee\allowbreak{}5dab4ee1e601\allowbreak{}f2694fafffbc\allowbreak{}e56d} vznikol oddelený čistý klon a vetva \texttt{s1-\allowbreak{}1-\allowbreak{}reproduce}. Kopírovali sa iba surové dáta od človeka; všetkých 28 súborov sa porovnalo pomocou SHA-256. Verejná vzorka sa stiahla nanovo. Prostredia, parsované dáta, modelová cache a embeddingy sa nepreberali zo staršieho checkoutu. Model \texttt{intfloat/\allowbreak{}multilingual\allowbreak{}-\allowbreak{}e5-\allowbreak{}large} mal revíziu \texttt{3d7cfbdacd47\allowbreak{}fdda877c5cd8\allowbreak{}a79fbcc4f2a5\allowbreak{}74f3}.\par\smallskip
+\par\noindent \textbf{Postup merania.} Počas inštalácie GPU stacku prebehlo BM25 v samostatnom novom CPU prostredí s rovnakými pripnutými BM25 závislosťami. Dense a záverečné testy používali novú CUDA \texttt{.\allowbreak{}venv} na RTX 4060 Laptop. Reprodukčné YAML menili iba \texttt{run\_\allowbreak{}name}, aby pôvodné metriky zostali zachované. Monolingválny dense beh bol 22. októbra prerušený a 24. októbra pokračoval zo svojich 196 608 uložených fact-check embeddingov; pred prerušením nevytvoril metriky ani predikcie. Žiadny dokončený experiment sa neopakoval na výber variantu.\par\smallskip
+\par\noindent \textbf{Výsledky a overenie.} Úvodná CPU sada: 226 passed a 59 skipped; reálny E5 GPU test: 1 passed. Záverečná CUDA sada: 259 passed a 65 preskočení nepoužiteľných konfiguračných kontrol. GPU test aj kontroly všetkých štyroch predikčných súborov prebehli. Obe BM25 metriky presne reprodukovali referencie. Dense výsledky boli v absolútnej tolerancii $\pm$0,005; všetky štyri súbory prešli kontrolou oficiálnej logiky s výsledkom AGREE. Agregáty, plná presnosť, prostredie a časy sú uložené v reprodukčných výsledkoch.\par\smallskip
+\par\noindent \textbf{Dokumentácia a publikovanie.} README bolo spresnené pre Windows, studenú cache a premenlivé počty testov. Používateľ 24. októbra požiadal, aby push a PR vykonal sám; agent pripravil lokálny commit a texty. Autor aj committer sa porovnali s pripojeným profilom Jakuba. Táto tímová reprodukcia nepreukazuje samostatný bonus za reprodukciu osobou mimo tímu.\par\smallskip
+
+\Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
+
+\begin{quote}\normalsize inspect issue \#1; use the supplied local path to the licensed SemEval-2025 Task 7 release and complete the issue. After being asked about the GPU dependencies and >1 GB model download, the user explicitly approved: "Áno, over všetky štyri konfigurácie".\end{quote}
+
+\Needspace{8\baselineskip}\subsection*{Relácia 6: 24. október 2026}
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 20 -- README pre chýbajúci Python 3.13}
+% SOURCE_RECORD_ID: 20
+
+
+\par\noindent \textbf{Iniciátor, nástroj a model.} Roman Šafranko (\texttt{Mekr0t}), Claude Code; podľa pôvodného logu hlavný Claude Opus 5.5 a worker Claude Haiku.\par\smallskip
+\par\noindent \textbf{Účel a zadanie.} Skontrolovať Jakubov PR \#17 a po jeho zlúčení človekom doplniť návod pre chybu Python launchera.\par\smallskip
+\par\noindent \textbf{Činnosť a výstup.} Agent prešiel diff a CI PR \#17, overil jedinú zmenu parametra \texttt{run\_\allowbreak{}name} v reprodukčných konfiguráciách a neprítomnosť textu datasetu. PR nezlučoval. Na novej vetve doplnil do README postup pre chybu \texttt{No \allowbreak{}suitable \allowbreak{}Python \allowbreak{}runtime \allowbreak{}found}: doinštalovať Python 3.13, otvoriť nový terminál a znova overiť runtime launcherom.\par\smallskip
+\par\noindent \textbf{Overenie podľa pôvodného záznamu.} Pytest uviedol 277 passed a 65 skipped. Diff bol obmedzený na README a AI log. Rozdiel oproti Jakubovým počtom testov môže súvisieť s lokálne dostupnými predikčnými súbormi; samotný počet nie je pevnou vlastnosťou projektu.\par\smallskip
+
+\Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
+
+\begin{quote}\normalsize "there should be some pull request from jakub, can you check it"; after PR \#17 was merged: "merged, now do the readme fix".\end{quote}
+
+\Needspace{8\baselineskip}\subsection*{Relácia 7: 25. október 2026}
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 21 -- Kontrola primárnych článkov a bibliografie}
+% SOURCE_RECORD_ID: 21
+
+
+\par\noindent \textbf{Iniciátor, nástroj a model.} Jakub Spišák (\texttt{jakub-\allowbreak{}spisak}), Codex desktop, pôvodne zaznamenaná rodina GPT-6; PDF skill, web a ACL Anthology, Python/pypdf, Poppler a Tectonic 0.17.0 na overenie.\par\smallskip
+\par\noindent \textbf{Účel a zadanie.} Stiahnuť aktuálne zmeny a riešiť zostávajúce časti prvej etapy v poradí \#3 $\to$ \#4 $\to$ \#2, po jednej PR, s nadväzujúcimi lokálnymi zmenami a commitmi pod používateľovým účtom. Pushy a PR zostali na človeku.\par\smallskip
+\par\noindent \textbf{Činnosť a výstupy.} Po udelení sieťového oprávnenia sa \texttt{main} aktualizoval iba fast-forwardom na \texttt{2c4323ddf142\allowbreak{}0693447436d3\allowbreak{}8a62daaf3b73\allowbreak{}f1a3} a vznikla vetva \texttt{s1-\allowbreak{}3-\allowbreak{}literature-\allowbreak{}check}. Skontrolované boli relevantné metodické a výsledkové časti Peng, MultiClaim, TIFIN, RACAI, UniBuc-AE a QUST\_NLP; doplnkovo UWBa, Duluth, fact check AI a Shaar 2022. Opravili sa súhrny, pôvod skóre, finálne konfigurácie oproti pokusným variantom a neoverené zovšeobecnenia o hardvéri. Desať bibliografických položiek sa obnovilo z oficiálneho exportu bez zmeny citačných kľúčov. Pribudli zdrojové lokácie a otázky na ľudskú kontrolu.\par\smallskip
+\par\noindent \textbf{Overenie.} Úvodná aj konečná sada: 259 passed a 65 nepoužiteľných konfiguračných preskočení; konečný beh trval 15,33 s a zahŕňal reálny model/GPU aj lokálne predikcie. Tectonic použil cache, všetkých 24 citácií sa vyriešilo bez neznámych znakov a všetkých 11 strán sa vizuálne skontrolovalo. Nové retrieval experimenty, inštalácie ani sťahovanie modelov neprebehli.\par\smallskip
+\par\noindent \textbf{Ľudská kontrola.} Používateľ na otázku o povinnom čítaní odpovedal: „Zatiaľ nepotvrdzujem, prejdem podklady.“ Automatizovaný audit nebol vydávaný za ľudské čítanie. Vtedajší pripravený návrh preto používal Refs \#3; neskorší PR môže mať Closes \#3 s podmienkou ľudského potvrdenia pred merge. Pôvodná AI príloha a ostatné reportové opravy zostali pre nasledujúce issues.\par\smallskip
+
+\Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
+
+\begin{quote}\normalsize pull the newest repository changes; work through stage-1 issues \#3 $\to$ \#4 $\to$ \#2 with a separate PR after each; keep subsequent local work based on the preceding changes; ask for required permissions and use the human's account for commits. The human will perform pushes and create PRs.\end{quote}
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 22 -- Tri rozpory v reporte nahlásené človekom}
+% SOURCE_RECORD_ID: 22
+
+
+\par\noindent \textbf{Iniciátor, nástroj a model.} Jakub Spišák, 25. októbra 2026; OpenAI Codex desktop, pôvodne zapísaná rodina GPT-6.\par\smallskip
+\par\noindent \textbf{Účel a zadanie.} Zapracovať tri konkrétne pripomienky používateľa: porovnanie iba so zodpovedajúcim E5 a s crosslingválnym GTR organizátorov; portugalčinu a potom angličtinu ako najslabšie jazyky vlastného E5; výslovné zníženie skóre v angličtine a portugalčine oproti organizátorom.\par\smallskip
+\par\noindent \textbf{Použitý výstup.} Zmenené boli tri pasáže \texttt{main.\allowbreak{}tex}, odstránené nedoložené tvrdenie o kvalite dát a príčinné prisudzovanie rozdielov textovému variantu. Odsek s porovnaním jazykov zostal na jednej strane. Zdroj aj PDF boli aktualizované a zmena sa zapísala do logu.\par\smallskip
+\par\noindent \textbf{Overenie.} Poradie jazykov sa porovnalo s uloženými dense metrikami a hodnoty organizátorov s reportovými tabuľkami. Tectonic zostavil PDF, citácie a znaky boli v poriadku a dotknuté strany sa vizuálne skontrolovali. Kód a metriky sa nemenili. Čítanie článkov pre \#3 tým nebolo automaticky potvrdené.\par\smallskip
+
+\Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
+
+\begin{quote}\normalsize correct three remaining PDF statements: specify that our E5 beats the organizers' E5 in both tracks but not their crosslingual GTR; identify Portuguese, then English, as the lowest-scoring languages without an unsupported data-quality claim; state the unchanged German score and the English/Portuguese decreases explicitly.\end{quote}
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 23 -- Vyriešenie konfliktu PR \#19 s main}
+% SOURCE_RECORD_ID: 23
+
+
+\par\noindent \textbf{Iniciátor, nástroj a model.} Jakub Spišák, 25. októbra 2026; OpenAI Codex desktop, pôvodne zapísaná rodina GPT-6.\par\smallskip
+\par\noindent \textbf{Účel a zadanie.} Pozrieť a lokálne vyriešiť konflikt v PR; GitHub push a merge zostali na človeku.\par\smallskip
+\par\noindent \textbf{Činnosť a použitý výstup.} Po udelení prístupu na sieť sa stiahli aktuálne referencie a do vetvy \#3 sa lokálne zlúčilo \texttt{origin/\allowbreak{}main}. Obe vetvy doplnili rovnaké miesto AI logu a použili číslo 20. Romanov úplný záznam sa zachoval bez zmien; iba naše hlavičky boli prečíslované na reláciu 7 a záznamy 21-22. Prevzal sa aj nový návod v README. Faktický obsah pôvodných záznamov sa nemenil.\par\smallskip
+\par\noindent \textbf{Overenie.} Prichádzajúci historický prefix a README sa porovnali s main; naše záznamy sa overili po spätnom zrušení samotného prečíslovania. Nezostali konfliktové značky. Report/PDF, kód, konfigurácie a metriky boli identické so stavom pred merge. Testy: 259 passed a 65 nepoužiteľných preskočení, 14,90 s. Ľudské čítanie pre \#3 ostalo nepotvrdené.\par\smallskip
+
+\Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
+
+\begin{quote}\normalsize inspect and resolve the conflict in the PR. The human continues to handle pushes and GitHub PR actions.\end{quote}
+
+\Needspace{8\baselineskip}\subsection*{Relácia 8: 25. október 2026}
+
+\Needspace{6\baselineskip}\subsubsection*{Záznam 24 -- Doplnenie a slovenský preklad AI prílohy}
+% SOURCE_RECORD_ID: 24
+
+
+\par\noindent \textbf{Iniciátor, nástroj a model.} Jakub Spišák, 25. októbra 2026; OpenAI Codex desktop. V lokálnych metadátach tejto konverzácie bolo overené označenie \texttt{gpt-\allowbreak{}6.\allowbreak{}1-\allowbreak{}sol}. Označenia starších Claude modelov sú prevzaté zo zdrojového logu a neboli nezávisle overované.\par\smallskip
+\par\noindent \textbf{Účel a zadanie.} Pokračovať issue \#4 a pripraviť povinnú AI prílohu nadväzujúcu na lokálny stav \#3. Na základe skoršieho pokynu mal agent žiadať potrebné povolenia, používať používateľovu commit identitu a nechať push a PR na človeku.\par\smallskip
+\par\noindent \textbf{Činnosť a použité výstupy.} Vznikla vetva \texttt{s1-\allowbreak{}4-\allowbreak{}ai-\allowbreak{}appendix} z commitu \texttt{bd3858109af6\allowbreak{}c3e2a4fae2d4\allowbreak{}f6dcc1714449\allowbreak{}819c}. Do primárneho logu sa bez úprav skopíroval už existujúci záznam 18 zo samostatného checkoutu \#2 a doplnil sa tento záznam. Slovenská príloha pokrýva záznamy 1-24, zachované prompty, účely, výstupy, overenie a obmedzenia; nahrádza pôvodný zástupný text v reporte. Samostatný prehľad sleduje pokrytie AI použitia, skutočné lokácie prepisov a potvrdenia členov tímu.\par\smallskip
+\par\noindent \textbf{Overenie a stav.} Úvodná sada prešla s 259 passed a 65 nepoužiteľnými preskočeniami za 21,02 s. Záverečná sada: 259 passed a 65 nepoužiteľných preskočení za 33,06 s vrátane GPU/modelového testu a kontrol štyroch predikčných súborov. Overilo sa všetkých 24 číslovaných záznamov a 21 záznamov so zachovaným poľom promptu; historické medzery pri 7, 9 a 17 sú výslovne označené. Všetkých 24 citácií sa vyriešilo bez chýbajúcich znakov. PDF bolo zostavené z cache a vizuálne skontrolované; pôvodný zástupný text prílohy bol nahradený. Dve drobné typografické upozornenia v hlavnom texte zostali pre finálnu kontrolu reportu \#2. Nové modely ani balíky sa neinštalovali a retrieval experimenty neprebehli.\par\smallskip
+\par\noindent \textbf{Prepisy a ľudské údaje.} Overila sa existencia lokálneho Codex JSONL súboru a zhoda ID s týmto chatom; čítali sa iba metadáta relácie/turnov, nie obsah správ. Ide o živý aplikačný súbor, nie overený nemenný export. Pôvodná Claude cesta sa na tomto počítači nenašla; jej dostupnosť u vlastníka nie je potvrdená. Agent si vyžiadal skutočné použitie AI a potvrdenie úplnosti za každého člena aj stav archívu. Jakub následne oznámil, že zvyšní členovia AI nepoužívali. Toto sprostredkované oznámenie je zaznamenané pre Viktora Hančovského a Benjamína Konkoľa; Jakub a Roman už majú zdokumentované použitie. Potvrdenie úplnosti Jakubovej a Romanovej časti a finálneho archívu zostáva otvorené.\par\smallskip
+
+\Needspace{5\baselineskip}\par\noindent\textbf{Znenie promptu alebo zhrnutia zachované v~primárnom logu.}
+
+\begin{quote}\normalsize "dobre, vieme sa venovat dalšej časti? issue \#4". Existing instructions: work in order \#3 $\to$ \#4 $\to$ \#2, base later local branches on earlier changes, ask for required permissions, commit as Jakub, and leave push/PR actions to the human.\end{quote}
+
+\endgroup
