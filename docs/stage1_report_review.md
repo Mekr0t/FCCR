@@ -67,6 +67,10 @@ Assignment source SHA-256 (local evidence): `5051f5843152bb9d229a86d43d5b2443b6b
 
 ## Final validation
 
-- Baseline: 259 passed / 65 skipped, 17.87 s. Final suite: 259 passed / 65 skipped, 17.13 s; all skips are inapplicable configuration checks. Cached GPU/model and four saved-prediction checks ran.
-- Tectonic 0.17.0 compiled from cache with no TeX warnings. All 25 PDF pages were visually inspected; 24 citation keys and all six table references resolve, with no TODO or missing glyphs.
+- Baseline: 259 passed / 65 skipped, 17.87 s. Latest final suite: 259 passed / 65 skipped, 21.87 s; all skips are inapplicable configuration checks. Cached GPU/model and four saved-prediction checks ran.
+- Tectonic 0.17.0 compiled from cache with no TeX warnings. All 24 PDF pages were visually inspected; 24 citation keys and all six table references resolve, with no TODO or missing glyphs.
 - Historical primary AI records, evaluation/retrieval/data-loading code, configs, metrics and bibliography are unchanged. Only report/review/AI documentation and the regenerated PDF changed.
+
+## Submission appendix presentation
+
+At Jakub’s request, internal reading/usage/archive confirmation statuses and teammate-review reminders were removed from the PDF appendix, including repeated historical status notes. Actual AI tools, purposes, prompts and relevant outputs remain disclosed. The internal checklists above and in `docs/ai_usage_confirmation.md` retain their real status; no missing confirmation is inferred from this editorial cleanup. Primary-log record 26 documents the change.
