@@ -1,0 +1,14 @@
+run_name: rrf_cross_dev_A_k60_wb0.5
+data_dir: data/raw/semeval2025_task7_data/train_dev_sets
+track: crosslingual
+eval_split: dev
+k: 10
+top_n: 100
+text_variant: bm25eng+e5eng
+model_label: RRF(bm25+mE5)
+inputs:
+- run: bm25_cross_dev_eng_stem_stop
+  weight: 0.5
+- run: dense_cross_dev_eng
+  weight: 1.0
+rrf_k: 60
