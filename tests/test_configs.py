@@ -40,11 +40,17 @@ def _cfg_keys_read(runner_path):
 
 BM25_KEYS = _cfg_keys_read(os.path.join(ROOT, "scripts", "run_bm25.py"))
 DENSE_KEYS = _cfg_keys_read(os.path.join(ROOT, "scripts", "run_dense.py"))
+FUSION_KEYS = _cfg_keys_read(os.path.join(ROOT, "scripts", "run_fusion.py"))
+FUSION_REQUIRED = ["run_name", "data_dir", "inputs", "rrf_k", "k", "top_n", "text_variant", "model_label"]
 
 
 def _load(path):
     with open(path, encoding="utf-8") as f:
         return yaml.safe_load(f)
+
+
+def _is_fusion(name, cfg):
+    return name.startswith("rrf_") or "inputs" in cfg
 
 
 def _is_dense(name, cfg):
@@ -80,14 +86,17 @@ def test_run_name_equals_filename_stem(config):
 
 
 def test_common_required_keys(config):
-    fname, _, cfg = config
+    fname, stem, cfg = config
+    if _is_fusion(stem, cfg):
+        pytest.skip("fusion config, see test_fusion_config")
     missing = [k for k in COMMON_REQUIRED if k not in cfg]
     assert not missing, f"{fname}: missing required keys {missing}"
 
 
 def test_text_variant_and_k_top_n(config):
-    fname, _, cfg = config
-    assert cfg.get("text_variant") in {"orig", "eng", "both"}, f"{fname}: text_variant {cfg.get('text_variant')!r}"
+    fname, stem, cfg = config
+    if not _is_fusion(stem, cfg):  # fusion configs carry a free-text input label instead
+        assert cfg.get("text_variant") in {"orig", "eng", "both"}, f"{fname}: text_variant {cfg.get('text_variant')!r}"
     assert cfg.get("k") == 10, f"{fname}: k must be 10 (Success@10), got {cfg.get('k')!r}"
     assert isinstance(cfg.get("top_n"), int) and cfg["top_n"] >= cfg["k"], f"{fname}: top_n must be an int >= k"
 
@@ -145,8 +154,32 @@ def test_analyzer_keys_match_the_implementation(config):
         Analyzer.from_config({"stem": True, "bogus": True})
 
 
+def test_fusion_config(config):
+    fname, stem, cfg = config
+    if not _is_fusion(stem, cfg):
+        pytest.skip("not a fusion config")
+    assert stem.startswith("rrf_") and "inputs" in cfg, f"{fname}: fusion configs need an rrf_ name and inputs"
+    missing = [k for k in FUSION_REQUIRED if k not in cfg]
+    assert not missing, f"{fname}: fusion config missing {missing}"
+    unknown = sorted(set(cfg) - FUSION_KEYS)
+    assert not unknown, f"{fname}: keys not read by run_fusion.py: {unknown}"
+    assert cfg["k"] == 10 and isinstance(cfg["top_n"], int) and cfg["top_n"] >= 100, f"{fname}: k must be 10, top_n >= 100"
+    assert isinstance(cfg["rrf_k"], int) and cfg["rrf_k"] > 0, f"{fname}: rrf_k must be a positive int"
+    assert len(cfg["inputs"]) >= 2, f"{fname}: need at least two input runs"
+    names = {os.path.splitext(os.path.basename(p))[0] for p in CONFIG_FILES}
+    for inp in cfg["inputs"]:
+        assert set(inp) == {"run", "weight"} and inp["weight"] > 0, f"{fname}: bad input {inp}"
+        assert inp["run"] in names, f"{fname}: input run {inp['run']} has no config in configs/"
+        # inputs must come from the same track and split as the fusion run
+        if "track" in cfg:
+            tok = "mono" if cfg["track"] == "monolingual" else "cross"
+            assert f"_{tok}_" in inp["run"] and f"_{cfg['eval_split']}_" in inp["run"], f"{fname}: input {inp['run']} is from another track or split"
+
+
 def test_dense_or_bm25_keys(config):
     fname, stem, cfg = config
+    if _is_fusion(stem, cfg):
+        pytest.skip("fusion config")
     dense = _is_dense(stem, cfg)
     if dense:
         assert "model" in cfg and stem.startswith("dense_"), f"{fname}: dense configs need model and a dense_ name"
