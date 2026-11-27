@@ -1,0 +1,264 @@
+{
+  "run_name": "dense_mono_dev_both_chunkmax",
+  "model": "mE5-large",
+  "model_id": "intfloat/multilingual-e5-large",
+  "text_variant": "both+chunkmax",
+  "combo": "both_chunkmax",
+  "pool": "per-language",
+  "pool_size": {
+    "ara": 14201,
+    "deu": 4996,
+    "eng": 85734,
+    "fra": 4355,
+    "msa": 8424,
+    "por": 21569,
+    "spa": 14082,
+    "tha": 382
+  },
+  "split": "dev",
+  "track": "monolingual",
+  "seed": 42,
+  "headline_s_at_10": 0.8629420668634347,
+  "headline_mrr_at_10": 0.6553430417280462,
+  "headline_note": "monolingual: mean over languages; crosslingual: micro over posts",
+  "metrics": {
+    "k": 10,
+    "s_at_k": 0.8487572712850344,
+    "mrr": 0.6221376528753578,
+    "n_posts": 1891,
+    "per_language": {
+      "ara": {
+        "s_at_k": 0.8589743589743589,
+        "mrr": 0.6608058608058608,
+        "n": 78
+      },
+      "deu": {
+        "s_at_k": 0.8072289156626506,
+        "mrr": 0.5109868043602984,
+        "n": 83
+      },
+      "eng": {
+        "s_at_k": 0.7928870292887029,
+        "mrr": 0.5048299794115694,
+        "n": 478
+      },
+      "fra": {
+        "s_at_k": 0.8776595744680851,
+        "mrr": 0.7596821175278622,
+        "n": 188
+      },
+      "msa": {
+        "s_at_k": 0.8952380952380953,
+        "mrr": 0.6619160997732426,
+        "n": 105
+      },
+      "por": {
+        "s_at_k": 0.8443708609271523,
+        "mrr": 0.5445337958582992,
+        "n": 302
+      },
+      "spa": {
+        "s_at_k": 0.8747967479674796,
+        "mrr": 0.6932436443412053,
+        "n": 615
+      },
+      "tha": {
+        "s_at_k": 0.9523809523809523,
+        "mrr": 0.9067460317460319,
+        "n": 42
+      }
+    },
+    "macro_avg_s_at_k": 0.8629420668634347,
+    "macro_mrr": 0.6553430417280462
+  },
+  "truncation": {
+    "definition": "posts whose `both` text, prefixed with 'query: ' and including <s>/</s>, has more than max_seq_length tokens (same ntok as cache/<model>/<split>/both_posts/ntok.npy)",
+    "n_posts": 1891,
+    "n_affected": 219,
+    "frac_affected": 0.11581173982020095,
+    "per_language": {
+      "ara": {
+        "n": 78,
+        "n_affected": 3
+      },
+      "deu": {
+        "n": 83,
+        "n_affected": 16
+      },
+      "eng": {
+        "n": 478,
+        "n_affected": 26
+      },
+      "fra": {
+        "n": 188,
+        "n_affected": 31
+      },
+      "msa": {
+        "n": 105,
+        "n_affected": 10
+      },
+      "por": {
+        "n": 302,
+        "n_affected": 29
+      },
+      "spa": {
+        "n": 615,
+        "n_affected": 88
+      },
+      "tha": {
+        "n": 42,
+        "n_affected": 16
+      }
+    },
+    "subset_note": "subset metrics are micro over the posts of the subset (also for monolingual)",
+    "affected": {
+      "k": 10,
+      "s_at_k": 0.8310502283105022,
+      "mrr": 0.6132637529897804,
+      "n_posts": 219,
+      "per_language": {
+        "ara": {
+          "s_at_k": 1.0,
+          "mrr": 1.0,
+          "n": 3
+        },
+        "deu": {
+          "s_at_k": 0.875,
+          "mrr": 0.4330357142857143,
+          "n": 16
+        },
+        "eng": {
+          "s_at_k": 0.5769230769230769,
+          "mrr": 0.33493589743589747,
+          "n": 26
+        },
+        "fra": {
+          "s_at_k": 0.8709677419354839,
+          "mrr": 0.7862903225806451,
+          "n": 31
+        },
+        "msa": {
+          "s_at_k": 0.8,
+          "mrr": 0.595,
+          "n": 10
+        },
+        "por": {
+          "s_at_k": 0.896551724137931,
+          "mrr": 0.5499452654625068,
+          "n": 29
+        },
+        "spa": {
+          "s_at_k": 0.8295454545454546,
+          "mrr": 0.6285353535353535,
+          "n": 88
+        },
+        "tha": {
+          "s_at_k": 1.0,
+          "mrr": 0.8802083333333334,
+          "n": 16
+        }
+      },
+      "macro_avg_s_at_k": 0.8561234996927433,
+      "macro_mrr": 0.6509938608291813
+    },
+    "unaffected": {
+      "k": 10,
+      "s_at_k": 0.8510765550239234,
+      "mrr": 0.6232999639249639,
+      "n_posts": 1672,
+      "per_language": {
+        "ara": {
+          "s_at_k": 0.8533333333333334,
+          "mrr": 0.6472380952380953,
+          "n": 75
+        },
+        "deu": {
+          "s_at_k": 0.7910447761194029,
+          "mrr": 0.5296019900497513,
+          "n": 67
+        },
+        "eng": {
+          "s_at_k": 0.8053097345132744,
+          "mrr": 0.5146026478437983,
+          "n": 452
+        },
+        "fra": {
+          "s_at_k": 0.8789808917197452,
+          "mrr": 0.7544282681225356,
+          "n": 157
+        },
+        "msa": {
+          "s_at_k": 0.9052631578947369,
+          "mrr": 0.6689598997493734,
+          "n": 95
+        },
+        "por": {
+          "s_at_k": 0.8388278388278388,
+          "mrr": 0.5439589511018083,
+          "n": 273
+        },
+        "spa": {
+          "s_at_k": 0.8823529411764706,
+          "mrr": 0.7040488238306075,
+          "n": 527
+        },
+        "tha": {
+          "s_at_k": 0.9230769230769231,
+          "mrr": 0.9230769230769231,
+          "n": 26
+        }
+      },
+      "macro_avg_s_at_k": 0.8597736995827157,
+      "macro_mrr": 0.6607394498766116
+    }
+  },
+  "chunking": {
+    "n": 633,
+    "n_embedded": 633,
+    "n_cached": 0,
+    "embed_s": 5.999780178070068,
+    "n_chunked_posts": 219,
+    "n_chunks": 633,
+    "chunk_size": 450,
+    "chunk_overlap": 50,
+    "max_chunk_tokens_with_prefix": 456,
+    "n_chunks_over_max_seq_length": 0
+  },
+  "embedding_cache_use": {
+    "both": {
+      "fact_checks": {
+        "n": 153743,
+        "n_embedded": 0,
+        "n_cached": 153743,
+        "embed_s": 0.0
+      },
+      "posts": {
+        "n": 1891,
+        "n_embedded": 0,
+        "n_cached": 1891,
+        "embed_s": 0.0
+      }
+    }
+  },
+  "timing": {
+    "embed_total_s": 20.4260196685791,
+    "search_total_s": 0.39203977584838867,
+    "total_s": 29.228341102600098
+  },
+  "config": {
+    "run_name": "dense_mono_dev_both_chunkmax",
+    "data_dir": "data/raw/semeval2025_task7_data/train_dev_sets",
+    "track": "monolingual",
+    "eval_split": "dev",
+    "text_variant": "both+chunkmax",
+    "combo": "both_chunkmax",
+    "model": "intfloat/multilingual-e5-large",
+    "model_label": "mE5-large",
+    "max_seq_length": 512,
+    "batch_size": 32,
+    "k": 10,
+    "top_n": 100,
+    "chunk_size": 450,
+    "chunk_overlap": 50
+  }
+}

@@ -29,3 +29,16 @@
 | bm25_cross_test_eng_stem_stop_repro_20261022 | bm25 | eng | all | test | crosslingual | 0.6225 | 0.3825 | - |
 | dense_mono_test_both_repro_20261022 | mE5-large | both | per-language | test | monolingual | 0.8862 | 0.7250 | 0.8862 |
 | dense_cross_test_eng_repro_20261022 | mE5-large | eng | all | test | crosslingual | 0.6810 | 0.4163 | - |
+| dense_sample_origeng_max | mE5-large | orig+eng | all | sample | - | 0.9787 | 0.9379 | 0.9825 |
+| dense_mono_dev_origeng_max | mE5-large | orig+eng | per-language | dev | monolingual | 0.8227 | 0.6124 | 0.8227 |
+| dense_mono_dev_origeng_mean | mE5-large | orig+eng | per-language | dev | monolingual | 0.8542 | 0.6368 | 0.8542 |
+| dense_mono_dev_origeng_rrf | mE5-large | orig+eng | per-language | dev | monolingual | 0.8462 | 0.6255 | 0.8462 |
+| dense_mono_dev_origeng_both_mean | mE5-large | orig+eng+both | per-language | dev | monolingual | 0.8625 | 0.6491 | 0.8625 |
+| dense_mono_dev_both_chunkmax | mE5-large | both+chunkmax | per-language | dev | monolingual | 0.8629 | 0.6553 | 0.8629 |
+| dense_mono_dev_both_chunkmean | mE5-large | both+chunkmean | per-language | dev | monolingual | 0.8561 | 0.6476 | 0.8561 |
+| dense_cross_dev_origeng_mean | mE5-large | orig+eng | all | dev | crosslingual | 0.6467 | 0.3887 | - |
+| dense_cross_dev_origeng_rrf | mE5-large | orig+eng | all | dev | crosslingual | 0.6214 | 0.3774 | - |
+| dense_cross_dev_origeng_both_mean | mE5-large | orig+eng+both | all | dev | crosslingual | 0.6341 | 0.3899 | - |
+| dense_cross_dev_both_chunkmax | mE5-large | both+chunkmax | all | dev | crosslingual | 0.5362 | 0.3402 | - |
+| dense_cross_dev_both_chunkmean | mE5-large | both+chunkmean | all | dev | crosslingual | 0.5308 | 0.3363 | - |
+| dense_cross_dev_origeng_max | mE5-large | orig+eng | all | dev | crosslingual | 0.5725 | 0.3387 | - |

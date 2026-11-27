@@ -8,6 +8,7 @@ the runner does not read is reported as unknown instead of silently ignored.
 import ast
 import glob
 import os
+import sys
 
 import pytest
 import yaml
@@ -40,6 +41,11 @@ def _cfg_keys_read(runner_path):
 
 BM25_KEYS = _cfg_keys_read(os.path.join(ROOT, "scripts", "run_bm25.py"))
 DENSE_KEYS = _cfg_keys_read(os.path.join(ROOT, "scripts", "run_dense.py"))
+# run_dense_combo.py reuses run_dense.embed_all (which reads the dense keys) and adds `combo` & co.
+COMBO_KEYS = DENSE_KEYS | _cfg_keys_read(os.path.join(ROOT, "scripts", "run_dense_combo.py"))
+sys.path.insert(0, os.path.join(ROOT, "scripts"))
+sys.path.insert(0, ROOT)
+from run_dense_combo import COMBOS  # noqa: E402
 
 
 def _load(path):
@@ -87,7 +93,12 @@ def test_common_required_keys(config):
 
 def test_text_variant_and_k_top_n(config):
     fname, _, cfg = config
-    assert cfg.get("text_variant") in {"orig", "eng", "both"}, f"{fname}: text_variant {cfg.get('text_variant')!r}"
+    if "combo" in cfg:  # score-combination / chunking runs label the variant by their combo
+        assert cfg["combo"] in COMBOS, f"{fname}: unknown combo {cfg['combo']!r}"
+        assert cfg.get("text_variant") == COMBOS[cfg["combo"]][0], (
+            f"{fname}: text_variant must be {COMBOS[cfg['combo']][0]!r} for combo {cfg['combo']!r}")
+    else:
+        assert cfg.get("text_variant") in {"orig", "eng", "both"}, f"{fname}: text_variant {cfg.get('text_variant')!r}"
     assert cfg.get("k") == 10, f"{fname}: k must be 10 (Success@10), got {cfg.get('k')!r}"
     assert isinstance(cfg.get("top_n"), int) and cfg["top_n"] >= cfg["k"], f"{fname}: top_n must be an int >= k"
 
@@ -152,11 +163,22 @@ def test_dense_or_bm25_keys(config):
         assert "model" in cfg and stem.startswith("dense_"), f"{fname}: dense configs need model and a dense_ name"
         missing = [k for k in DENSE_REQUIRED if k not in cfg]
         assert not missing, f"{fname}: dense config missing {missing}"
-        allowed = DENSE_KEYS
+        allowed = COMBO_KEYS if "combo" in cfg else DENSE_KEYS
     else:
         assert not stem.startswith("dense_"), f"{fname}: dense_ name without a model key"
         allowed = BM25_KEYS
     unknown = sorted(set(cfg) - allowed)
     assert not unknown, (
-        f"{fname}: keys not read by {'run_dense.py' if dense else 'run_bm25.py'}: {unknown}"
+        f"{fname}: keys not read by {'run_dense.py/run_dense_combo.py' if dense else 'run_bm25.py'}: {unknown}"
     )
+
+
+def test_combo_configs_have_a_valid_combo(config):
+    fname, _, cfg = config
+    if "combo" not in cfg:
+        pytest.skip("not a combo config")
+    assert cfg["combo"] in COMBOS, f"{fname}: combo {cfg['combo']!r}"
+    assert cfg.get("eval_split", "dev") == "dev", f"{fname}: combo configs are dev-only until a frozen final run"
+    if cfg["combo"].startswith("both_chunk"):
+        assert cfg.get("chunk_size", 450) + 2 + 16 <= cfg.get("max_seq_length", 512), f"{fname}: chunks must fit max_seq_length"
+        assert 0 <= cfg.get("chunk_overlap", 50) < cfg.get("chunk_size", 450), f"{fname}: bad chunk_overlap"
