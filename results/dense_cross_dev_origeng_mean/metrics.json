@@ -1,0 +1,123 @@
+{
+  "run_name": "dense_cross_dev_origeng_mean",
+  "model": "mE5-large",
+  "model_id": "intfloat/multilingual-e5-large",
+  "text_variant": "orig+eng",
+  "combo": "origeng_mean",
+  "pool": "all",
+  "pool_size": 153743,
+  "split": "dev",
+  "track": "crosslingual",
+  "seed": 42,
+  "headline_s_at_10": 0.6467391304347826,
+  "headline_mrr_at_10": 0.38873289049919485,
+  "headline_note": "monolingual: mean over languages; crosslingual: micro over posts",
+  "metrics": {
+    "k": 10,
+    "s_at_k": 0.6467391304347826,
+    "mrr": 0.38873289049919485,
+    "n_posts": 552,
+    "per_language": {
+      "cross": {
+        "s_at_k": 0.6467391304347826,
+        "mrr": 0.38873289049919485,
+        "n": 552
+      }
+    },
+    "macro_avg_s_at_k": 0.6467391304347826,
+    "macro_mrr": 0.38873289049919485
+  },
+  "truncation": {
+    "definition": "posts whose `both` text, prefixed with 'query: ' and including <s>/</s>, has more than max_seq_length tokens (same ntok as cache/<model>/<split>/both_posts/ntok.npy)",
+    "n_posts": 552,
+    "n_affected": 56,
+    "frac_affected": 0.10144927536231885,
+    "per_language": {
+      "cross": {
+        "n": 552,
+        "n_affected": 56
+      }
+    },
+    "subset_note": "subset metrics are micro over the posts of the subset (also for monolingual)",
+    "affected": {
+      "k": 10,
+      "s_at_k": 0.5892857142857143,
+      "mrr": 0.3511904761904762,
+      "n_posts": 56,
+      "per_language": {
+        "cross": {
+          "s_at_k": 0.5892857142857143,
+          "mrr": 0.3511904761904762,
+          "n": 56
+        }
+      },
+      "macro_avg_s_at_k": 0.5892857142857143,
+      "macro_mrr": 0.3511904761904762
+    },
+    "unaffected": {
+      "k": 10,
+      "s_at_k": 0.6532258064516129,
+      "mrr": 0.3929715501792115,
+      "n_posts": 496,
+      "per_language": {
+        "cross": {
+          "s_at_k": 0.6532258064516129,
+          "mrr": 0.3929715501792115,
+          "n": 496
+        }
+      },
+      "macro_avg_s_at_k": 0.6532258064516129,
+      "macro_mrr": 0.3929715501792115
+    }
+  },
+  "chunking": null,
+  "embedding_cache_use": {
+    "orig": {
+      "fact_checks": {
+        "n": 153743,
+        "n_embedded": 0,
+        "n_cached": 153743,
+        "embed_s": 0.0
+      },
+      "posts": {
+        "n": 552,
+        "n_embedded": 0,
+        "n_cached": 552,
+        "embed_s": 0.0
+      }
+    },
+    "eng": {
+      "fact_checks": {
+        "n": 153743,
+        "n_embedded": 0,
+        "n_cached": 153743,
+        "embed_s": 0.0
+      },
+      "posts": {
+        "n": 552,
+        "n_embedded": 0,
+        "n_cached": 552,
+        "embed_s": 0.0
+      }
+    }
+  },
+  "timing": {
+    "embed_total_s": 15.269543886184692,
+    "search_total_s": 0.5978055000305176,
+    "total_s": 23.648829698562622
+  },
+  "config": {
+    "run_name": "dense_cross_dev_origeng_mean",
+    "data_dir": "data/raw/semeval2025_task7_data/train_dev_sets",
+    "track": "crosslingual",
+    "eval_split": "dev",
+    "text_variant": "orig+eng",
+    "combo": "origeng_mean",
+    "model": "intfloat/multilingual-e5-large",
+    "model_label": "mE5-large",
+    "max_seq_length": 512,
+    "batch_size": 32,
+    "k": 10,
+    "top_n": 100
+  }
+}

@@ -1,0 +1,265 @@
+{
+  "run_name": "dense_mono_dev_origeng_max",
+  "model": "mE5-large",
+  "model_id": "intfloat/multilingual-e5-large",
+  "text_variant": "orig+eng",
+  "combo": "origeng_max",
+  "pool": "per-language",
+  "pool_size": {
+    "ara": 14201,
+    "deu": 4996,
+    "eng": 85734,
+    "fra": 4355,
+    "msa": 8424,
+    "por": 21569,
+    "spa": 14082,
+    "tha": 382
+  },
+  "split": "dev",
+  "track": "monolingual",
+  "seed": 42,
+  "headline_s_at_10": 0.8227166743842873,
+  "headline_mrr_at_10": 0.6123900698062971,
+  "headline_note": "monolingual: mean over languages; crosslingual: micro over posts",
+  "metrics": {
+    "k": 10,
+    "s_at_k": 0.8138551031200423,
+    "mrr": 0.5826343246623522,
+    "n_posts": 1891,
+    "per_language": {
+      "ara": {
+        "s_at_k": 0.8076923076923077,
+        "mrr": 0.6016330891330891,
+        "n": 78
+      },
+      "deu": {
+        "s_at_k": 0.7710843373493976,
+        "mrr": 0.4840170204628036,
+        "n": 83
+      },
+      "eng": {
+        "s_at_k": 0.7803347280334728,
+        "mrr": 0.4890914524805738,
+        "n": 478
+      },
+      "fra": {
+        "s_at_k": 0.8457446808510638,
+        "mrr": 0.7554584599797365,
+        "n": 188
+      },
+      "msa": {
+        "s_at_k": 0.8095238095238095,
+        "mrr": 0.515177626606198,
+        "n": 105
+      },
+      "por": {
+        "s_at_k": 0.804635761589404,
+        "mrr": 0.5053124671502155,
+        "n": 302
+      },
+      "spa": {
+        "s_at_k": 0.8341463414634146,
+        "mrr": 0.6406923473996645,
+        "n": 615
+      },
+      "tha": {
+        "s_at_k": 0.9285714285714286,
+        "mrr": 0.9077380952380952,
+        "n": 42
+      }
+    },
+    "macro_avg_s_at_k": 0.8227166743842873,
+    "macro_mrr": 0.6123900698062971
+  },
+  "truncation": {
+    "definition": "posts whose `both` text, prefixed with 'query: ' and including <s>/</s>, has more than max_seq_length tokens (same ntok as cache/<model>/<split>/both_posts/ntok.npy)",
+    "n_posts": 1891,
+    "n_affected": 219,
+    "frac_affected": 0.11581173982020095,
+    "per_language": {
+      "ara": {
+        "n": 78,
+        "n_affected": 3
+      },
+      "deu": {
+        "n": 83,
+        "n_affected": 16
+      },
+      "eng": {
+        "n": 478,
+        "n_affected": 26
+      },
+      "fra": {
+        "n": 188,
+        "n_affected": 31
+      },
+      "msa": {
+        "n": 105,
+        "n_affected": 10
+      },
+      "por": {
+        "n": 302,
+        "n_affected": 29
+      },
+      "spa": {
+        "n": 615,
+        "n_affected": 88
+      },
+      "tha": {
+        "n": 42,
+        "n_affected": 16
+      }
+    },
+    "subset_note": "subset metrics are micro over the posts of the subset (also for monolingual)",
+    "affected": {
+      "k": 10,
+      "s_at_k": 0.7534246575342466,
+      "mrr": 0.5667029064289338,
+      "n_posts": 219,
+      "per_language": {
+        "ara": {
+          "s_at_k": 1.0,
+          "mrr": 1.0,
+          "n": 3
+        },
+        "deu": {
+          "s_at_k": 0.6875,
+          "mrr": 0.3527777777777778,
+          "n": 16
+        },
+        "eng": {
+          "s_at_k": 0.6153846153846154,
+          "mrr": 0.3282051282051282,
+          "n": 26
+        },
+        "fra": {
+          "s_at_k": 0.8709677419354839,
+          "mrr": 0.7946236559139784,
+          "n": 31
+        },
+        "msa": {
+          "s_at_k": 0.7,
+          "mrr": 0.4833333333333333,
+          "n": 10
+        },
+        "por": {
+          "s_at_k": 0.6896551724137931,
+          "mrr": 0.493431855500821,
+          "n": 29
+        },
+        "spa": {
+          "s_at_k": 0.75,
+          "mrr": 0.5472041847041846,
+          "n": 88
+        },
+        "tha": {
+          "s_at_k": 0.9375,
+          "mrr": 0.9375,
+          "n": 16
+        }
+      },
+      "macro_avg_s_at_k": 0.7813759412167366,
+      "macro_mrr": 0.617134491929403
+    },
+    "unaffected": {
+      "k": 10,
+      "s_at_k": 0.8217703349282297,
+      "mrr": 0.5847210355434039,
+      "n_posts": 1672,
+      "per_language": {
+        "ara": {
+          "s_at_k": 0.8,
+          "mrr": 0.5856984126984127,
+          "n": 75
+        },
+        "deu": {
+          "s_at_k": 0.7910447761194029,
+          "mrr": 0.5153577351338545,
+          "n": 67
+        },
+        "eng": {
+          "s_at_k": 0.7898230088495575,
+          "mrr": 0.4983459755583649,
+          "n": 452
+        },
+        "fra": {
+          "s_at_k": 0.8407643312101911,
+          "mrr": 0.7477252047315741,
+          "n": 157
+        },
+        "msa": {
+          "s_at_k": 0.8210526315789474,
+          "mrr": 0.5185296574770258,
+          "n": 95
+        },
+        "por": {
+          "s_at_k": 0.8168498168498168,
+          "mrr": 0.5065745101459387,
+          "n": 273
+        },
+        "spa": {
+          "s_at_k": 0.8481973434535104,
+          "mrr": 0.6563032739977711,
+          "n": 527
+        },
+        "tha": {
+          "s_at_k": 0.9230769230769231,
+          "mrr": 0.8894230769230769,
+          "n": 26
+        }
+      },
+      "macro_avg_s_at_k": 0.8288511038922937,
+      "macro_mrr": 0.6147447308332523
+    }
+  },
+  "chunking": null,
+  "embedding_cache_use": {
+    "orig": {
+      "fact_checks": {
+        "n": 153743,
+        "n_embedded": 0,
+        "n_cached": 153743,
+        "embed_s": 0.0
+      },
+      "posts": {
+        "n": 1891,
+        "n_embedded": 0,
+        "n_cached": 1891,
+        "embed_s": 0.0
+      }
+    },
+    "eng": {
+      "fact_checks": {
+        "n": 153743,
+        "n_embedded": 0,
+        "n_cached": 153743,
+        "embed_s": 0.0
+      },
+      "posts": {
+        "n": 1891,
+        "n_embedded": 0,
+        "n_cached": 1891,
+        "embed_s": 0.0
+      }
+    }
+  },
+  "timing": {
+    "embed_total_s": 12.53894329071045,
+    "search_total_s": 0.503065824508667,
+    "total_s": 18.43290638923645
+  },
+  "config": {
+    "run_name": "dense_mono_dev_origeng_max",
+    "data_dir": "data/raw/semeval2025_task7_data/train_dev_sets",
+    "track": "monolingual",
+    "eval_split": "dev",
+    "text_variant": "orig+eng",
+    "combo": "origeng_max",
+    "model": "intfloat/multilingual-e5-large",
+    "model_label": "mE5-large",
+    "max_seq_length": 512,
+    "batch_size": 32,
+    "k": 10,
+    "top_n": 100
+  }
+}
