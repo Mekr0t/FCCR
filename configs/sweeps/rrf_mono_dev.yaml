@@ -1,0 +1,24 @@
+# Dev ablation grid for S2-1 (monolingual). Expanded by scripts/run_fusion.py --sweep into configs/rrf_mono_dev_*.yaml.
+name_prefix: rrf_mono_dev
+base:
+  data_dir: data/raw/semeval2025_task7_data/train_dev_sets
+  track: monolingual
+  eval_split: dev
+  k: 10
+  top_n: 100
+ks: [10, 30, 60, 100]
+bm25_weights: [0.3, 0.5, 1.0]
+input_sets:
+  A:
+    label: "bm25both+e5both"
+    model_label: "RRF(bm25+mE5)"
+    members:
+      - {run: bm25_mono_dev_both_stem_stop_thai, kind: bm25}
+      - {run: dense_mono_dev_both, kind: dense}
+  B:
+    label: "bm25both+bm25eng+e5both"
+    model_label: "RRF(bm25+bm25eng+mE5)"
+    members:
+      - {run: bm25_mono_dev_both_stem_stop_thai, kind: bm25}
+      - {run: bm25_mono_dev_eng_stem_stop, kind: bm25}
+      - {run: dense_mono_dev_both, kind: dense}

@@ -1,0 +1,80 @@
+{
+  "run_name": "rrf_cross_dev_B_k30_wb0.3",
+  "model": "RRF(bm25+bm25both+mE5)",
+  "model_id": "rrf",
+  "text_variant": "bm25eng+bm25both+e5eng",
+  "pool": "all",
+  "split": "dev",
+  "track": "crosslingual",
+  "inputs": [
+    {
+      "run": "bm25_cross_dev_eng_stem_stop",
+      "weight": 0.3
+    },
+    {
+      "run": "bm25_cross_dev_both_stem_stop_thai",
+      "weight": 0.3
+    },
+    {
+      "run": "dense_cross_dev_eng",
+      "weight": 1.0
+    }
+  ],
+  "weights": [
+    0.3,
+    0.3,
+    1.0
+  ],
+  "rrf_k": 30,
+  "headline_s_at_10": 0.6394927536231884,
+  "headline_mrr_at_10": 0.40355920749942487,
+  "headline_note": "monolingual: mean over languages; crosslingual: micro over posts",
+  "candidate_recall": {
+    "s_at_20": 0.6902173913043478,
+    "s_at_50": 0.7518115942028986,
+    "s_at_100": 0.7916666666666666
+  },
+  "metrics": {
+    "k": 10,
+    "s_at_k": 0.6394927536231884,
+    "mrr": 0.40355920749942487,
+    "n_posts": 552,
+    "per_language": {
+      "cross": {
+        "s_at_k": 0.6394927536231884,
+        "mrr": 0.40355920749942487,
+        "n": 552
+      }
+    },
+    "macro_avg_s_at_k": 0.6394927536231884,
+    "macro_mrr": 0.40355920749942487
+  },
+  "timing": {
+    "fuse_s": 0.10779762268066406
+  },
+  "config": {
+    "run_name": "rrf_cross_dev_B_k30_wb0.3",
+    "data_dir": "data/raw/semeval2025_task7_data/train_dev_sets",
+    "track": "crosslingual",
+    "eval_split": "dev",
+    "k": 10,
+    "top_n": 100,
+    "text_variant": "bm25eng+bm25both+e5eng",
+    "model_label": "RRF(bm25+bm25both+mE5)",
+    "inputs": [
+      {
+        "run": "bm25_cross_dev_eng_stem_stop",
+        "weight": 0.3
+      },
+      {
+        "run": "bm25_cross_dev_both_stem_stop_thai",
+        "weight": 0.3
+      },
+      {
+        "run": "dense_cross_dev_eng",
+        "weight": 1.0
+      }
+    ],
+    "rrf_k": 30
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "run_name": "rrf_mono_dev_B_k30_wb1.0",
+  "model": "RRF(bm25+bm25eng+mE5)",
+  "model_id": "rrf",
+  "text_variant": "bm25both+bm25eng+e5both",
+  "pool": "per-language",
+  "split": "dev",
+  "track": "monolingual",
+  "inputs": [
+    {
+      "run": "bm25_mono_dev_both_stem_stop_thai",
+      "weight": 1.0
+    },
+    {
+      "run": "bm25_mono_dev_eng_stem_stop",
+      "weight": 1.0
+    },
+    {
+      "run": "dense_mono_dev_both",
+      "weight": 1.0
+    }
+  ],
+  "weights": [
+    1.0,
+    1.0,
+    1.0
+  ],
+  "rrf_k": 30,
+  "headline_s_at_10": 0.8463359628952519,
+  "headline_mrr_at_10": 0.6417402573704043,
+  "headline_note": "monolingual: mean over languages; crosslingual: micro over posts",
+  "candidate_recall": {
+    "s_at_20": 0.87341114458264,
+    "s_at_50": 0.9269922969350746,
+    "s_at_100": 0.9468516560905609
+  },
+  "metrics": {
+    "k": 10,
+    "s_at_k": 0.8233738762559493,
+    "mrr": 0.6061662175887453,
+    "n_posts": 1891,
+    "per_language": {
+      "ara": {
+        "s_at_k": 0.8717948717948718,
+        "mrr": 0.6753663003663004,
+        "n": 78
+      },
+      "deu": {
+        "s_at_k": 0.8192771084337349,
+        "mrr": 0.5938085676037483,
+        "n": 83
+      },
+      "eng": {
+        "s_at_k": 0.7071129707112971,
+        "mrr": 0.45295045493790265,
+        "n": 478
+      },
+      "fra": {
+        "s_at_k": 0.8617021276595744,
+        "mrr": 0.7634055217831813,
+        "n": 188
+      },
+      "msa": {
+        "s_at_k": 0.8476190476190476,
+        "mrr": 0.5388208616780046,
+        "n": 105
+      },
+      "por": {
+        "s_at_k": 0.8311258278145696,
+        "mrr": 0.5544780826237781,
+        "n": 302
+      },
+      "spa": {
+        "s_at_k": 0.8796747967479674,
+        "mrr": 0.6892192540973029,
+        "n": 615
+      },
+      "tha": {
+        "s_at_k": 0.9523809523809523,
+        "mrr": 0.8658730158730159,
+        "n": 42
+      }
+    },
+    "macro_avg_s_at_k": 0.8463359628952519,
+    "macro_mrr": 0.6417402573704043
+  },
+  "timing": {
+    "fuse_s": 0.22269511222839355
+  },
+  "config": {
+    "run_name": "rrf_mono_dev_B_k30_wb1.0",
+    "data_dir": "data/raw/semeval2025_task7_data/train_dev_sets",
+    "track": "monolingual",
+    "eval_split": "dev",
+    "k": 10,
+    "top_n": 100,
+    "text_variant": "bm25both+bm25eng+e5both",
+    "model_label": "RRF(bm25+bm25eng+mE5)",
+    "inputs": [
+      {
+        "run": "bm25_mono_dev_both_stem_stop_thai",
+        "weight": 1.0
+      },
+      {
+        "run": "bm25_mono_dev_eng_stem_stop",
+        "weight": 1.0
+      },
+      {
+        "run": "dense_mono_dev_both",
+        "weight": 1.0
+      }
+    ],
+    "rrf_k": 30
+  }
+}

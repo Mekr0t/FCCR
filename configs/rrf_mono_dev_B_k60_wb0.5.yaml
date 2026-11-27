@@ -1,0 +1,16 @@
+run_name: rrf_mono_dev_B_k60_wb0.5
+data_dir: data/raw/semeval2025_task7_data/train_dev_sets
+track: monolingual
+eval_split: dev
+k: 10
+top_n: 100
+text_variant: bm25both+bm25eng+e5both
+model_label: RRF(bm25+bm25eng+mE5)
+inputs:
+- run: bm25_mono_dev_both_stem_stop_thai
+  weight: 0.5
+- run: bm25_mono_dev_eng_stem_stop
+  weight: 0.5
+- run: dense_mono_dev_both
+  weight: 1.0
+rrf_k: 60

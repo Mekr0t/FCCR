@@ -1,0 +1,82 @@
+{
+  "run_name": "rrf_sample_eng",
+  "model": "RRF(bm25+mE5)",
+  "model_id": "rrf",
+  "text_variant": "bm25eng+e5eng",
+  "pool": "all",
+  "split": "sample",
+  "track": "-",
+  "inputs": [
+    {
+      "run": "bm25_sample_eng",
+      "weight": 0.5
+    },
+    {
+      "run": "dense_sample_eng",
+      "weight": 1.0
+    }
+  ],
+  "weights": [
+    0.5,
+    1.0
+  ],
+  "rrf_k": 60,
+  "headline_s_at_10": 0.9574468085106383,
+  "headline_mrr_at_10": 0.9361702127659575,
+  "headline_note": "micro over posts",
+  "candidate_recall": {
+    "s_at_20": 0.9787234042553191,
+    "s_at_50": 1.0,
+    "s_at_100": 1.0
+  },
+  "metrics": {
+    "k": 10,
+    "s_at_k": 0.9574468085106383,
+    "mrr": 0.9361702127659575,
+    "n_posts": 47,
+    "per_language": {
+      "eng": {
+        "s_at_k": 1.0,
+        "mrr": 1.0,
+        "n": 10
+      },
+      "kor": {
+        "s_at_k": 0.8947368421052632,
+        "mrr": 0.8421052631578947,
+        "n": 19
+      },
+      "spa": {
+        "s_at_k": 1.0,
+        "mrr": 1.0,
+        "n": 18
+      }
+    },
+    "macro_avg_s_at_k": 0.9649122807017544,
+    "macro_mrr": 0.9473684210526315
+  },
+  "timing": {
+    "fuse_s": 0.0011582374572753906
+  },
+  "config": {
+    "run_name": "rrf_sample_eng",
+    "data_dir": "data/raw/sample",
+    "posts_file": "trial_posts.csv",
+    "fact_checks_file": "trial_fact_checks.csv",
+    "mapping_file": "trial_data_mapping.csv",
+    "text_variant": "bm25eng+e5eng",
+    "model_label": "RRF(bm25+mE5)",
+    "inputs": [
+      {
+        "run": "bm25_sample_eng",
+        "weight": 0.5
+      },
+      {
+        "run": "dense_sample_eng",
+        "weight": 1.0
+      }
+    ],
+    "rrf_k": 60,
+    "k": 10,
+    "top_n": 100
+  }
+}
