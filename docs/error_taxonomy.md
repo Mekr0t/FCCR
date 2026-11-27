@@ -100,6 +100,11 @@ Other applicable categories may be listed as optional SECONDARY labels (multi-va
 
 - 150-200 failures from the **analysis** half of dev (split in `configs/splits/dev_error_analysis_split.json`, created by `scripts/make_dev_split.py`).
 - Stratified by language: the monolingual languages plus crosslingual (proportional allocation with a minimum per stratum where available).
+- Exact rule (fixed before any failure is seen):
+  - A case is a (track, post id) pair with no gold fact-check in the top 10. Strata are the 8 monolingual dev languages (monolingual track failures) and one `cross` stratum (crosslingual track failures).
+  - The target is 180 cases. Each stratum gets max(10, proportional share of all analysis-half failures), rounded with the largest-remainder method. If a stratum has fewer failures than its quota, take all of them and redistribute the rest proportionally.
+  - Within a stratum, sort the failed post ids and draw the quota with `random.Random("20261127:sample:<stratum>").sample(...)`.
+  - The sampled case ids and the run name are written to an ids-only file before any annotator sees the export.
 - Failures come from the best dev system at the time of sampling (reference: `results/results.md`); the system and its run name are recorded with the sample.
 - The **held-out** half is never inspected and is used only to confirm the fix.
 
@@ -113,3 +118,4 @@ Other applicable categories may be listed as optional SECONDARY labels (multi-va
 ## Changelog
 
 - 1.0 (2026-11-27): initial version, frozen before annotation.
+- 1.1 (2026-11-27): added the exact sampling rule (quota, minimum per stratum, seed) to section 6. This was done before any failure was inspected and before annotation; no category or decision rule changed.
